@@ -6,9 +6,11 @@
     "start": "next start"
   },
   "dependencies": {
+    "@nextui-org/react": "^2.4.6",
     "@supabase/ssr": "latest",
     "@supabase/supabase-js": "latest",
     "autoprefixer": "10.4.17",
+    "framer-motion": "^11.3.8",
     "geist": "^1.2.1",
     "next": "latest",
     "postcss": "8.4.33",
@@ -21,6 +23,8 @@
     "@types/node": "20.11.5",
     "@types/react": "18.2.48",
     "@types/react-dom": "18.2.18",
-    "encoding": "^0.1.13"
+    "encoding": "^0.1.13",
+    "prettier": "^3.3.3",
+    "prettier-plugin-tailwindcss": "^0.6.5"
   }
 }
