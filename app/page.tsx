@@ -1,20 +1,30 @@
-import DeployButton from "../components/DeployButton";
-import AuthButton from "../components/AuthButton";
 import { createClient } from "@/utils/supabase/server";
-import { redirect } from "next/navigation";
-import Header from "@/components/Header";
-
+import Link from "next/link";
+import { Button } from "@nextui-org/react";
 export default async function Index() {
   const supabase = createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    return redirect("/login");
-  }
 
   return (
-    <div className="flex-1 w-full flex flex-col gap-20 items-center"></div>
+    <div className="flex min-h-screen flex-col items-center justify-center px-8 sm:max-w-5xl">
+      {/* Welcome Container */}
+      <div className="flex flex-col items-center text-center md:pb-48">
+        <h1 className="text-neutral text-3xl">Welcome to</h1>
+        <h1 className="mb-4 text-7xl text-primary xl:text-9xl">Journey</h1>
+        <p className="text-neutral md:text-md text-sm lg:text-lg">
+          Discover a new way to track your personal growth with Journey. This
+          simple yet powerful tool helps you monitor and reflect on various
+          aspects of your life. Whether you’re pursuing a goal, managing a new
+          habit, or tracking daily experiences, Journey provides the insights
+          you need to stay on track and achieve your milestones.
+        </p>
+        <div className="mt-4">
+          <Link href="/login">
+            <Button color="primary" size="lg" radius="full">
+              Get Started
+            </Button>
+          </Link>
+        </div>
+      </div>
+    </div>
   );
 }

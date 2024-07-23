@@ -19,9 +19,9 @@
     }
   }
 }
-/* 
+
 @layer base {
   * {
-    @apply border-foreground/20;
+    @apply border-red-500 text-black;
   }
-} */
+}

@@ -8,8 +8,15 @@ module.exports = {
   ],
   theme: {
     extend: {
+      backgroundImage: {
+        landing: "url('/background/landing.jpeg')",
+      },
       colors: {
-        background: "hsl(var(--background))",
+        primary: "#A2BCBB", // Main elements
+        secondary: "#D2CBC1", // Highlights/accents
+        background: "#FBF8F1", // Main background
+        accent: "#D5E2DB", // Smaller details/contrasts
+        neutral: "#686060", // Text/subdued elements
         foreground: "hsl(var(--foreground))",
         // btn: {
         //   background: "hsl(var(--btn-background))",

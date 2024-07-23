@@ -2,6 +2,7 @@
 
 import { useFormStatus } from "react-dom";
 import { type ComponentProps } from "react";
+import { Button } from "@nextui-org/react";
 
 type Props = ComponentProps<"button"> & {
   pendingText?: string;
