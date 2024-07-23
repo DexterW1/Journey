@@ -43,7 +43,7 @@ const signUp = async (formData: FormData) => {
       return redirect("/signup?message=Could not create user");
     }
   }
-  return redirect("/protected");
+  return redirect("/home");
 };
 export default function page() {
   return (
