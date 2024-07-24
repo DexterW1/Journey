@@ -87,12 +87,12 @@ export default function GetStarted({ user }: any) {
             exit={{ opacity: 0, x: -20 }}
             transition={{ duration: 1, delay: 1 }}
           >
-            <FaQuoteLeft className="mr-2 text-primary" />
+            <FaQuoteLeft className="mr-2 text-primary" size={10} />
             <p className="text-center text-lg">
-              <span className="text-3xl">{selectedVerb} </span>
+              <span className="mr-1 text-2xl underline">{selectedVerb} </span>
               {goal}
             </p>
-            <FaQuoteRight className="ml-2 text-primary" />
+            <FaQuoteRight className="ml-2 text-primary" size={10} />
             <p className="absolute -bottom-10 right-0 self-end text-3xl">
               - {user.first_name}
             </p>
