@@ -20,6 +20,7 @@ module.exports = {
         neutral: "#686060", // Text/subdued elements
         foreground: "hsl(var(--foreground))",
         success: "#4BB543",
+        comp: "#e9e6e1",
       },
     },
   },

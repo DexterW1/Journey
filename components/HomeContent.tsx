@@ -24,7 +24,7 @@ export default function HomeContent() {
   }, [fetchedUser]);
   if (!user) return <div>Loading...</div>;
   return (
-    <div className="flex w-full flex-1 flex-col sm:max-w-7xl">
+    <div className="flex w-full flex-1 flex-col sm:max-w-6xl">
       <NavBar />
       <AnimatePresence>
         {user.stage === 0 && (

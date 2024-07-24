@@ -22,7 +22,7 @@ export default function NavBar() {
     router.push("/login");
   };
   return (
-    <div className="sticky flex flex-row items-center justify-between border p-4">
+    <div className="sticky flex flex-row items-center justify-between p-4">
       <div className="self-center">
         <h1 className="text-4xl text-primary">Journey</h1>
       </div>
