@@ -1,9 +1,7 @@
 import Link from "next/link";
-// import { headers } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { SubmitButton } from "./submit-button";
-import { Button } from "@nextui-org/react";
 
 export default function Login({
   searchParams,

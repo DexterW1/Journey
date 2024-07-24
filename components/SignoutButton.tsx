@@ -10,5 +10,9 @@ export default function SignoutButton() {
     await supabase.auth.signOut();
     router.push("/login");
   };
-  return <Button onPress={signOut}>Sign Out</Button>;
+  return (
+    <Button className="bg-accent self-start" onPress={signOut} size="sm">
+      Sign Out
+    </Button>
+  );
 }

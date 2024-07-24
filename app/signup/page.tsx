@@ -2,23 +2,16 @@ import React from "react";
 import Link from "next/link";
 import { SubmitButton } from "../login/submit-button";
 import { createClient } from "@/utils/supabase/server";
-import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 const signUp = async (formData: FormData) => {
   "use server";
 
-  const origin = headers().get("origin");
   const email = formData.get("email") as string;
   const firstName = formData.get("firstName") as string;
   const lastName = formData.get("lastName") as string;
   const password = formData.get("password") as string;
   const supabase = createClient();
-  // Debug: Log received form data
-  console.log("Received form data:", { origin, email, password });
-
-  // Debug: Verify supabase client
-  console.log("Supabase client initialized:", supabase);
 
   const { data: user, error } = await supabase.auth.signUp({
     email,

@@ -22,6 +22,6 @@
 
 @layer base {
   * {
-    @apply border-red-500 text-black;
+    @apply text-neutral border-red-500;
   }
 }
