@@ -22,6 +22,9 @@ export default function GetStarted({ user }: any) {
   const handleGoalChange = (e: any) => {
     setGoal(e.target.value);
   };
+  const handleCreateJourney = () => {
+    // Create a journey in the database
+  };
   return (
     <section className="flex flex-1 flex-col items-center px-4">
       <motion.h1
@@ -90,11 +93,11 @@ export default function GetStarted({ user }: any) {
               exit={{ opacity: 0, x: -20 }}
               transition={{ duration: 1, delay: 1 }}
             >
-              <FaQuoteLeft className="mr-2 text-primary" size={10} />
+              <FaQuoteLeft className="text-primary" size={10} />
               <p className="text-center text-lg md:text-3xl">
                 <span className="mr-1 text-2xl underline md:text-4xl">
-                  {selectedVerb}{" "}
-                </span>
+                  {selectedVerb}
+                </span>{" "}
                 {goal}
               </p>
               <FaQuoteRight className="ml-2 text-primary" size={10} />
