@@ -16,7 +16,7 @@ export default function HomeContent() {
   if (!user) return <div>Loading...</div>;
 
   return (
-    <div className="flex w-full flex-1 flex-col sm:max-w-6xl">
+    <div className="flex w-full flex-1 flex-col sm:max-w-5xl">
       <NavBar />
 
       <GetStarted user={user} />

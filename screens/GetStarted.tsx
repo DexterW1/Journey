@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { Input, Select, SelectItem } from "@nextui-org/react";
+import { Input, Select, SelectItem, Button } from "@nextui-org/react";
 import { FaQuoteLeft, FaQuoteRight } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 const options = [
@@ -55,7 +55,7 @@ export default function GetStarted({ user }: any) {
               size="md"
               aria-label="select verb"
               fullWidth={false}
-              style={{ width: "150px" }}
+              style={{ width: "150px", backgroundColor: "#D5E2DB" }}
               onChange={handleVerbChange}
             >
               {options.map((option) => (
@@ -69,33 +69,54 @@ export default function GetStarted({ user }: any) {
         <div>
           <Input
             label="Enter a goal or habit"
+            variant="faded"
+            classNames={{ inputWrapper: "bg-accent" }}
             placeholder="e.g. eating better, excerising more"
             size="lg"
             fullWidth={false}
             onChange={handleGoalChange}
-            style={{ width: "300px" }}
+            style={{ width: "300px", backgroundColor: "#D5E2DB" }}
           />
         </div>
       </motion.div>
       {/* Display goal */}
       <AnimatePresence>
         {goal && selectedVerb && (
+          <>
+            <motion.div
+              className="bg-accent relative mt-14 flex flex-row rounded-lg p-8"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              transition={{ duration: 1, delay: 1 }}
+            >
+              <FaQuoteLeft className="mr-2 text-primary" size={10} />
+              <p className="text-center text-lg md:text-3xl">
+                <span className="mr-1 text-2xl underline md:text-4xl">
+                  {selectedVerb}{" "}
+                </span>
+                {goal}
+              </p>
+              <FaQuoteRight className="ml-2 text-primary" size={10} />
+              <p className="absolute -bottom-10 right-0 self-end text-2xl">
+                - {user.first_name}
+              </p>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+      <AnimatePresence>
+        {goal && selectedVerb && (
           <motion.div
-            className="relative mt-24 flex flex-row"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
+            className="mt-24 flex flex-col"
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.5 }}
             transition={{ duration: 1, delay: 1 }}
           >
-            <FaQuoteLeft className="mr-2 text-primary" size={10} />
-            <p className="text-center text-lg">
-              <span className="mr-1 text-2xl underline">{selectedVerb} </span>
-              {goal}
-            </p>
-            <FaQuoteRight className="ml-2 text-primary" size={10} />
-            <p className="absolute -bottom-10 right-0 self-end text-3xl">
-              - {user.first_name}
-            </p>
+            <Button size="lg" radius="full" color="primary">
+              Begin Journey!
+            </Button>
           </motion.div>
         )}
       </AnimatePresence>

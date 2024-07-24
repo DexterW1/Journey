@@ -19,6 +19,7 @@ module.exports = {
         accent: "#D5E2DB", // Smaller details/contrasts
         neutral: "#686060", // Text/subdued elements
         foreground: "hsl(var(--foreground))",
+        success: "#4BB543",
       },
     },
   },
