@@ -18,6 +18,7 @@ export default function HomeContent() {
   return (
     <div className="flex w-full flex-1 flex-col sm:max-w-6xl">
       <NavBar />
+
       <GetStarted user={user} />
     </div>
   );
