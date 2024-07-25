@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, use } from "react";
 import { createClient } from "@/utils/supabase/client";
 import GetStarted from "@/screens/GetStarted";
 import { useUserStore } from "@/store/userStore";
@@ -8,6 +8,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import NavBar from "./NavBar";
 import Dashboard from "@/screens/Dashboard";
 export default function HomeContent() {
+  const [render, setRender] = useState(true);
   const fetchUser = useUserStore((state) => state.fetchUser);
   const user = useUserStore((state) => state.user);
   const journeys = useJourneyStore((state) => state.journeys);
@@ -21,22 +22,41 @@ export default function HomeContent() {
     if (!fetchedUser) {
       fetchAll();
     }
-  }, [fetchedUser]);
+  }, [fetchedUser, user]);
+  useEffect(() => {
+    if (user) {
+      if (user.stage === 0) {
+        setRender(true);
+      } else {
+        setTimeout(() => {
+          setRender(false);
+        }, 1600);
+      }
+    }
+  }, [user]);
   if (!user) return <div>Loading...</div>;
   return (
     <div className="flex w-full flex-1 flex-col sm:max-w-6xl">
       <NavBar />
-      <AnimatePresence>
+      <AnimatePresence onExitComplete={() => setRender(false)}>
         {user.stage === 0 && (
           <motion.div
-            exit={{ opacity: 0, x: 300 }}
-            transition={{ duration: 2, delay: 1 }}
+            exit={{ opacity: 0, x: 100 }}
+            transition={{ duration: 1.5 }}
           >
             <GetStarted user={user} />
           </motion.div>
         )}
       </AnimatePresence>
-      <Dashboard user={user} journey={journeys} />
+      {!render && (
+        <motion.div
+          initial={{ opacity: 0, y: 100 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.5 }}
+        >
+          <Dashboard user={user} journey={journeys} />
+        </motion.div>
+      )}
     </div>
   );
 }

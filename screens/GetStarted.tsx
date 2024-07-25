@@ -63,9 +63,9 @@ export default function GetStarted({ user }: any) {
               placeholder="Select a Verb"
               size="md"
               aria-label="select verb"
-              classNames={{ popoverContent: "bg-accent" }}
+              // classNames={{ popoverContent: "bg-accent" }}
               fullWidth={false}
-              style={{ width: "150px", backgroundColor: "#D5E2DB" }}
+              style={{ width: "150px" }}
               onChange={handleVerbChange}
             >
               {options.map((option) => (
@@ -79,13 +79,13 @@ export default function GetStarted({ user }: any) {
         <div>
           <Input
             label="Enter a goal or habit"
-            variant="faded"
-            classNames={{ inputWrapper: "bg-accent" }}
+            // variant=""
+            // classNames={{ inputWrapper: "bg-accent" }}
             placeholder="e.g. eating better, excerising more"
             size="lg"
             fullWidth={false}
             onChange={handleGoalChange}
-            style={{ width: "300px", backgroundColor: "#D5E2DB" }}
+            style={{ width: "300px" }}
           />
         </div>
       </motion.div>
@@ -94,7 +94,7 @@ export default function GetStarted({ user }: any) {
         {goal && selectedVerb && (
           <>
             <motion.div
-              className="relative mt-14 flex flex-col rounded-lg bg-secondary px-8 pb-4 pt-8"
+              className="bg-cardBackground relative mt-14 flex flex-col rounded-lg px-8 pb-4 pt-8"
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -20 }}
@@ -131,7 +131,8 @@ export default function GetStarted({ user }: any) {
               onPress={handleCreateJourney}
               size="lg"
               radius="full"
-              color="primary"
+              // color="primary"
+              className="bg-buttonPrimary"
             >
               Begin Journey!
             </Button>

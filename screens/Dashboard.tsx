@@ -5,7 +5,6 @@ import JourneyCard from "@/components/dashboardUI/JourneyCard";
 import GreetingCard from "@/components/dashboardUI/GreetingCard";
 import Weeklydisplay from "@/components/dashboardUI/Weeklydisplay";
 export default function Dashboard({ user, journey }: any) {
-  console.log(journey);
   return (
     <div className="flex flex-1 flex-col gap-4 border p-4">
       <section className="flex flex-col gap-4 sm:flex-row xl:gap-12">

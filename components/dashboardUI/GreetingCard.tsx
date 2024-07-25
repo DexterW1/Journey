@@ -41,16 +41,16 @@ export default function GreetingCard() {
   return (
     <div className="bg-cardBackground flex flex-col rounded-xl px-4 py-2 sm:self-start">
       <div className="flex flex-row items-center">
-        <p className="text-lg text-neutral">
+        <p className="text-lg">
           Good {new Date().getHours() < 12 ? "Morning" : "Evening"},{" "}
           {user.first_name}
         </p>
       </div>
       <div className="flex flex-row items-center">
-        <p className="text-xl text-neutral">{day}</p>
-        <p className="ml-2 text-lg text-neutral">{date}</p>
+        <p className="text-xl">{day}</p>
+        <p className="ml-2 text-lg">{date}</p>
         <p className="ml-2 text-lg">|</p>
-        <p className="ml-2 text-lg text-neutral">{time}</p>
+        <p className="ml-2 text-lg">{time}</p>
       </div>
     </div>
   );
