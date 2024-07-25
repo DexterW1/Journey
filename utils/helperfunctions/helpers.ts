@@ -13,3 +13,21 @@ export const checkDuplicateTitle = async (title: string, user: any) => {
   }
   return data.length > 0;
 };
+export function getWeekDates(referenceDate: any) {
+  const weekArray = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
+  const currentDayIndex = referenceDate.getDay();
+  const startOfWeek = new Date(referenceDate);
+  startOfWeek.setDate(referenceDate.getDate() - currentDayIndex);
+
+  return weekArray.map((_, index) => {
+    const date = new Date(startOfWeek);
+    date.setDate(startOfWeek.getDate() + index);
+
+    return {
+      day: weekArray[index],
+      date: date.getDate(), // Day of the month
+      month: date.getMonth() + 1, // Month (1-based)
+      year: date.getFullYear(), // Year
+    };
+  });
+}

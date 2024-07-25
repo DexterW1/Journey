@@ -1,27 +1,35 @@
 import React from "react";
-
-const weekArray = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+import { getWeekDates } from "@/utils/helperfunctions/helpers";
 
 export default function WeeklyDisplay() {
-  const getCurrentDay = () => {
-    const currentDate = new Date();
-    return currentDate.getDay(); // Returns 0-6 for Sun-Sat
-  };
+  const currentDate = new Date(); // Get today's date
+  const currentDay = currentDate.getDate(); // Extract the day of the month
 
-  const currentDayIndex = getCurrentDay();
+  // Get the week dates using the helper function
+  const weekDates = getWeekDates(currentDate);
+
   return (
-    <div className="flex flex-1 flex-row items-center justify-between rounded-xl bg-cardBackground px-4 py-2 sm:justify-evenly">
-      {weekArray.map((day, index) => (
-        <div key={index} className="flex flex-col items-center">
-          <p
-            className={`flex h-11 w-11 items-center justify-center rounded-full bg-cardContentBackground p-4 text-lg text-textPrimary md:p-6 ${
-              index === currentDayIndex ? "border-2 border-secondary" : ""
-            }`}
+    <div className="flex flex-row items-center justify-between rounded-xl bg-cardBackground px-4 py-2 sm:w-full sm:self-start">
+      {weekDates.map(({ day, date }, index) => {
+        const isToday = date === currentDay;
+        return (
+          <div
+            key={index}
+            className={`flex flex-col items-center ${
+              isToday ? "rounded-full bg-primary px-1 py-[0.4rem]" : ""
+            }`} // Conditional class for highlighting
           >
-            {day}
-          </p>
-        </div>
-      ))}
+            <p
+              className={`text-lg ${isToday ? "text-cardContentBackground" : ""}`}
+            >
+              {day}
+            </p>
+            <div className="flex h-9 w-9 flex-row items-center justify-center rounded-full bg-cardContentBackground">
+              <p className="mt-1 text-lg">{date}</p>
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 }

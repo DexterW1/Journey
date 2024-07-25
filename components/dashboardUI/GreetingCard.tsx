@@ -39,7 +39,7 @@ export default function GreetingCard() {
   }, []);
 
   return (
-    <div className="bg-cardBackground flex flex-col rounded-xl px-4 py-2 sm:self-start">
+    <div className="flex flex-col rounded-xl bg-cardBackground px-4 py-2 sm:w-full">
       <div className="flex flex-row items-center">
         <p className="text-lg">
           Good {new Date().getHours() < 12 ? "Morning" : "Evening"},{" "}
