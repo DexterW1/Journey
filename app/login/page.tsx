@@ -29,25 +29,25 @@ export default function Login({
 
   return (
     <div className="flex w-full flex-1 flex-col items-center gap-8 px-8 pt-8 sm:max-w-5xl">
-      <Link href={"/"} className="bg-accent self-start rounded-xl p-2">
+      <Link href={"/"} className="bg-buttonSecondary self-start rounded-xl p-2">
         Back
       </Link>
       <form className="mb-32 flex w-full flex-1 flex-col justify-center gap-2 text-foreground sm:max-w-md">
         <h1 className="text-3xl text-primary">Log In</h1>
-        <label className="text-md text-neutral" htmlFor="email">
+        <label className="text-md text-textPrimary" htmlFor="email">
           Email
         </label>
         <input
-          className="text-neutral mb-6 rounded-md border border-secondary bg-inherit px-4 py-2"
+          className="border-inputBorder mb-6 rounded-md border bg-inherit px-4 py-2"
           name="email"
           placeholder="you@example.com"
           required
         />
-        <label className="text-md text-neutral" htmlFor="password">
+        <label className="text-md" htmlFor="password">
           Password
         </label>
         <input
-          className="text-neutral mb-6 rounded-md border border-secondary bg-inherit px-4 py-2"
+          className="border-inputBorder mb-6 rounded-md border-1 bg-inherit px-4 py-2"
           type="password"
           name="password"
           placeholder="••••••••"
@@ -55,13 +55,13 @@ export default function Login({
         />
         <SubmitButton
           formAction={signIn}
-          className="mb-2 rounded-md bg-primary px-4 py-2 text-foreground"
+          className="bg-buttonPrimary mb-2 rounded-md px-4 py-2 text-foreground"
           pendingText="Signing In..."
         >
           Log in
         </SubmitButton>
         <div className="flex flex-row justify-center">
-          <p className="text-neutral mr-2">Don't have an account?</p>
+          <p className="mr-2">Don't have an account?</p>
           <Link href={"/signup"} className="text-blue-600">
             Sign Up!
           </Link>

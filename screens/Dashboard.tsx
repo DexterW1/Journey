@@ -8,7 +8,7 @@ export default function Dashboard({ user, journey }: any) {
   console.log(journey);
   return (
     <div className="flex flex-1 flex-col gap-4 border p-4">
-      <section className="flex flex-col gap-4 sm:flex-row sm:border xl:gap-12">
+      <section className="flex flex-col gap-4 sm:flex-row xl:gap-12">
         <GreetingCard />
         <Weeklydisplay />
       </section>
@@ -20,7 +20,7 @@ export default function Dashboard({ user, journey }: any) {
           ))}
           {/* Add new Journey Button */}
           <div className="flex flex-row items-center justify-center rounded-xl border-2 border-dashed border-secondary py-10">
-            <p className="text-3xl text-neutral">+</p>
+            <p className="text-3xl">+</p>
           </div>
         </ScrollShadow>
         <div className="lg:order2 order-1 flex flex-col rounded-xl border-2 border-secondary bg-white p-4 lg:flex-1">

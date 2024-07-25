@@ -10,12 +10,12 @@ export default function WeeklyDisplay() {
 
   const currentDayIndex = getCurrentDay();
   return (
-    <div className="flex flex-1 flex-row items-center justify-evenly rounded-xl bg-secondary px-4 py-2 text-white">
+    <div className="bg-cardBackground border-cardBorder flex flex-1 flex-row items-center justify-evenly rounded-xl border-2 px-4 py-2">
       {weekArray.map((day, index) => (
         <div key={index} className="flex flex-col items-center">
           <p
-            className={`bg-comp flex h-11 w-11 items-center justify-center rounded-full p-4 text-lg text-neutral md:p-6 ${
-              index === currentDayIndex ? "border-2 border-primary" : ""
+            className={`bg-cardContentBackground text-textPrimary flex h-11 w-11 items-center justify-center rounded-full p-4 text-lg md:p-6 ${
+              index === currentDayIndex ? "border-2 border-accent" : ""
             }`}
           >
             {day}
