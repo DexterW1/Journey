@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, use } from "react";
+import React, { useState, useEffect } from "react";
 import { createClient } from "@/utils/supabase/client";
 import GetStarted from "@/screens/GetStarted";
 import { useUserStore } from "@/store/userStore";
@@ -7,13 +7,16 @@ import { useJourneyStore } from "@/store/journeyStore";
 import { AnimatePresence, motion } from "framer-motion";
 import NavBar from "./NavBar";
 import Dashboard from "@/screens/Dashboard";
+
 export default function HomeContent() {
-  const [render, setRender] = useState(true);
+  const [showDashboard, setShowDashboard] = useState(false);
+  const [transitioning, setTransitioning] = useState(false); // Track transition
   const fetchUser = useUserStore((state) => state.fetchUser);
   const user = useUserStore((state) => state.user);
   const journeys = useJourneyStore((state) => state.journeys);
   const fetchJourneys = useJourneyStore((state) => state.fetchJourneys);
   const fetchedUser = useUserStore((state) => state.fetchedUser);
+
   useEffect(() => {
     const fetchAll = async () => {
       await fetchUser();
@@ -22,23 +25,33 @@ export default function HomeContent() {
     if (!fetchedUser) {
       fetchAll();
     }
-  }, [fetchedUser, user]);
+  }, [fetchedUser, fetchUser, fetchJourneys]);
+
   useEffect(() => {
     if (user) {
       if (user.stage === 0) {
-        setRender(true);
+        setShowDashboard(false);
+        setTransitioning(true);
       } else {
-        setTimeout(() => {
-          setRender(false);
-        }, 1600);
+        if (!transitioning) {
+          fetchJourneys();
+          setShowDashboard(true);
+        }
       }
     }
-  }, [user]);
+  }, [user, transitioning]);
+
+  const handleExitComplete = () => {
+    setTransitioning(false);
+    setShowDashboard(true);
+  };
+
   if (!user) return <div>Loading...</div>;
+
   return (
     <div className="flex w-full flex-1 flex-col sm:max-w-6xl">
       <NavBar />
-      <AnimatePresence onExitComplete={() => setRender(false)}>
+      <AnimatePresence onExitComplete={handleExitComplete}>
         {user.stage === 0 && (
           <motion.div
             exit={{ opacity: 0, x: 100 }}
@@ -48,8 +61,9 @@ export default function HomeContent() {
           </motion.div>
         )}
       </AnimatePresence>
-      {!render && (
+      {showDashboard && (
         <motion.div
+          key="dashboard"
           initial={{ opacity: 0, y: 100 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.5 }}
@@ -60,4 +74,3 @@ export default function HomeContent() {
     </div>
   );
 }
-// <div className="flex w-full flex-1 flex-col px-4 pt-8"></div>;
