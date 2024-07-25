@@ -14,11 +14,10 @@ export default function Dashboard({ user, journey }: any) {
       </section>
       {/* Jounrey List && Main Content Container */}
       <section className="flex flex-1 flex-col gap-4 lg:flex-row xl:gap-12">
-        <ScrollShadow className="order-2 flex flex-col gap-4 rounded-xl bg-cardBackground p-4 lg:order-1 lg:w-[20.3rem]">
+        <div className="order-2 flex flex-col gap-4 rounded-xl bg-cardBackground p-4 lg:order-1 lg:w-[20.3rem]">
           {journey.map((journey: any) => (
             <motion.div
               key={journey.id}
-              drag
               className="cursor-pointer"
               dragSnapToOrigin
             >
@@ -29,7 +28,7 @@ export default function Dashboard({ user, journey }: any) {
           <div className="flex flex-row items-center justify-center rounded-xl border-2 border-dashed border-primary py-10">
             <p className="text-3xl text-primary">+</p>
           </div>
-        </ScrollShadow>
+        </div>
         <div className="lg:order2 order-1 flex flex-col rounded-xl border-2 border-secondary bg-white p-4 lg:flex-1">
           main content
         </div>
