@@ -63,9 +63,10 @@ export default function HomeContent() {
       </AnimatePresence>
       {showDashboard && (
         <motion.div
+          className="flex flex-1 flex-col"
           key="dashboard"
-          initial={{ opacity: 0, y: 100 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           transition={{ duration: 1.5 }}
         >
           <Dashboard user={user} journey={journeys} />
