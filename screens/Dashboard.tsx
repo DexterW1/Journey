@@ -87,7 +87,9 @@ export default function Dashboard({ user, journey }: any) {
           </div>
         </section>
         <section className="flex flex-col lg:col-span-2">
-          {selectedJourney && <JourneyStats journey={selectedJourney} />}
+          <AnimatePresence>
+            {selectedJourney && <JourneyStats journey={selectedJourney} />}
+          </AnimatePresence>
         </section>
       </div>
       <AddJourney isOpen={isOpen} onOpenChange={onOpenChange} />

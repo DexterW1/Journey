@@ -15,10 +15,11 @@ export default function JourneyStats({ journey }: any) {
     <motion.section
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
       transition={{ duration: 1 }}
       className="flex flex-1 flex-col gap-4"
     >
-      <div className="bg-primaryLight h-[40%] rounded-3xl p-4">
+      <div className="h-[40%] rounded-3xl bg-primaryLight p-4">
         <p className="text-large">{journey.title}</p>
         <p className="text-large">{journey.title}</p>
         <p className="text-large">{journey.title}</p>
