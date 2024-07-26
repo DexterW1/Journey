@@ -57,7 +57,7 @@ export default function Dashboard({ user, journey }: any) {
           <GreetingCard />
           <Weeklydisplay />
           <div className="order-2 flex flex-col gap-4 rounded-xl bg-cardBackground p-4 lg:order-1">
-            <p className="text-textEmphasis font-serif text-xl font-semibold">
+            <p className="text-textEmphasis font-serif text-[1.7rem] font-semibold leading-none">
               Journeys
             </p>
             <AnimatePresence>
