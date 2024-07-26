@@ -7,11 +7,34 @@ type JourneyStore = {
   addJourney: (title: string) => void;
   fetchJourneys: () => void;
   fetchedJourneys: boolean;
+  deleteJourney: (id: string) => void;
 };
 
 export const useJourneyStore = create<JourneyStore>((set, get) => ({
   journeys: [],
   fetchedJourneys: false,
+  deleteJourney: async (id) => {
+    try {
+      const supabase = createClient();
+      const decrementJourneyCount =
+        useUserStore.getState().decrementJourneyCount;
+      const { data, error } = await supabase
+        .from("journeys")
+        .delete()
+        .eq("id", id)
+        .select();
+      if (error) {
+        console.log("Error deleting journey:", error);
+        return;
+      }
+      if (data) {
+        console.log("Journey deleted successfully", data);
+        decrementJourneyCount();
+      }
+    } catch (error) {
+      console.error("Error in deleteJourney:", error);
+    }
+  },
   addJourney: async (title) => {
     try {
       const user = useUserStore.getState().user;

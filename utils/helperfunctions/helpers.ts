@@ -1,17 +1,28 @@
 import { createClient } from "@/utils/supabase/client";
 export const checkDuplicateTitle = async (title: string, user: any) => {
   const supabase = createClient();
-  // Check if the current user already has the same title in the database
+
+  // Convert the title to lowercase
+  const lowercaseTitle = title.toLowerCase();
+
+  // Fetch all journeys for the user
   const { data, error } = await supabase
     .from("journeys")
-    .select()
-    .eq("title", title)
+    .select("title")
     .eq("user_id", user.id);
+
   if (error) {
     console.error("Error checking duplicate title", error);
     return false;
   }
-  return data.length > 0;
+
+  // Check if any title matches the lowercaseTitle (case-insensitive)
+  const isDuplicate = data.some(
+    (journey: { title: string }) =>
+      journey.title.toLowerCase() === lowercaseTitle,
+  );
+
+  return isDuplicate;
 };
 export function getWeekDates(referenceDate: any) {
   const weekArray = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];

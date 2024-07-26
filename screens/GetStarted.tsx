@@ -94,7 +94,7 @@ export default function GetStarted({ user }: any) {
         {goal && selectedVerb && (
           <>
             <motion.div
-              className="bg-cardBackground relative mt-14 flex flex-col rounded-lg px-8 pb-4 pt-8"
+              className="relative mt-14 flex flex-col rounded-lg bg-cardBackground px-8 pb-4 pt-8"
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -20 }}

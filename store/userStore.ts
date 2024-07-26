@@ -4,6 +4,7 @@ type UserStore = {
   user: any | null;
   fetchUser: () => void;
   incrementJourneyCount: () => void;
+  decrementJourneyCount: () => void;
   updateUserStage: () => void;
   fetchedUser: boolean;
 };
@@ -34,6 +35,20 @@ export const useUserStore = create<UserStore>((set, get) => ({
     }
     set((state) => ({
       user: { ...state.user, journey_count: state.user.journey_count + 1 },
+    }));
+  },
+  decrementJourneyCount: async () => {
+    const supabase = createClient();
+    const { error } = await supabase
+      .from("users")
+      .update({ journey_count: get().user.journey_count - 1 })
+      .eq("id", get().user.id);
+    if (error) {
+      console.error("Error decrementing journey count:", error);
+      return;
+    }
+    set((state) => ({
+      user: { ...state.user, journey_count: state.user.journey_count - 1 },
     }));
   },
   fetchUser: async () => {

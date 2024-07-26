@@ -16,25 +16,18 @@ export default function GreetingCard() {
         day: "numeric",
       });
 
-      // Extract hours and minutes for 24-hour format
       let hours = now.getHours();
       let minutes = now.getMinutes();
       const formattedDay = now.toLocaleDateString("en-US", { weekday: "long" });
-      console.log(formattedDay);
-      // Format hours and minutes without leading zeros
       const formattedTime = `${hours}:${minutes < 10 ? "0" + minutes : minutes}`;
       setDay(formattedDay);
       setDate(formattedDate);
       setTime(formattedTime);
     };
 
-    // Update date and time immediately
     updateDateTime();
 
-    // Set up an interval to update time every minute
-    const intervalId = setInterval(updateDateTime, 60000); // 60000 ms = 1 minute
-
-    // Clean up the interval on component unmount
+    const intervalId = setInterval(updateDateTime, 60000);
     return () => clearInterval(intervalId);
   }, []);
 
