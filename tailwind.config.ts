@@ -14,26 +14,22 @@ module.exports = {
       },
       colors: {
         primary: "#2C6E49", // Forest Green
+        primaryLight: "#4c956c", // Light Forest Green
         secondary: "#87CEEB", // Sky Blue
         accent: "#F08080", // Muted Coral
+        accentLight: "#ffc9b9", // Light Muted Coral
+        primaryDark: "#4f2914", // Dark Wood
         background: "#FFFFF0", // Ivory
-        textPrimary: "#333333", // Dark Charcoal
+        textPrimary: "#456239", // Dark Charcoal
+        textEmphasis: "#0f3408", // Saddle Brown
         textSecondary: "#708090", // Slate Grey
         buttonPrimary: "#A8E6A1", // Soft Green
         buttonSecondary: "#B3DDF2", // Pale Blue
-        cardBackground: "#B2C1A3", // Light Olive
+        cardBackground: "#c5d6b2", // Light Olive
         cardBorder: "#E6E6FA", // Soft Lavender
         cardContentBackground: "#F5F5F5", // Very Light Grey (for card content background)
         cardContentText: "#555555", // Darker Grey (for card content text)
         inputBorder: "#A0A0A0", // Light Grey (for input borders)
-        // primary: "#A2BCBB", // Main elements
-        // secondary: "#D2CBC1", // Highlights/accents
-        // background: "#fff3e7", // Main background
-        // accent: "#D5E2DB", // Smaller details/contrasts
-        // neutral: "#686060", // Text/subdued elements
-        // foreground: "hsl(var(--foreground))",
-        // success: "#4BB543",
-        // comp: "#e9e6e1",
       },
     },
   },

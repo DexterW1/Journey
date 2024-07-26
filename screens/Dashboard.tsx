@@ -57,8 +57,9 @@ export default function Dashboard({ user, journey }: any) {
           <GreetingCard />
           <Weeklydisplay />
           <div className="order-2 flex flex-col gap-4 rounded-xl bg-cardBackground p-4 lg:order-1">
-            <p className="text-large text-textPrimary">My Journeys</p>
-            <Divider />
+            <p className="text-textEmphasis font-serif text-xl font-semibold">
+              Journeys
+            </p>
             <AnimatePresence>
               {journey.map((journey: any) => (
                 <motion.div
@@ -78,7 +79,7 @@ export default function Dashboard({ user, journey }: any) {
             {journey.length < 5 && (
               <div
                 onClick={onOpen}
-                className="flex cursor-pointer flex-row items-center justify-center rounded-xl border-2 border-dashed border-primary py-4"
+                className="flex cursor-pointer flex-row items-center justify-center rounded-xl border-2 border-dashed border-primary py-1"
               >
                 <p className="text-3xl text-primary">+</p>
               </div>

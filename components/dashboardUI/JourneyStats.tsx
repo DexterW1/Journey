@@ -18,15 +18,12 @@ export default function JourneyStats({ journey }: any) {
       transition={{ duration: 1 }}
       className="flex flex-1 flex-col gap-4"
     >
-      <div className="h-[40%] rounded-3xl bg-primary p-4">
+      <div className="bg-primaryLight h-[40%] rounded-3xl p-4">
         <p className="text-large">{journey.title}</p>
         <p className="text-large">{journey.title}</p>
         <p className="text-large">{journey.title}</p>
         <p className="text-large">{journey.title}</p>
         <p className="text-large">{journey.title}</p>
-        {/* <div className="flex flex-row self-start bg-cardBackground">
-          <p className="text-large">{journey.title}</p>
-        </div> */}
       </div>
       <div className="flex flex-1 flex-col rounded-3xl bg-cardBackground p-4">
         <p className="text-large">{journey.title}</p>
