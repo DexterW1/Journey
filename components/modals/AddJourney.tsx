@@ -45,7 +45,7 @@ export default function AddJourney({ isOpen, onOpenChange }: any) {
       isOpen={isOpen}
       onOpenChange={onOpenChange}
       placement="center"
-      className="bg-cardBackground p-4"
+      className="bg-background p-4"
     >
       <ModalContent>
         {(onClose) => (
@@ -87,6 +87,7 @@ export default function AddJourney({ isOpen, onOpenChange }: any) {
                 handleCreateJourney();
                 onClose();
               }}
+              className="bg-buttonPrimary"
             >
               Add Journey
             </Button>

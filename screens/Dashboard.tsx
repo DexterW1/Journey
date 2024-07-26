@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Select,
   SelectItem,
@@ -15,6 +15,7 @@ import JourneyCard from "@/components/dashboardUI/JourneyCard";
 import AddJourney from "@/components/modals/AddJourney";
 import GreetingCard from "@/components/dashboardUI/GreetingCard";
 import Weeklydisplay from "@/components/dashboardUI/Weeklydisplay";
+import JourneyStats from "@/components/dashboardUI/JourneyStats";
 const options = [
   "Start",
   "Quit",
@@ -27,11 +28,26 @@ const options = [
 ];
 export default function Dashboard({ user, journey }: any) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const [selectedJourney, setSelectedJourney] = useState<any>(null);
-  const deleteJourney = useJourneyStore((state) => state.deleteJourney);
-  const handleDeleteJourney = () => {
-    if (selectedJourney) {
-      deleteJourney(selectedJourney.id);
+  const [selectedJourney, setSelectedJourney] = useState<any>(
+    journey[0] ?? null,
+  );
+  const [newJourneyAnimation, setNewJourneyAnimation] = useState(false);
+  useEffect(() => {
+    if (journey.length > 0) {
+      setSelectedJourney(journey[0]);
+    }
+    setNewJourneyAnimation(true);
+    const timer = setTimeout(() => {
+      setNewJourneyAnimation(false);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [journey]);
+  const handleSelectJourney = (journey: any) => {
+    if (selectedJourney === journey) {
+      setSelectedJourney(null);
+    } else {
+      setSelectedJourney(journey);
     }
   };
   return (
@@ -46,10 +62,10 @@ export default function Dashboard({ user, journey }: any) {
             <AnimatePresence>
               {journey.map((journey: any) => (
                 <motion.div
-                  onClick={() => setSelectedJourney(journey)}
+                  onClick={() => handleSelectJourney(journey)}
                   key={journey.id}
-                  className="cursor-pointer"
-                  initial={{ opacity: 0, x: -150 }}
+                  className={`cursor-pointer ${selectedJourney?.id === journey.id ? "rounded-2xl border-3 border-accent" : ""}`}
+                  initial={{ opacity: 0, x: newJourneyAnimation ? 0 : -150 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -150 }}
                   transition={{ duration: 1.5 }}
@@ -62,20 +78,15 @@ export default function Dashboard({ user, journey }: any) {
             {journey.length < 5 && (
               <div
                 onClick={onOpen}
-                className="flex cursor-pointer flex-row items-center justify-center rounded-xl border-2 border-dashed border-primary py-5"
+                className="flex cursor-pointer flex-row items-center justify-center rounded-xl border-2 border-dashed border-primary py-4"
               >
                 <p className="text-3xl text-primary">+</p>
               </div>
             )}
           </div>
         </section>
-        <section className="flex flex-col rounded-xl border-3 border-cardBackground p-4 lg:col-span-2">
-          {selectedJourney && (
-            <>
-              <JourneyCard journey={selectedJourney} />
-              <Button onPress={handleDeleteJourney}>Delete</Button>
-            </>
-          )}
+        <section className="flex flex-col lg:col-span-2">
+          {selectedJourney && <JourneyStats journey={selectedJourney} />}
         </section>
       </div>
       <AddJourney isOpen={isOpen} onOpenChange={onOpenChange} />
