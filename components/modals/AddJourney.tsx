@@ -194,7 +194,7 @@ export default function AddJourney({ isOpen, onOpenChange }: any) {
       <ModalContent>
         {(onClose) => (
           <ModalBody className="overflow-x-hidden">
-            <AnimatePresence mode="wait">
+            <AnimatePresence mode="wait" initial={false}>
               <motion.div
                 className="mt-8 flex flex-1 flex-col gap-4"
                 key={currentScreen}
