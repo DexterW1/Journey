@@ -10,6 +10,7 @@
     "@supabase/ssr": "latest",
     "@supabase/supabase-js": "latest",
     "autoprefixer": "10.4.17",
+    "emoji-picker-react": "^4.11.1",
     "framer-motion": "^11.3.8",
     "geist": "^1.2.1",
     "next": "latest",
