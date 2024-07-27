@@ -23,7 +23,12 @@ const options = [
   "Monitor",
 ];
 const placeholder = ["Happy", "Sad", "Energy", "Anxiety", "Productivity"];
-const ScreenSentence = ({ handleVerbChange, handleGoalChange }: any) => {
+const ScreenSentence = ({
+  handleVerbChange,
+  handleGoalChange,
+  selectedVerb,
+  goal,
+}: any) => {
   return (
     <div className="flex h-full w-full flex-col gap-4">
       <div className="flex flex-row items-center gap-2">
@@ -33,6 +38,7 @@ const ScreenSentence = ({ handleVerbChange, handleGoalChange }: any) => {
             placeholder="Select a Verb"
             size="md"
             aria-label="select verb"
+            defaultSelectedKeys={[selectedVerb]}
             fullWidth={false}
             style={{ width: "150px" }}
             onChange={handleVerbChange}
@@ -48,6 +54,7 @@ const ScreenSentence = ({ handleVerbChange, handleGoalChange }: any) => {
       <div className="flex items-center justify-center">
         <Input
           label="Enter a goal or habit"
+          value={goal}
           placeholder="e.g. eating better, excerising more"
           size="lg"
           fullWidth={false}
@@ -58,9 +65,7 @@ const ScreenSentence = ({ handleVerbChange, handleGoalChange }: any) => {
     </div>
   );
 };
-const ScreenLog = () => {
-  const [rows, setRows] = useState("1");
-  const [inputValues, setInputValues] = useState<string[]>([]);
+const ScreenLog = ({ rows, setRows, inputValues, setInputValues }: any) => {
   const handleInputChange = (index: number, value: any) => {
     const newInputValues = [...inputValues];
     newInputValues[index] = value;
@@ -74,12 +79,13 @@ const ScreenLog = () => {
   return (
     <div className="flex h-full w-full flex-col">
       <h1 className="text-xl font-semibold underline">
-        Let's create a logging template
+        Let's create a template for this journey
       </h1>
       <Select
         onChange={(e) => setRows(e.target.value)}
         aria-label="row count select"
         placeholder="How many rows would you like to keep track of?"
+        defaultSelectedKeys={[rows]}
       >
         <SelectItem key={1} value={1}>
           1
@@ -98,25 +104,27 @@ const ScreenLog = () => {
         </SelectItem>
       </Select>
       <AnimatePresence>
-        <p>Selecct what </p>
-        {Array.from({ length: parseInt(rows) }).map((_, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <Input
-              label={`Row ${i + 1}`}
-              placeholder={`e.g. ${placeholder[i]}`}
-              size="sm"
-              value={inputValues[i] || ""}
-              onChange={(e) => handleInputChange(i, e.target.value)}
-              fullWidth={true}
-            />
-          </motion.div>
-        ))}
+        <div className="flex flex-col gap-2">
+          <p>Enter the valuesf</p>
+          {Array.from({ length: parseInt(rows) }).map((_, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <Input
+                label={`Row ${i + 1}`}
+                placeholder={`e.g. ${placeholder[i]}`}
+                size="sm"
+                value={inputValues[i] || ""}
+                onChange={(e) => handleInputChange(i, e.target.value)}
+                fullWidth={true}
+              />
+            </motion.div>
+          ))}
+        </div>
       </AnimatePresence>
     </div>
   );
@@ -125,6 +133,8 @@ export default function AddJourney({ isOpen, onOpenChange }: any) {
   const [selectedVerb, setSelectedVerb] = useState("");
   const [currentScreen, setCurrentScreen] = useState(0);
   const [hasRendered, setHasRendered] = useState(false);
+  const [rows, setRows] = useState("1");
+  const [inputValues, setInputValues] = useState<string[]>([]);
   const [goal, setGoal] = useState("");
   const [error, setError] = useState("");
   const addJourney = useJourneyStore((state) => state.addJourney);
@@ -135,8 +145,8 @@ export default function AddJourney({ isOpen, onOpenChange }: any) {
     setGoal(e.target.value);
   };
   const handleCreateJourney = async () => {
-    if (selectedVerb && goal) {
-      addJourney(selectedVerb + " " + goal);
+    if (selectedVerb && goal && inputValues.length > 0) {
+      addJourney(selectedVerb + " " + goal, inputValues);
     } else {
       setError("Please fill out the fields");
     }
@@ -152,11 +162,20 @@ export default function AddJourney({ isOpen, onOpenChange }: any) {
         return (
           <ScreenSentence
             handleVerbChange={handleVerbChange}
+            selectedVerb={selectedVerb}
+            goal={goal}
             handleGoalChange={handleGoalChange}
           />
         );
       case 1:
-        return <ScreenLog />;
+        return (
+          <ScreenLog
+            rows={rows}
+            setRows={setRows}
+            inputValues={inputValues}
+            setInputValues={setInputValues}
+          />
+        );
       default:
         return null;
     }
@@ -166,7 +185,7 @@ export default function AddJourney({ isOpen, onOpenChange }: any) {
       isOpen={isOpen}
       onOpenChange={onOpenChange}
       placement="center"
-      className="h-[65%] bg-background p-4"
+      className="min-h-[50%] bg-background p-4"
       classNames={{
         body: "flex flex-col gap-4 item-center justify-between",
         backdrop: "bg-overlay/20",
@@ -189,19 +208,19 @@ export default function AddJourney({ isOpen, onOpenChange }: any) {
               >
                 {renderScreen()}
               </motion.div>
-              <div className="mt-4 flex justify-between">
-                {currentScreen > 0 && (
-                  <Button onClick={() => setCurrentScreen(0)} className="mr-2">
-                    Previous
-                  </Button>
-                )}
-                {currentScreen < 1 && ( // Update this condition based on the number of screens
-                  <Button onClick={() => setCurrentScreen(1)} className="ml-2">
-                    Next
-                  </Button>
-                )}
-              </div>
             </AnimatePresence>
+            <div className="mt-4 flex justify-between">
+              {currentScreen > 0 && (
+                <Button onClick={() => setCurrentScreen(0)} className="mr-2">
+                  Previous
+                </Button>
+              )}
+              {currentScreen < 1 && ( // Update this condition based on the number of screens
+                <Button onClick={() => setCurrentScreen(1)} className="ml-2">
+                  Next
+                </Button>
+              )}
+            </div>
             <Button
               onPress={() => {
                 handleCreateJourney();

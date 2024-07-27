@@ -32,7 +32,7 @@ export default function JourneyStats({ journey }: any) {
         </div>
       </div>
       <div className="flex flex-1 flex-col rounded-3xl bg-cardBackground p-4">
-        <AddTask />
+        <AddTask journey={journey} />
       </div>
     </motion.section>
   );

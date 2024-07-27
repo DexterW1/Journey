@@ -69,7 +69,7 @@ export default function Dashboard({ user, journey }: any) {
             <p className="font-serif text-[1.7rem] font-semibold leading-none text-textEmphasis">
               Journeys
             </p>
-            <AnimatePresence>
+            <AnimatePresence initial={false}>
               {journey.map((journey: any) => (
                 <motion.div
                   onClick={() => handleSelectJourney(journey)}

@@ -4,7 +4,7 @@ import { checkDuplicateTitle } from "@/utils/helperfunctions/helpers";
 import { useUserStore } from "@/store/userStore";
 type JourneyStore = {
   journeys: any[];
-  addJourney: (title: string) => void;
+  addJourney: (title: string, template: string[]) => void;
   fetchJourneys: () => void;
   fetchedJourneys: boolean;
   deleteJourney: (id: string) => void;
@@ -35,7 +35,7 @@ export const useJourneyStore = create<JourneyStore>((set, get) => ({
       console.error("Error in deleteJourney:", error);
     }
   },
-  addJourney: async (title) => {
+  addJourney: async (title, template) => {
     try {
       const user = useUserStore.getState().user;
       const incrementJourneyCount =
@@ -49,6 +49,7 @@ export const useJourneyStore = create<JourneyStore>((set, get) => ({
         .from("journeys")
         .insert({
           title,
+          template,
         })
         .select();
 
