@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { Input, Select, SelectItem, Button } from "@nextui-org/react";
 import { createClient } from "@/utils/supabase/client";
+import ScreenLog from "@/components/logsUI/ScreenLog";
 import { FaQuoteLeft, FaQuoteRight } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 import { useJourneyStore } from "@/store/journeyStore";
@@ -34,7 +35,7 @@ export default function GetStarted({ user }: any) {
     updateUserStage();
   };
   return (
-    <section className="flex flex-1 flex-col items-center justify-evenly border p-4 md:justify-normal">
+    <section className="flex flex-1 flex-col items-center border p-4 lg:justify-normal">
       <motion.h1
         className="self-start text-4xl font-bold italic"
         initial={{ opacity: 0, y: 20 }}
@@ -97,9 +98,9 @@ export default function GetStarted({ user }: any) {
           <>
             <motion.div
               className="relative flex flex-col rounded-lg bg-cardBackground px-8 pb-4 pt-8"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
+              initial={{ opacity: 0, scale: 0.7 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.7 }}
               transition={{ duration: 1, delay: 1 }}
             >
               <div className="flex flex-row">
@@ -118,6 +119,24 @@ export default function GetStarted({ user }: any) {
               <p className="mt-4 self-end text-2xl">- {user.first_name}</p>
             </motion.div>
           </>
+        )}
+      </AnimatePresence>
+      {/* template createor */}
+      <AnimatePresence>
+        {goal && selectedVerb && (
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ duration: 1, delay: 1.5 }}
+          >
+            <ScreenLog
+              rows={rows}
+              setRows={setRows}
+              inputValues={inputValues}
+              setInputValues={setInputValues}
+            />
+          </motion.div>
         )}
       </AnimatePresence>
       <AnimatePresence>
