@@ -26,7 +26,7 @@ const timeReturn = () => {
   }
   return timeOfDay;
 };
-export default function AddTask({ journey }: any) {
+export default function AddTask({ journey, setCurrentScreen }: any) {
   const [open, setOpen] = useState(false);
   const user = useUserStore((state) => state.user);
   const addLog = useLogStore((state) => state.addLog);
@@ -49,6 +49,7 @@ export default function AddTask({ journey }: any) {
       metric: sliderValues,
     };
     addLog(result, journey.id);
+    setCurrentScreen(1);
   };
   const handleSliderChange = (label: string, value: number) => {
     console.log(time);

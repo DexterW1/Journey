@@ -8,6 +8,7 @@ import AddTask from "@/components/logsUI/AddTask";
 
 export default function JourneyStats({ journey }: any) {
   const deleteJourney = useJourneyStore((state) => state.deleteJourney);
+  const [currentScreen, setCurrentScreen] = useState(0);
   const handleDeleteJourney = () => {
     if (journey) {
       deleteJourney(journey.id);
@@ -32,7 +33,11 @@ export default function JourneyStats({ journey }: any) {
         </div>
       </div>
       <div className="flex flex-1 flex-col rounded-3xl bg-cardBackground p-4">
-        <AddTask journey={journey} />
+        <AnimatePresence>
+          {currentScreen === 0 ? (
+            <AddTask setCurrentScreen={setCurrentScreen} journey={journey} />
+          ) : null}
+        </AnimatePresence>
       </div>
     </motion.section>
   );
