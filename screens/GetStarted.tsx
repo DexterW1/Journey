@@ -34,7 +34,7 @@ export default function GetStarted({ user }: any) {
     updateUserStage();
   };
   return (
-    <section className="flex flex-1 flex-col items-center p-4">
+    <section className="flex flex-1 flex-col items-center justify-evenly border p-4 md:justify-normal">
       <motion.h1
         className="self-start text-4xl font-bold italic"
         initial={{ opacity: 0, y: 20 }}
@@ -44,7 +44,7 @@ export default function GetStarted({ user }: any) {
         Welcome, <span className="text-primary">{user.first_name}</span>
       </motion.h1>
       <motion.p
-        className="mt-[16px] self-start text-lg"
+        className="self-start text-lg"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, delay: 0.6 }} // Fade-in for first p
@@ -53,7 +53,7 @@ export default function GetStarted({ user }: any) {
       </motion.p>
       {/* Sentence Container */}
       <motion.div
-        className="mt-4 flex flex-col gap-4 self-start md:flex-row"
+        className="flex flex-col gap-4 self-start md:flex-row"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, delay: 0.8 }}
@@ -96,7 +96,7 @@ export default function GetStarted({ user }: any) {
         {goal && selectedVerb && (
           <>
             <motion.div
-              className="relative mt-14 flex flex-col rounded-lg bg-cardBackground px-8 pb-4 pt-8"
+              className="relative flex flex-col rounded-lg bg-cardBackground px-8 pb-4 pt-8"
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -20 }}
@@ -123,7 +123,7 @@ export default function GetStarted({ user }: any) {
       <AnimatePresence>
         {goal && selectedVerb && (
           <motion.div
-            className="mt-24 flex flex-col"
+            className="flex flex-col"
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.5 }}

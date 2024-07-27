@@ -56,6 +56,7 @@ export default function HomeContent() {
           <motion.div
             exit={{ opacity: 0, x: 100 }}
             transition={{ duration: 1.5 }}
+            className="flex flex-1 flex-col"
           >
             <GetStarted user={user} />
           </motion.div>
