@@ -19,6 +19,8 @@ const options = [
 export default function GetStarted({ user }: any) {
   const [selectedVerb, setSelectedVerb] = useState("");
   const [goal, setGoal] = useState("");
+  const [rows, setRows] = useState("1");
+  const [inputValues, setInputValues] = useState<string[]>([""]);
   const updateUserStage = useUserStore((state) => state.updateUserStage);
   const addJourney = useJourneyStore((state) => state.addJourney);
   const handleVerbChange = (e: any) => {
@@ -28,7 +30,7 @@ export default function GetStarted({ user }: any) {
     setGoal(e.target.value);
   };
   const handleCreateJourney = async () => {
-    addJourney(selectedVerb + " " + goal);
+    addJourney(selectedVerb + " " + goal, inputValues);
     updateUserStage();
   };
   return (
