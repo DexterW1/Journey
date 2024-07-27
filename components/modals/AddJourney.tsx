@@ -22,7 +22,8 @@ const options = [
   "Develop",
   "Monitor",
 ];
-const ScreenSentince = ({ handleVerbChange, handleGoalChange }: any) => {
+const placeholder = ["Happy", "Sad", "Energy", "Anxiety", "Productivity"];
+const ScreenSentence = ({ handleVerbChange, handleGoalChange }: any) => {
   return (
     <div className="flex h-full w-full flex-col gap-4">
       <div className="flex flex-row items-center gap-2">
@@ -32,7 +33,6 @@ const ScreenSentince = ({ handleVerbChange, handleGoalChange }: any) => {
             placeholder="Select a Verb"
             size="md"
             aria-label="select verb"
-            // classNames={{ popoverContent: "bg-accent" }}
             fullWidth={false}
             style={{ width: "150px" }}
             onChange={handleVerbChange}
@@ -59,10 +59,65 @@ const ScreenSentince = ({ handleVerbChange, handleGoalChange }: any) => {
   );
 };
 const ScreenLog = () => {
+  const [rows, setRows] = useState("1");
+  const [inputValues, setInputValues] = useState<string[]>([]);
+  const handleInputChange = (index: number, value: any) => {
+    const newInputValues = [...inputValues];
+    newInputValues[index] = value;
+    setInputValues(newInputValues);
+  };
+  useEffect(() => {
+    setInputValues(
+      Array.from({ length: parseInt(rows) }, (_, i) => inputValues[i] || ""),
+    );
+  }, [rows]);
   return (
-    <div className="flex h-full w-full flex-col border-1">
-      <h1>Logging template</h1>
-      <p>Here you can add a log template for this specific journey</p>
+    <div className="flex h-full w-full flex-col">
+      <h1 className="text-xl font-semibold underline">
+        Let's create a logging template
+      </h1>
+      <Select
+        onChange={(e) => setRows(e.target.value)}
+        aria-label="row count select"
+        placeholder="How many rows would you like to keep track of?"
+      >
+        <SelectItem key={1} value={1}>
+          1
+        </SelectItem>
+        <SelectItem key={2} value={2}>
+          2
+        </SelectItem>
+        <SelectItem key={3} value={3}>
+          3
+        </SelectItem>
+        <SelectItem key={4} value={4}>
+          4
+        </SelectItem>
+        <SelectItem key={5} value={5}>
+          5
+        </SelectItem>
+      </Select>
+      <AnimatePresence>
+        <p>Selecct what </p>
+        {Array.from({ length: parseInt(rows) }).map((_, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <Input
+              label={`Row ${i + 1}`}
+              placeholder={`e.g. ${placeholder[i]}`}
+              size="sm"
+              value={inputValues[i] || ""}
+              onChange={(e) => handleInputChange(i, e.target.value)}
+              fullWidth={true}
+            />
+          </motion.div>
+        ))}
+      </AnimatePresence>
     </div>
   );
 };
@@ -95,18 +150,13 @@ export default function AddJourney({ isOpen, onOpenChange }: any) {
     switch (currentScreen) {
       case 0:
         return (
-          <ScreenSentince
+          <ScreenSentence
             handleVerbChange={handleVerbChange}
             handleGoalChange={handleGoalChange}
           />
         );
       case 1:
-        return (
-          <ScreenLog
-            handleVerbChange={handleVerbChange}
-            handleGoalChange={handleGoalChange}
-          />
-        );
+        return <ScreenLog />;
       default:
         return null;
     }
@@ -116,8 +166,7 @@ export default function AddJourney({ isOpen, onOpenChange }: any) {
       isOpen={isOpen}
       onOpenChange={onOpenChange}
       placement="center"
-      shadow="sm"
-      className="h-[50%] bg-background p-4"
+      className="h-[65%] bg-background p-4"
       classNames={{
         body: "flex flex-col gap-4 item-center justify-between",
         backdrop: "bg-overlay/20",
