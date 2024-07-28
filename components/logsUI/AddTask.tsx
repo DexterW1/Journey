@@ -30,6 +30,7 @@ export default function AddTask({ journey, setCurrentScreen }: any) {
   const [open, setOpen] = useState(false);
   const user = useUserStore((state) => state.user);
   const addLog = useLogStore((state) => state.addLog);
+  const fetchLogs = useLogStore((state) => state.fetchLogs);
   const [sliderValues, setSliderValues] = useState<any>({});
   const [emoji, setEmoji] = useState("");
   const [summary, setSummary] = useState("");
@@ -49,7 +50,8 @@ export default function AddTask({ journey, setCurrentScreen }: any) {
       metric: sliderValues,
     };
     addLog(result, journey.id);
-    setCurrentScreen(1);
+    setCurrentScreen(0);
+    fetchLogs(journey.id);
   };
   const handleSliderChange = (label: string, value: number) => {
     console.log(time);
@@ -69,6 +71,7 @@ export default function AddTask({ journey, setCurrentScreen }: any) {
   }, [journey]);
   return (
     <div className="flex flex-col gap-2 py-1 md:px-4">
+      <Button onPress={() => setCurrentScreen(0)}>back</Button>
       <p className="font-serif text-xl font-semibold">
         How are we feeling today?
       </p>
@@ -116,12 +119,13 @@ export default function AddTask({ journey, setCurrentScreen }: any) {
         </div>
         <div className="flex flex-1 flex-col">
           {journey.template != null &&
-            journey.template.map((task: any) => (
+            journey.template.map((task: any, index: number) => (
               <Slider
                 size="md"
                 step={1}
                 label={task}
                 maxValue={5}
+                key={index}
                 minValue={0}
                 showSteps={true}
                 onChange={(value) => handleSliderChange(task, Number(value))}

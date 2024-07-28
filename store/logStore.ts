@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { createClient } from "@/utils/supabase/client";
 type LogStore = {
-  logs: string[];
+  logs: any[];
   addLog: (log: any, journey_id: string) => void;
   fetchLogs: (journey_id: string) => void;
 };
