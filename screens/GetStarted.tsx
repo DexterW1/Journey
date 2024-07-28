@@ -18,10 +18,15 @@ const options = [
   "Monitor",
 ];
 const placeholder = ["Happy", "Sad", "Energy", "Anxiety", "Productivity"];
-const ScreenSentence = ({ handleVerbChange, handleGoalChange }: any) => {
+const ScreenSentence = ({
+  handleVerbChange,
+  handleGoalChange,
+  selectedVerb,
+  Goal,
+}: any) => {
   return (
     <motion.div
-      className="flex flex-col gap-4 self-start md:flex-row"
+      className="flex flex-col gap-4 self-start md:flex-row lg:mt-[9.5%]"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 20 }}
@@ -35,6 +40,7 @@ const ScreenSentence = ({ handleVerbChange, handleGoalChange }: any) => {
             size="md"
             aria-label="select verb"
             // classNames={{ popoverContent: "bg-accent" }}
+            defaultSelectedKeys={[selectedVerb]}
             fullWidth={false}
             style={{ width: "150px" }}
             onChange={handleVerbChange}
@@ -50,7 +56,7 @@ const ScreenSentence = ({ handleVerbChange, handleGoalChange }: any) => {
       <div>
         <Input
           label="Enter a goal or habit"
-          placeholder="e.g. eating better, excerising more"
+          placeholder={Goal || "e.g. eating better, excerising more"}
           size="lg"
           fullWidth={false}
           onChange={handleGoalChange}
@@ -177,101 +183,141 @@ export default function GetStarted({ user }: any) {
     }
   };
   return (
-    <section className="flex flex-1 flex-col items-center justify-between border p-4 lg:justify-normal">
-      <div>
-        <motion.h1
-          className="self-start text-4xl font-bold italic"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.4 }} // Fade-in for h1
-        >
-          Welcome, <span className="text-primary">{user.first_name}</span>
-        </motion.h1>
-        <motion.p
-          className="self-start text-lg"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.6 }} // Fade-in for first p
-        >
-          Let's get started on your journey to personal growth!
-        </motion.p>
-        {/* Sentence Container */}
-        <AnimatePresence mode="wait">
-          <motion.div>{renderScreen()}</motion.div>
-        </AnimatePresence>
-        {/* Display goal */}
-        <AnimatePresence>
-          {goal && selectedVerb && (
-            <>
+    <section className="flex flex-1 flex-col items-center justify-between p-4 lg:items-start lg:justify-normal">
+      <div className="flex w-full flex-1 flex-col border lg:flex-row">
+        <div className="lg:w-1/2">
+          <motion.h1
+            className="self-start text-4xl font-bold italic"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.4 }} // Fade-in for h1
+          >
+            Welcome, <span className="text-primary">{user.first_name}</span>
+          </motion.h1>
+          <motion.p
+            className="self-start text-lg"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.6 }} // Fade-in for first p
+          >
+            Let's get started on your journey to personal growth!
+          </motion.p>
+          {/* Screen container */}
+          <AnimatePresence mode="wait">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.8 }} // Fade-in for sentence container
+              className="mt-4"
+            >
+              {renderScreen()}
+            </motion.div>
+          </AnimatePresence>
+          {/* Button Container */}
+          <AnimatePresence>
+            {goal && selectedVerb && (
               <motion.div
-                className="relative mt-4 flex flex-col rounded-lg bg-cardBackground px-8 py-6"
-                initial={{ opacity: 0, scale: 0.7 }}
+                className="mt-4 hidden w-full flex-row justify-between lg:flex"
+                initial={{ opacity: 0, scale: 0.5 }}
                 animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.7 }}
+                exit={{ opacity: 0, scale: 0.5 }}
                 transition={{ duration: 1, delay: 1 }}
               >
-                <div className="flex flex-row">
-                  <FaQuoteLeft
-                    className="mr-1 first-line:text-primary"
-                    size={10}
-                  />
-                  <p className="text-center text-lg md:text-3xl">
-                    <span className="mr-1 font-serif text-2xl italic underline md:text-4xl">
-                      {selectedVerb}
-                    </span>{" "}
-                    {goal}
-                  </p>
-                  <FaQuoteRight className="ml-1 text-primary" size={10} />
-                </div>
-                <p className="mt-4 self-end text-2xl">- {user.first_name}</p>
+                <Button
+                  onClick={() => setCurrentScreen(0)}
+                  size="lg"
+                  radius="full"
+                  className="bg-buttonPrimary"
+                >
+                  Prev
+                </Button>
+                {/* {currentScreen === 1&&() ? (} */}
+                <Button
+                  onPress={() => setCurrentScreen(1)}
+                  size="lg"
+                  radius="full"
+                  className="bg-buttonPrimary"
+                >
+                  Next
+                </Button>
               </motion.div>
-            </>
-          )}
-        </AnimatePresence>
-        {/* template createor */}
-        {/* <AnimatePresence>
-        {goal && selectedVerb && (
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            transition={{ duration: 1, delay: 1.5 }}
-          >
-            <ScreenLog
-              rows={rows}
-              setRows={setRows}
-              inputValues={inputValues}
-              setInputValues={setInputValues}
-            />
-          </motion.div>
-        )}
-      </AnimatePresence> */}
+            )}
+          </AnimatePresence>
+        </div>
+
+        {/* Display goal */}
+        <div className="lg:mt-[9%] lg:w-1/2 lg:pl-8">
+          <AnimatePresence>
+            {goal && selectedVerb && (
+              <>
+                <motion.div
+                  className="relative mt-4 flex flex-col rounded-lg border-3 border-primary bg-cardBackground px-8 py-6 lg:self-start"
+                  initial={{ opacity: 0, scale: 0.7 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.7 }}
+                  transition={{ duration: 1, delay: 1 }}
+                >
+                  <div className="flex flex-row flex-wrap">
+                    <FaQuoteLeft
+                      className="mr-1 first-line:text-primary"
+                      size={10}
+                    />
+                    <p className="text-center text-lg md:text-3xl">
+                      <span className="mr-1 font-serif text-2xl italic underline md:text-4xl">
+                        {selectedVerb}
+                      </span>{" "}
+                      {goal}
+                    </p>
+                    <FaQuoteRight className="ml-1 text-primary" size={10} />
+                  </div>
+                  <p className="mt-2 self-end text-2xl">- {user.first_name}</p>
+                </motion.div>
+              </>
+            )}
+          </AnimatePresence>
+        </div>
       </div>
+
+      {/* Button Container */}
       <AnimatePresence>
         {goal && selectedVerb && (
           <motion.div
-            className="mt-4 flex w-full flex-row justify-between"
+            className="mt-4 flex w-full flex-row justify-end gap-2 lg:hidden lg:justify-normal"
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.5 }}
             transition={{ duration: 1, delay: 1 }}
           >
-            <Button
-              onClick={() => setCurrentScreen(0)}
-              size="lg"
-              radius="full"
-              className="bg-buttonPrimary"
-            >
-              Prev
-            </Button>
-            <Button
-              onPress={() => setCurrentScreen(1)}
-              size="lg"
-              radius="full"
-              className="bg-buttonPrimary"
-            >
-              Next
-            </Button>
+            {currentScreen !== 0 && (
+              <Button
+                onClick={() => setCurrentScreen(0)}
+                size="lg"
+                radius="full"
+                className="bg-buttonPrimary"
+              >
+                Prev
+              </Button>
+            )}
+
+            {currentScreen == 0 ? (
+              <Button
+                onPress={() => setCurrentScreen(1)}
+                size="lg"
+                radius="full"
+                className="bg-buttonPrimary"
+              >
+                Next
+              </Button>
+            ) : (
+              <Button
+                onPress={handleCreateJourney}
+                size="lg"
+                radius="full"
+                className="bg-buttonPrimary"
+              >
+                <p className="text-lg text-textEmphasis">Create Journey</p>
+              </Button>
+            )}
           </motion.div>
         )}
       </AnimatePresence>
