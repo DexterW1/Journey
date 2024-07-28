@@ -22,7 +22,7 @@ export default function RootLayout({
     <html lang="en" className={GeistSans.className}>
       <body className="bg-background text-foreground">
         <NextUIProvider>
-          <main className="flex min-h-screen flex-col items-center">
+          <main className="flex min-h-[100svh] flex-col items-center">
             {children}
           </main>
         </NextUIProvider>
