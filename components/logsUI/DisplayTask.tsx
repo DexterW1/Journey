@@ -54,7 +54,7 @@ const LogItem = ({ log }: { log: LogProps }) => {
           </div>
           <div>
             <p>{getDay(log.created_at)}</p>
-            <p className="font-serif text-lg font-semibold">{log.time_day}</p>
+            <p className="text-md font-semibold">{log.time_day}</p>
           </div>
         </div>
         <div>
@@ -65,7 +65,7 @@ const LogItem = ({ log }: { log: LogProps }) => {
         {/* <p className="font-serif text-lg font-semibold">{log.emoji}</p> */}
       </div>
       <p
-        className={`font-serif text-lg font-semibold ${
+        className={`text-md font-semibold text-textSecondary ${
           !isExpanded ? "line-clamp-2" : ""
         }`}
       >
