@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import {
   Button,
   Dropdown,
@@ -9,7 +9,7 @@ import {
 } from "@nextui-org/react";
 import { useLogStore } from "@/store/logStore";
 import { FaPlus } from "react-icons/fa6";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { IoFilterOutline } from "react-icons/io5";
 
 import { EditDocumentIcon } from "../icon/EditDocumentIcon";
@@ -62,13 +62,24 @@ type DisplayTaskProps = {
 const LogItem = ({ log }: { log: LogProps }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const deleteLog = useLogStore((state) => state.deleteLog);
+  const fetchLogs = useLogStore((state) => state.fetchLogs);
+  const handleDeleteLog = async () => {
+    deleteLog(log.id);
+    fetchLogs(log.journey_id);
+  };
 
   const handleToggle = () => {
     setIsExpanded(!isExpanded);
   };
 
   return (
-    <div className="relative flex flex-col gap-2 rounded-xl bg-white p-4 shadow-lg">
+    <motion.div
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -40 }}
+      transition={{ duration: 0.5 }}
+      className="relative flex flex-col gap-2 rounded-xl bg-white p-4 shadow-lg"
+    >
       <div className="flex flex-row items-center justify-between gap-2">
         <div className="flex flex-row items-center gap-2">
           <div className="flex h-12 w-12 flex-col items-center justify-center rounded-full bg-cardBackground">
@@ -100,7 +111,7 @@ const LogItem = ({ log }: { log: LogProps }) => {
                 key="delete"
                 className="text-danger"
                 color="danger"
-                onPress={() => deleteLog(log.id)}
+                onPress={handleDeleteLog}
                 classNames={{
                   base: "hover:text-white bg-white",
                 }}
@@ -124,14 +135,6 @@ const LogItem = ({ log }: { log: LogProps }) => {
       >
         {log.summary}
       </p>
-      {/* <div className="flex flex-row gap-2">
-        {Object.entries(log.metric).map(([key, value]) => (
-          <div key={key} className="flex flex-col gap-1">
-            <p className="font-serif text-lg font-semibold">{key}</p>
-            <p className="font-serif text-lg font-semibold">{value}</p>
-          </div>
-        ))}
-      </div> */}
       {log.summary.length > 20 && (
         <button
           onClick={handleToggle}
@@ -140,7 +143,7 @@ const LogItem = ({ log }: { log: LogProps }) => {
           {isExpanded ? "Show Less" : "Show More"}
         </button>
       )}
-    </div>
+    </motion.div>
   );
 };
 
@@ -162,6 +165,7 @@ export default function DisplayTask({
             className="bg-blue-500 text-white"
             onPress={() => setCurrentScreen(1)}
             startContent={<FaPlus fill="white" />}
+            variant="shadow"
           >
             Add Log
           </Button>
@@ -169,7 +173,9 @@ export default function DisplayTask({
       </div>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {logs?.map((log) => <LogItem key={log.id} log={log} />)}
+        <AnimatePresence mode="wait">
+          {logs?.map((log) => <LogItem key={log.id} log={log} />)}
+        </AnimatePresence>
       </div>
     </div>
   );

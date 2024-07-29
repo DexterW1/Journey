@@ -42,3 +42,14 @@ export function getWeekDates(referenceDate: any) {
     };
   });
 }
+export function debounce(func: any, wait: any) {
+  let timeout: any;
+  return function (...args: any) {
+    const later = () => {
+      clearTimeout(timeout);
+      func(...args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+}

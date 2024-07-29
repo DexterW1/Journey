@@ -22,7 +22,7 @@ export default function JourneyStats({ journey }: any) {
     if (journey) {
       fetchLogs(journey.id);
     }
-  }, [journey]);
+  }, [journey.id]);
   return (
     <motion.section
       initial={{ opacity: 0 }}
