@@ -41,7 +41,7 @@ export default function JourneyStats({ journey }: any) {
           <FaQuoteRight className="text-md ml-2 text-white" />
         </div>
       </div>
-      <div className="flex flex-1 flex-col overflow-auto rounded-3xl bg-cardBackground p-4">
+      <div className="flex flex-1 flex-col overflow-y-scroll rounded-3xl bg-cardBackground p-4">
         <AnimatePresence>
           {currentScreen === 1 ? (
             <AddTask setCurrentScreen={setCurrentScreen} journey={journey} />
