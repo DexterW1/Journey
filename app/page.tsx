@@ -12,10 +12,10 @@ export default async function Index() {
         <h1 className="mb-4 text-7xl text-primary xl:text-9xl">Journey</h1>
         <p className="md:text-md text-sm lg:text-lg">
           Discover a new way to track your personal growth with Journey. This
-          simple yet powerful tool helps you monitor and reflect on various
-          aspects of your life. Whether you’re pursuing a goal, managing a new
-          habit, or tracking daily experiences, Journey provides the insights
-          you need to stay on track and achieve your milestones.
+          simple tool helps you monitor and reflect on various aspects of your
+          life. Whether you’re pursuing a goal, managing a new habit, or
+          tracking daily experiences, Journey provides the insights you need to
+          stay on track monitor your emotions.
         </p>
         <div className="mt-4">
           <Link href="/login">

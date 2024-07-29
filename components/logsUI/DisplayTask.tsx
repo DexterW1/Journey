@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useRef } from "react";
 import {
   Button,
   Dropdown,
@@ -59,7 +59,15 @@ type DisplayTaskProps = {
   logs: LogProps[] | null;
 };
 
-const LogItem = ({ log }: { log: LogProps }) => {
+const LogItem = ({
+  log,
+  containerRef,
+  funMode,
+}: {
+  funMode: boolean;
+  containerRef: any;
+  log: LogProps;
+}) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const deleteLog = useLogStore((state) => state.deleteLog);
   const fetchLogs = useLogStore((state) => state.fetchLogs);
@@ -74,11 +82,16 @@ const LogItem = ({ log }: { log: LogProps }) => {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 40 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -40 }}
-      transition={{ duration: 0.5 }}
-      className="relative flex flex-col gap-2 rounded-xl bg-white p-4 shadow-lg"
+      whileHover={{ scale: 1.02 }}
+      transition={{ duration: 0.3 }}
+      drag={funMode}
+      dragConstraints={containerRef}
+      // initial={{ opacity: 0, y: 40 }}
+      // animate={{ opacity: 1, y: 0 }}
+      // exit={{ opacity: 0, y: -40 }}
+      // key={log.id}
+      // transition={{ duration: 0.5 }}
+      className="relative flex cursor-pointer flex-col gap-2 rounded-xl bg-white p-4 shadow-lg"
     >
       <div className="flex flex-row items-center justify-between gap-2">
         <div className="flex flex-row items-center gap-2">
@@ -151,10 +164,28 @@ export default function DisplayTask({
   setCurrentScreen,
   logs,
 }: DisplayTaskProps) {
+  const [funMode, setFunMode] = useState(false);
+  const [hiddenKey, setHiddenKey] = useState(0);
+  const handleHiddenKey = () => {
+    console.log(hiddenKey);
+    if (hiddenKey < 5) {
+      setHiddenKey(hiddenKey + 1);
+    } else if (hiddenKey === 3) {
+      // console.log(hiddenKey);
+      setFunMode(true);
+    } else if (hiddenKey === 4) {
+      setFunMode(false);
+      setHiddenKey(0);
+    }
+  };
+  const containerRef = useRef<HTMLDivElement>(null);
   return (
     <div>
       <div className="mb-4 flex flex-row items-center justify-between">
-        <p className="font-serif text-[1.7rem] font-semibold leading-none text-textEmphasis">
+        <p
+          onClick={handleHiddenKey}
+          className="font-serif text-[1.7rem] font-semibold leading-none text-textEmphasis"
+        >
           Logs
         </p>
         <div className="flex flex-row gap-2">
@@ -171,12 +202,29 @@ export default function DisplayTask({
           </Button>
         </div>
       </div>
-
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-        <AnimatePresence mode="wait">
-          {logs?.map((log) => <LogItem key={log.id} log={log} />)}
+      <motion.div
+        ref={containerRef}
+        className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3"
+      >
+        <AnimatePresence initial={false} mode="wait">
+          {logs?.map((log) => (
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -40 }}
+              key={log.id}
+              transition={{ duration: 0.5 }}
+            >
+              <LogItem
+                key={log.id}
+                log={log}
+                containerRef={containerRef}
+                funMode={funMode}
+              />
+            </motion.div>
+          ))}
         </AnimatePresence>
-      </div>
+      </motion.div>
     </div>
   );
 }
