@@ -2,6 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: none;
+  border-radius: 5px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #3a4a38;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #5a6a58;
+}
 @layer base {
   :root {
     --background: 200 20% 98%;
@@ -22,6 +42,6 @@
 
 @layer base {
   * {
-    @apply text-textPrimary border-red-500;
+    @apply border-red-500 text-textPrimary;
   }
 }

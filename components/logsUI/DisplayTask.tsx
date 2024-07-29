@@ -1,6 +1,15 @@
 import React, { useState } from "react";
-import { Button } from "@nextui-org/react";
-import { Popover } from "@nextui-org/react";
+import {
+  Button,
+  Dropdown,
+  DropdownItem,
+  DropdownTrigger,
+  DropdownMenu,
+  cn,
+} from "@nextui-org/react";
+import { useLogStore } from "@/store/logStore";
+import { EditDocumentIcon } from "../icon/EditDocumentIcon";
+import { DeleteDocumentIcon } from "../icon/DeleteDocument";
 import { HiDotsVertical } from "react-icons/hi";
 type LogProps = {
   created_at: string;
@@ -14,7 +23,8 @@ type LogProps = {
     [key: string]: number;
   };
 };
-
+const iconClasses =
+  "text-xl text-default-500 pointer-events-none flex-shrink-0";
 const getDay = (date: string) => {
   const time = new Date(date);
   const today = new Date();
@@ -40,6 +50,7 @@ type DisplayTaskProps = {
 
 const LogItem = ({ log }: { log: LogProps }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const deleteLog = useLogStore((state) => state.deleteLog);
 
   const handleToggle = () => {
     setIsExpanded(!isExpanded);
@@ -58,9 +69,34 @@ const LogItem = ({ log }: { log: LogProps }) => {
           </div>
         </div>
         <div>
-          <button>
-            <HiDotsVertical size={20} />
-          </button>
+          <Dropdown>
+            <DropdownTrigger>
+              <button>
+                <HiDotsVertical size={20} />
+              </button>
+            </DropdownTrigger>
+            <DropdownMenu>
+              <DropdownItem
+                key="edit"
+                startContent={<EditDocumentIcon className={iconClasses} />}
+              >
+                Edit log
+              </DropdownItem>
+              <DropdownItem
+                key="delete"
+                className="text-danger"
+                color="danger"
+                onPress={() => deleteLog(log.id)}
+                startContent={
+                  <DeleteDocumentIcon
+                    className={cn(iconClasses, "text-danger")}
+                  />
+                }
+              >
+                Delete log
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
         </div>
         {/* <p className="font-serif text-lg font-semibold">{log.emoji}</p> */}
       </div>

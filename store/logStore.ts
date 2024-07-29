@@ -4,6 +4,7 @@ type LogStore = {
   logs: any[];
   addLog: (log: any, journey_id: string) => void;
   fetchLogs: (journey_id: string) => void;
+  deleteLog: (log_id: string) => void;
 };
 
 export const useLogStore = create<LogStore>((set) => ({
@@ -38,6 +39,24 @@ export const useLogStore = create<LogStore>((set) => ({
       }
       if (error) {
         console.log("No logs found");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  deleteLog: async (log_id) => {
+    try {
+      const supabase = createClient();
+      const { data, error } = await supabase
+        .from("logs")
+        .delete()
+        .eq("id", log_id)
+        .select();
+      if (data) {
+        console.log("Log deleted successfully", data);
+      }
+      if (error) {
+        console.error("Error deleting log", error);
       }
     } catch (error) {
       console.error(error);
