@@ -8,6 +8,10 @@ import {
   cn,
 } from "@nextui-org/react";
 import { useLogStore } from "@/store/logStore";
+import { FaPlus } from "react-icons/fa6";
+import { motion } from "framer-motion";
+import { IoFilterOutline } from "react-icons/io5";
+
 import { EditDocumentIcon } from "../icon/EditDocumentIcon";
 import { DeleteDocumentIcon } from "../icon/DeleteDocument";
 import { HiDotsVertical } from "react-icons/hi";
@@ -42,6 +46,13 @@ const getDay = (date: string) => {
   const options = { weekday: "long" as const };
   return new Intl.DateTimeFormat("en-US", options).format(time);
 };
+function format_date(date: string) {
+  const formattedDate = new Date(date);
+  const month = formattedDate.getMonth() + 1;
+  const day = formattedDate.getDate();
+  const year = formattedDate.getFullYear();
+  return `${month}/${day}/${year}`;
+}
 
 type DisplayTaskProps = {
   setCurrentScreen: (value: number) => void;
@@ -64,8 +75,11 @@ const LogItem = ({ log }: { log: LogProps }) => {
             <p className="text-3xl">{log.emoji}</p>
           </div>
           <div>
-            <p>{getDay(log.created_at)}</p>
-            <p className="text-md font-semibold">{log.time_day}</p>
+            <p className="text-md font-semibold">{getDay(log.created_at)}</p>
+            <p className="text-sm font-semibold">
+              {format_date(log.created_at)}
+            </p>
+            <p className="text-sm">{log.time_day}</p>
           </div>
         </div>
         <div>
@@ -87,6 +101,9 @@ const LogItem = ({ log }: { log: LogProps }) => {
                 className="text-danger"
                 color="danger"
                 onPress={() => deleteLog(log.id)}
+                classNames={{
+                  base: "hover:text-white bg-white",
+                }}
                 startContent={
                   <DeleteDocumentIcon
                     className={cn(iconClasses, "text-danger")}
@@ -132,14 +149,27 @@ export default function DisplayTask({
   logs,
 }: DisplayTaskProps) {
   return (
-    <div className="">
-      <p className="mb-4 font-serif text-[1.7rem] font-semibold leading-none text-textEmphasis">
-        Logs
-      </p>
+    <div>
+      <div className="mb-4 flex flex-row items-center justify-between">
+        <p className="font-serif text-[1.7rem] font-semibold leading-none text-textEmphasis">
+          Logs
+        </p>
+        <div className="flex flex-row gap-2">
+          {/* <button className="">
+            <IoFilterOutline stroke="white" size={20} />
+          </button> */}
+          <Button
+            className="bg-blue-500 text-white"
+            onPress={() => setCurrentScreen(1)}
+            startContent={<FaPlus fill="white" />}
+          >
+            Add Log
+          </Button>
+        </div>
+      </div>
+
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
         {logs?.map((log) => <LogItem key={log.id} log={log} />)}
-        {/* <div className="h-8 w-8 border-2" /> */}
-        <Button onPress={() => setCurrentScreen(1)}>Add</Button>
       </div>
     </div>
   );

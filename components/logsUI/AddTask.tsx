@@ -71,10 +71,13 @@ export default function AddTask({ journey, setCurrentScreen }: any) {
   }, [journey]);
   return (
     <div className="flex flex-col gap-2 py-1 md:px-4">
-      <Button onPress={() => setCurrentScreen(0)}>back</Button>
-      <p className="font-serif text-xl font-semibold">
-        How are we feeling today?
-      </p>
+      <div className="flex flex-row">
+        <p className="font-serif text-[1.5rem] font-semibold leading-none text-textEmphasis">
+          How are we feeling today?
+        </p>
+        <Button onPress={() => setCurrentScreen(0)}>back</Button>
+      </div>
+
       <div className="flex flex-col md:flex-row">
         {/* selectcontainer */}
         <div className="flex flex-1 flex-col">
