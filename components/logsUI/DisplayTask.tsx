@@ -81,82 +81,84 @@ const LogItem = ({
   };
 
   return (
-    <motion.div
-      whileHover={{ scale: 1.02 }}
-      transition={{ duration: 0.3 }}
-      drag={funMode}
-      dragConstraints={containerRef}
-      // initial={{ opacity: 0, y: 40 }}
-      // animate={{ opacity: 1, y: 0 }}
-      // exit={{ opacity: 0, y: -40 }}
-      // key={log.id}
-      // transition={{ duration: 0.5 }}
-      className="relative flex cursor-pointer flex-col gap-2 rounded-xl bg-white p-4 shadow-lg"
-    >
-      <div className="flex flex-row items-center justify-between gap-2">
-        <div className="flex flex-row items-center gap-2">
-          <div className="flex h-12 w-12 flex-col items-center justify-center rounded-full bg-cardBackground">
-            <p className="text-3xl">{log.emoji}</p>
+    <AnimatePresence mode="wait">
+      <motion.div
+        whileHover={{ scale: 1.02 }}
+        transition={{ duration: 0.3 }}
+        drag={funMode}
+        dragConstraints={containerRef}
+        // initial={{ opacity: 0, y: 40 }}
+        // animate={{ opacity: 1, y: 0 }}
+        // exit={{ opacity: 0, y: -40 }}
+        // key={log.id}
+        // transition={{ duration: 0.5 }}
+        className="relative flex cursor-pointer flex-col gap-2 rounded-xl bg-white p-4 shadow-lg"
+      >
+        <div className="flex flex-row items-center justify-between gap-2">
+          <div className="flex flex-row items-center gap-2">
+            <div className="flex h-12 w-12 flex-col items-center justify-center rounded-full bg-cardBackground">
+              <p className="text-3xl">{log.emoji}</p>
+            </div>
+            <div>
+              <p className="text-md font-semibold">{getDay(log.created_at)}</p>
+              <p className="text-sm font-semibold">
+                {format_date(log.created_at)}
+              </p>
+              <p className="text-sm">{log.time_day}</p>
+            </div>
           </div>
           <div>
-            <p className="text-md font-semibold">{getDay(log.created_at)}</p>
-            <p className="text-sm font-semibold">
-              {format_date(log.created_at)}
-            </p>
-            <p className="text-sm">{log.time_day}</p>
+            <Dropdown>
+              <DropdownTrigger>
+                <button>
+                  <HiDotsVertical size={20} />
+                </button>
+              </DropdownTrigger>
+              <DropdownMenu>
+                <DropdownItem
+                  key="edit"
+                  startContent={<EditDocumentIcon className={iconClasses} />}
+                >
+                  Edit log
+                </DropdownItem>
+                <DropdownItem
+                  key="delete"
+                  className="text-danger"
+                  color="danger"
+                  onPress={handleDeleteLog}
+                  classNames={{
+                    base: "hover:text-white bg-white",
+                  }}
+                  startContent={
+                    <DeleteDocumentIcon
+                      className={cn(iconClasses, "text-danger")}
+                    />
+                  }
+                >
+                  Delete log
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
           </div>
+          {/* <p className="font-serif text-lg font-semibold">{log.emoji}</p> */}
         </div>
-        <div>
-          <Dropdown>
-            <DropdownTrigger>
-              <button>
-                <HiDotsVertical size={20} />
-              </button>
-            </DropdownTrigger>
-            <DropdownMenu>
-              <DropdownItem
-                key="edit"
-                startContent={<EditDocumentIcon className={iconClasses} />}
-              >
-                Edit log
-              </DropdownItem>
-              <DropdownItem
-                key="delete"
-                className="text-danger"
-                color="danger"
-                onPress={handleDeleteLog}
-                classNames={{
-                  base: "hover:text-white bg-white",
-                }}
-                startContent={
-                  <DeleteDocumentIcon
-                    className={cn(iconClasses, "text-danger")}
-                  />
-                }
-              >
-                Delete log
-              </DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
-        </div>
-        {/* <p className="font-serif text-lg font-semibold">{log.emoji}</p> */}
-      </div>
-      <p
-        className={`text-md font-semibold text-textSecondary ${
-          !isExpanded ? "line-clamp-2" : ""
-        }`}
-      >
-        {log.summary}
-      </p>
-      {log.summary.length > 20 && (
-        <button
-          onClick={handleToggle}
-          className="mt-2 text-blue-500 hover:underline"
+        <p
+          className={`text-md font-semibold text-textSecondary ${
+            !isExpanded ? "line-clamp-2" : ""
+          }`}
         >
-          {isExpanded ? "Show Less" : "Show More"}
-        </button>
-      )}
-    </motion.div>
+          {log.summary}
+        </p>
+        {log.summary.length > 20 && (
+          <button
+            onClick={handleToggle}
+            className="mt-2 text-blue-500 hover:underline"
+          >
+            {isExpanded ? "Show Less" : "Show More"}
+          </button>
+        )}
+      </motion.div>
+    </AnimatePresence>
   );
 };
 

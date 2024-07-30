@@ -50,8 +50,8 @@ export default function AddTask({ journey, setCurrentScreen }: any) {
       metric: sliderValues,
     };
     addLog(result, journey.id);
+    // await fetchLogs(journey.id);
     setCurrentScreen(0);
-    fetchLogs(journey.id);
   };
   const handleSliderChange = (label: string, value: number) => {
     console.log(time);

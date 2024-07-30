@@ -17,6 +17,7 @@ export const useLogStore = create<LogStore>((set) => ({
         .insert([log])
         .select();
       if (data) {
+        set((state) => ({ logs: [...state.logs, ...data] }));
         console.log("Log added successfully", data);
       }
       if (error) {
@@ -54,6 +55,9 @@ export const useLogStore = create<LogStore>((set) => ({
         .select();
       if (data) {
         console.log("Log deleted successfully", data);
+        set((state) => ({
+          logs: state.logs.filter((log) => log.id !== log_id),
+        }));
       }
       if (error) {
         console.error("Error deleting log", error);
