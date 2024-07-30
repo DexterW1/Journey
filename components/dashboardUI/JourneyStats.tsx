@@ -65,7 +65,11 @@ export default function JourneyStats({ journey }: any) {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <DisplayTask setCurrentScreen={setCurrentScreen} logs={logs} />
+              <DisplayTask
+                setCurrentScreen={setCurrentScreen}
+                logs={logs}
+                journey_id={journey.id}
+              />
             </motion.div>
           )}
         </AnimatePresence>

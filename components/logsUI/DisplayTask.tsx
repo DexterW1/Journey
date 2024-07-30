@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   Button,
   Dropdown,
@@ -15,6 +15,7 @@ import { IoFilterOutline } from "react-icons/io5";
 import { EditDocumentIcon } from "../icon/EditDocumentIcon";
 import { DeleteDocumentIcon } from "../icon/DeleteDocument";
 import { HiDotsVertical } from "react-icons/hi";
+
 type LogProps = {
   created_at: string;
   emoji: string;
@@ -27,6 +28,7 @@ type LogProps = {
     [key: string]: number;
   };
 };
+
 const iconClasses =
   "text-xl text-default-500 pointer-events-none flex-shrink-0";
 const getDay = (date: string) => {
@@ -46,6 +48,7 @@ const getDay = (date: string) => {
   const options = { weekday: "long" as const };
   return new Intl.DateTimeFormat("en-US", options).format(time);
 };
+
 function format_date(date: string) {
   const formattedDate = new Date(date);
   const month = formattedDate.getMonth() + 1;
@@ -57,6 +60,7 @@ function format_date(date: string) {
 type DisplayTaskProps = {
   setCurrentScreen: (value: number) => void;
   logs: LogProps[] | null;
+  journey_id: string;
 };
 
 const LogItem = ({
@@ -71,7 +75,10 @@ const LogItem = ({
   const [isExpanded, setIsExpanded] = useState(false);
   const deleteLog = useLogStore((state) => state.deleteLog);
   const fetchLogs = useLogStore((state) => state.fetchLogs);
+  const [currentLogs, setCurrentLogs] = useState(log);
   const handleDeleteLog = async () => {
+    // Instead of immediately deleting the log, trigger the animation first
+    await new Promise<void>((resolve) => setTimeout(resolve, 500)); // Adjust time to match animation duration
     deleteLog(log.id);
     fetchLogs(log.journey_id);
   };
@@ -83,16 +90,15 @@ const LogItem = ({
   return (
     <AnimatePresence mode="wait">
       <motion.div
+        key={log.id} // Unique key for each card
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -40 }}
+        transition={{ duration: 0.5 }}
         whileHover={{ scale: 1.02 }}
-        transition={{ duration: 0.3 }}
+        className="relative flex cursor-pointer flex-col gap-2 rounded-xl bg-white p-4 shadow-lg"
         drag={funMode}
         dragConstraints={containerRef}
-        // initial={{ opacity: 0, y: 40 }}
-        // animate={{ opacity: 1, y: 0 }}
-        // exit={{ opacity: 0, y: -40 }}
-        // key={log.id}
-        // transition={{ duration: 0.5 }}
-        className="relative flex cursor-pointer flex-col gap-2 rounded-xl bg-white p-4 shadow-lg"
       >
         <div className="flex flex-row items-center justify-between gap-2">
           <div className="flex flex-row items-center gap-2">
@@ -140,7 +146,6 @@ const LogItem = ({
               </DropdownMenu>
             </Dropdown>
           </div>
-          {/* <p className="font-serif text-lg font-semibold">{log.emoji}</p> */}
         </div>
         <p
           className={`text-md font-semibold text-textSecondary ${
@@ -161,26 +166,33 @@ const LogItem = ({
     </AnimatePresence>
   );
 };
-
 export default function DisplayTask({
   setCurrentScreen,
   logs,
+  journey_id,
 }: DisplayTaskProps) {
   const [funMode, setFunMode] = useState(false);
   const [hiddenKey, setHiddenKey] = useState(0);
+  const [currentJourneyId, setCurrentJourneyId] = useState(journey_id);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (journey_id !== currentJourneyId) {
+      setCurrentJourneyId(journey_id);
+    }
+  }, [journey_id]);
+
   const handleHiddenKey = () => {
-    console.log(hiddenKey);
     if (hiddenKey < 5) {
       setHiddenKey(hiddenKey + 1);
     } else if (hiddenKey === 3) {
-      // console.log(hiddenKey);
       setFunMode(true);
     } else if (hiddenKey === 4) {
       setFunMode(false);
       setHiddenKey(0);
     }
   };
-  const containerRef = useRef<HTMLDivElement>(null);
+
   return (
     <div>
       <div className="mb-4 flex flex-row items-center justify-between">
@@ -191,9 +203,6 @@ export default function DisplayTask({
           Logs
         </p>
         <div className="flex flex-row gap-2">
-          {/* <button className="">
-            <IoFilterOutline stroke="white" size={20} />
-          </button> */}
           <Button
             className="bg-blue-500 text-white"
             onPress={() => setCurrentScreen(1)}
@@ -204,29 +213,26 @@ export default function DisplayTask({
           </Button>
         </div>
       </div>
-      <motion.div
-        ref={containerRef}
-        className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3"
-      >
-        <AnimatePresence initial={false} mode="wait">
+      <AnimatePresence initial={false} mode="wait">
+        <motion.div
+          key={currentJourneyId} // This key triggers the whole container animation
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -40 }}
+          transition={{ duration: 0.5 }}
+          ref={containerRef}
+          className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3"
+        >
           {logs?.map((log) => (
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -40 }}
+            <LogItem
               key={log.id}
-              transition={{ duration: 0.5 }}
-            >
-              <LogItem
-                key={log.id}
-                log={log}
-                containerRef={containerRef}
-                funMode={funMode}
-              />
-            </motion.div>
+              log={log}
+              containerRef={containerRef}
+              funMode={funMode}
+            />
           ))}
-        </AnimatePresence>
-      </motion.div>
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 }
