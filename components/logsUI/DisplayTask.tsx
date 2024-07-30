@@ -75,12 +75,17 @@ const LogItem = ({
   const [isExpanded, setIsExpanded] = useState(false);
   const deleteLog = useLogStore((state) => state.deleteLog);
   const fetchLogs = useLogStore((state) => state.fetchLogs);
-  const [currentLogs, setCurrentLogs] = useState(log);
+  const [currentLog, setCurrentLog] = useState<LogProps>(log);
   const handleDeleteLog = async () => {
     // Instead of immediately deleting the log, trigger the animation first
-    await new Promise<void>((resolve) => setTimeout(resolve, 500)); // Adjust time to match animation duration
-    deleteLog(log.id);
-    fetchLogs(log.journey_id);
+    setCurrentLog({} as LogProps);
+    setTimeout(() => {
+      deleteLog(log.id);
+      fetchLogs(log.journey_id);
+    }, 400);
+    // await new Promise<void>((resolve) => setTimeout(resolve, 600)); // Adjust time to match animation duration
+    // deleteLog(log.id);
+    // fetchLogs(log.journey_id);
   };
 
   const handleToggle = () => {
@@ -88,9 +93,9 @@ const LogItem = ({
   };
 
   return (
-    <AnimatePresence mode="wait">
+    <AnimatePresence mode="wait" initial={false}>
       <motion.div
-        key={log.id} // Unique key for each card
+        key={currentLog.id} // Unique key for each card
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -40 }}
