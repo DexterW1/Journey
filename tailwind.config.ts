@@ -12,6 +12,7 @@ module.exports = {
       backgroundImage: {
         landing: "url('/background/landing.jpeg')",
       },
+
       colors: {
         primary: "#2C6E49", // Forest Green
         primaryLight: "#4c956c", // Light Forest Green

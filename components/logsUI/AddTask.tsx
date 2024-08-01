@@ -149,8 +149,8 @@ export default function AddTask({ journey, setCurrentScreen }: any) {
         placeholder="Write a brief description of your day"
         // style={{ height: "10rem" }}
         size="lg"
-        labelPlacement="outside"
-        label="Description"
+        // labelPlacement="outside"
+        // label="Description"
         minRows={4}
       />
       <Button

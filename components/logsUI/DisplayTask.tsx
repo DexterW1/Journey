@@ -22,6 +22,7 @@ import ProgressBar from "./ProgressBar";
 import { EditDocumentIcon } from "../icon/EditDocumentIcon";
 import { DeleteDocumentIcon } from "../icon/DeleteDocument";
 import { HiDotsVertical } from "react-icons/hi";
+import { on } from "events";
 const colors = ["#0372f5", "#9652d9", "#18c964", "#f4a628", "#f41865"];
 type LogProps = {
   created_at: string;
@@ -214,7 +215,10 @@ const LogItem = ({
                         key="delete"
                         className="text-danger"
                         color="danger"
-                        onPress={handleDeleteLog}
+                        onPress={() => {
+                          handleDeleteLog();
+                          onClose();
+                        }}
                         classNames={{
                           base: "hover:text-white bg-white",
                         }}
@@ -322,7 +326,7 @@ export default function DisplayTask({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.5, delay: 0.5 }}
+          transition={{ delay: 0.5 }}
           className="mt-4 flex justify-center"
         >
           <Button color="primary" onPress={handleLoadMore} radius="full">

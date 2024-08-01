@@ -14,7 +14,7 @@ export default function ProgressBar({
 }: ProgressBarProps) {
   return (
     <div className="flex flex-1 flex-row items-center gap-2">
-      <p className="w-32">{label}</p>
+      <p className="font-sm w-32 font-semibold">{label}</p>
       <div className="h-4 w-full rounded-full bg-slate-300">
         <motion.div
           initial={{ width: 0 }}
