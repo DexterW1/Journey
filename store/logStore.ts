@@ -33,7 +33,8 @@ export const useLogStore = create<LogStore>((set) => ({
       const { data, error } = await supabase
         .from("logs")
         .select("*")
-        .eq("journey_id", journey_id);
+        .eq("journey_id", journey_id)
+        .order("created_at", { ascending: false });
       if (data) {
         set({ logs: data });
         console.log("Logs fetched successfully", data);

@@ -9,6 +9,7 @@
     "@nextui-org/react": "^2.4.6",
     "@supabase/ssr": "latest",
     "@supabase/supabase-js": "latest",
+    "@uidotdev/usehooks": "^2.4.1",
     "autoprefixer": "10.4.17",
     "emoji-picker-react": "^4.11.1",
     "framer-motion": "^11.3.8",

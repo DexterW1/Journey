@@ -30,7 +30,7 @@ export default function AddTask({ journey, setCurrentScreen }: any) {
   const [open, setOpen] = useState(false);
   const user = useUserStore((state) => state.user);
   const addLog = useLogStore((state) => state.addLog);
-  const fetchLogs = useLogStore((state) => state.fetchLogs);
+  // const fetchLogs = useLogStore((state) => state.fetchLogs);
   const [sliderValues, setSliderValues] = useState<any>({});
   const [emoji, setEmoji] = useState("");
   const [summary, setSummary] = useState("");
@@ -112,6 +112,7 @@ export default function AddTask({ journey, setCurrentScreen }: any) {
                 )}
               </div>
             </div>
+
             <div className="absolute top-0 z-50">
               <EmojiPicker
                 open={open}
@@ -145,9 +146,12 @@ export default function AddTask({ journey, setCurrentScreen }: any) {
       <Textarea
         value={summary}
         onChange={(e) => setSummary(e.target.value)}
-        placeholder="Optional summary"
-        style={{ height: "10rem" }}
+        placeholder="Write a brief description of your day"
+        // style={{ height: "10rem" }}
         size="lg"
+        labelPlacement="outside"
+        label="Description"
+        minRows={4}
       />
       <Button
         className="bg-gradient-to-r from-buttonPrimary to-buttonSecondary"

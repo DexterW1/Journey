@@ -10,7 +10,8 @@ import {
 import { useLogStore } from "@/store/logStore";
 import { FaPlus } from "react-icons/fa6";
 import { motion, AnimatePresence } from "framer-motion";
-import { IoFilterOutline } from "react-icons/io5";
+import { useWindowSize } from "@uidotdev/usehooks";
+// import { IoFilterOutline } from "react-icons/io5";
 
 import { EditDocumentIcon } from "../icon/EditDocumentIcon";
 import { DeleteDocumentIcon } from "../icon/DeleteDocument";
@@ -31,11 +32,11 @@ type LogProps = {
 
 const iconClasses =
   "text-xl text-default-500 pointer-events-none flex-shrink-0";
+
 const getDay = (date: string) => {
   const time = new Date(date);
   const today = new Date();
 
-  // Reset time to midnight to compare only dates
   const isToday =
     time.getFullYear() === today.getFullYear() &&
     time.getMonth() === today.getMonth() &&
@@ -76,16 +77,13 @@ const LogItem = ({
   const deleteLog = useLogStore((state) => state.deleteLog);
   const fetchLogs = useLogStore((state) => state.fetchLogs);
   const [currentLog, setCurrentLog] = useState<LogProps>(log);
+
   const handleDeleteLog = async () => {
-    // Instead of immediately deleting the log, trigger the animation first
     setCurrentLog({} as LogProps);
     setTimeout(() => {
       deleteLog(log.id);
       fetchLogs(log.journey_id);
     }, 400);
-    // await new Promise<void>((resolve) => setTimeout(resolve, 600)); // Adjust time to match animation duration
-    // deleteLog(log.id);
-    // fetchLogs(log.journey_id);
   };
 
   const handleToggle = () => {
@@ -95,7 +93,7 @@ const LogItem = ({
   return (
     <AnimatePresence mode="wait" initial={false}>
       <motion.div
-        key={currentLog.id} // Unique key for each card
+        key={currentLog.id}
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -40 }}
@@ -153,56 +151,51 @@ const LogItem = ({
           </div>
         </div>
         <p
-          className={`text-md font-semibold text-textSecondary ${
-            !isExpanded ? "line-clamp-2" : ""
-          }`}
+          className={`text-md font-semibold text-textSecondary ${!isExpanded ? "line-clamp-2" : ""}`}
         >
           {log.summary}
         </p>
-        {log.summary.length > 20 && (
+        {/* {log.summary.length > 20 && (
           <button
             onClick={handleToggle}
             className="mt-2 text-blue-500 hover:underline"
           >
             {isExpanded ? "Show Less" : "Show More"}
           </button>
-        )}
+        )} */}
       </motion.div>
     </AnimatePresence>
   );
 };
+
 export default function DisplayTask({
   setCurrentScreen,
   logs,
   journey_id,
 }: DisplayTaskProps) {
+  // const size = useWindowSize();
   const [funMode, setFunMode] = useState(false);
-  const [hiddenKey, setHiddenKey] = useState(0);
   const [currentJourneyId, setCurrentJourneyId] = useState(journey_id);
+  const [logsDisplayed, setLogsDisplayed] = useState(6); // Initial logs displayed
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (journey_id !== currentJourneyId) {
       setCurrentJourneyId(journey_id);
+      setLogsDisplayed(6);
     }
   }, [journey_id]);
 
-  const handleHiddenKey = () => {
-    if (hiddenKey < 5) {
-      setHiddenKey(hiddenKey + 1);
-    } else if (hiddenKey === 3) {
-      setFunMode(true);
-    } else if (hiddenKey === 4) {
-      setFunMode(false);
-      setHiddenKey(0);
-    }
+  const handleLoadMore = () => {
+    setLogsDisplayed(logsDisplayed + 3);
   };
+  const logsToDisplay = logs?.slice(0, logsDisplayed);
 
   return (
     <div>
       <div className="mb-4 flex flex-row items-center justify-between">
         <p
-          onClick={handleHiddenKey}
+          // onClick={handleHiddenKey}
           className="font-serif text-[1.7rem] font-semibold leading-none text-textEmphasis"
         >
           Logs
@@ -220,7 +213,7 @@ export default function DisplayTask({
       </div>
       <AnimatePresence initial={false} mode="wait">
         <motion.div
-          key={currentJourneyId} // This key triggers the whole container animation
+          key={currentJourneyId}
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -40 }}
@@ -228,7 +221,7 @@ export default function DisplayTask({
           ref={containerRef}
           className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3"
         >
-          {logs?.map((log) => (
+          {logsToDisplay?.map((log) => (
             <LogItem
               key={log.id}
               log={log}
@@ -238,6 +231,20 @@ export default function DisplayTask({
           ))}
         </motion.div>
       </AnimatePresence>
+      {logs && logsDisplayed < logs.length && (
+        <motion.div
+          key="load-more"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.5, delay: 0.5 }}
+          className="mt-4 flex justify-center"
+        >
+          <Button color="primary" onPress={handleLoadMore}>
+            Load More
+          </Button>
+        </motion.div>
+      )}
     </div>
   );
 }

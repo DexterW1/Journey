@@ -54,6 +54,7 @@ export default function JourneyStats({ journey }: any) {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.5 }}
+              className="h-full w-full"
             >
               <AddTask setCurrentScreen={setCurrentScreen} journey={journey} />
             </motion.div>
