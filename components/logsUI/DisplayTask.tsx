@@ -11,6 +11,8 @@ import {
   ModalBody,
   ModalHeader,
   useDisclosure,
+  ModalFooter,
+  Slider,
 } from "@nextui-org/react";
 import { useLogStore } from "@/store/logStore";
 import { FaPlus } from "react-icons/fa6";
@@ -81,6 +83,8 @@ const LogItem = ({
   log: LogProps;
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+  const [sliderValues, setSliderValues] = useState<any>({});
   const deleteLog = useLogStore((state) => state.deleteLog);
   const fetchLogs = useLogStore((state) => state.fetchLogs);
   const [currentLog, setCurrentLog] = useState<LogProps>(log);
@@ -95,6 +99,18 @@ const LogItem = ({
 
   const handleToggle = () => {
     setIsExpanded(!isExpanded);
+  };
+  const handleEditLog = async () => {
+    if (!isOpen) {
+      onOpenChange();
+    }
+    setEditMode(true);
+  };
+  const handleSliderChange = (label: string, value: number) => {
+    setSliderValues((prevValues: any) => ({
+      ...prevValues,
+      [label]: value,
+    }));
   };
 
   return (
@@ -137,6 +153,7 @@ const LogItem = ({
                 <DropdownMenu>
                   <DropdownItem
                     key="edit"
+                    onPress={handleEditLog}
                     startContent={<EditDocumentIcon className={iconClasses} />}
                   >
                     Edit log
@@ -166,91 +183,145 @@ const LogItem = ({
           >
             {log.summary}
           </p>
-          {/* {log.summary.length > 20 && (
-          <button
-            onClick={handleToggle}
-            className="mt-2 text-blue-500 hover:underline"
-          >
-            {isExpanded ? "Show Less" : "Show More"}
-          </button>
-        )} */}
         </motion.div>
       </AnimatePresence>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange} closeButton={<></>}>
         <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader className="items-center justify-between">
-                <div className="flex flex-row items-center gap-4">
-                  <div className="flex h-14 w-14 flex-col items-center justify-center rounded-full bg-cardBackground">
-                    <p className="text-4xl">{log.emoji}</p>
+          {(onClose) => {
+            return (
+              <>
+                <ModalHeader className="items-center justify-between">
+                  <div className="flex flex-row items-center gap-4">
+                    <div className="flex h-14 w-14 flex-col items-center justify-center rounded-full bg-cardBackground">
+                      <p className="text-4xl">{log.emoji}</p>
+                    </div>
+                    <div>
+                      <p className="text-lg font-semibold">
+                        {getDay(log.created_at)}
+                      </p>
+                      <p className="text-medium font-semibold">
+                        {format_date(log.created_at)}
+                      </p>
+                      <p className="text-medium">{log.time_day}</p>
+                    </div>
                   </div>
                   <div>
-                    <p className="text-lg font-semibold">
-                      {getDay(log.created_at)}
-                    </p>
-                    <p className="text-medium font-semibold">
-                      {format_date(log.created_at)}
-                    </p>
-                    <p className="text-medium">{log.time_day}</p>
+                    <Dropdown>
+                      <DropdownTrigger>
+                        <button>
+                          <HiDotsVertical size={25} />
+                        </button>
+                      </DropdownTrigger>
+                      <DropdownMenu>
+                        <DropdownItem
+                          key="edit"
+                          startContent={
+                            <EditDocumentIcon className={iconClasses} />
+                          }
+                          onPress={handleEditLog}
+                        >
+                          Edit log
+                        </DropdownItem>
+                        <DropdownItem
+                          key="delete"
+                          className="text-danger"
+                          color="danger"
+                          onPress={() => {
+                            handleDeleteLog();
+                            onClose();
+                          }}
+                          classNames={{
+                            base: "hover:text-white bg-white",
+                          }}
+                          startContent={
+                            <DeleteDocumentIcon
+                              className={cn(iconClasses, "text-danger")}
+                            />
+                          }
+                        >
+                          Delete log
+                        </DropdownItem>
+                      </DropdownMenu>
+                    </Dropdown>
                   </div>
-                </div>
-                <div>
-                  <Dropdown>
-                    <DropdownTrigger>
-                      <button>
-                        <HiDotsVertical size={25} />
-                      </button>
-                    </DropdownTrigger>
-                    <DropdownMenu>
-                      <DropdownItem
-                        key="edit"
-                        startContent={
-                          <EditDocumentIcon className={iconClasses} />
-                        }
-                      >
-                        Edit log
-                      </DropdownItem>
-                      <DropdownItem
-                        key="delete"
-                        className="text-danger"
-                        color="danger"
-                        onPress={() => {
-                          handleDeleteLog();
-                          onClose();
-                        }}
-                        classNames={{
-                          base: "hover:text-white bg-white",
-                        }}
-                        startContent={
-                          <DeleteDocumentIcon
-                            className={cn(iconClasses, "text-danger")}
+                </ModalHeader>
+                <ModalBody className="overflow-hidden pb-5">
+                  {log.metric && editMode === false
+                    ? Object.keys(log.metric).map((key, index) => (
+                        <div className="flex flex-col gap-1">
+                          <p className="w-32 text-medium font-semibold">
+                            {key}
+                          </p>
+                          <ProgressBar
+                            // label={key}
+                            percentage={`${String(log.metric[key] * 20)}%`}
+                            delay={index}
+                            color={colors[index]}
                           />
-                        }
+                        </div>
+                      ))
+                    : Object.keys(log.metric).map((key, index) => (
+                        <div className="flex flex-col gap-1">
+                          <p className="w-32 text-medium font-semibold">
+                            {key}
+                          </p>
+                          <Slider
+                            size="md"
+                            step={1}
+                            maxValue={5}
+                            key={index}
+                            minValue={0}
+                            showSteps={true}
+                            onChange={(value) =>
+                              handleSliderChange(key, Number(value))
+                            }
+                            classNames={{
+                              filler: `bg-sliderTrack-${String(index)}`,
+                              track: `border-s-sliderTrack-${String(index)} bg-slate-300`,
+                            }}
+                          />
+                        </div>
+                      ))}
+                  <div>
+                    <p className="text-lg font-semibold">Summary</p>
+                    <p className="text-md font-medium">{log.summary}</p>
+                  </div>
+                </ModalBody>
+                {editMode && (
+                  <ModalFooter className="pb-4 pt-0">
+                    <AnimatePresence mode="wait">
+                      <motion.div
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 1 }}
+                        transition={{ duration: 0.5 }}
+                        className="flex flex-row gap-2"
                       >
-                        Delete log
-                      </DropdownItem>
-                    </DropdownMenu>
-                  </Dropdown>
-                </div>
-              </ModalHeader>
-              <ModalBody className="overflow-hidden pb-5">
-                {log.metric &&
-                  Object.keys(log.metric).map((key, index) => (
-                    <ProgressBar
-                      label={key}
-                      percentage={`${String(log.metric[key] * 20)}%`}
-                      delay={index}
-                      color={colors[index]}
-                    />
-                  ))}
-                <div>
-                  <p className="text-lg font-semibold">Summary</p>
-                  <p className="text-md font-medium">{log.summary}</p>
-                </div>
-              </ModalBody>
-            </>
-          )}
+                        <Button
+                          color="danger"
+                          onPress={() => {
+                            setEditMode(false);
+                            // onClose();
+                          }}
+                        >
+                          Cancel
+                        </Button>
+                        <Button
+                          color="success"
+                          onPress={() => {
+                            setEditMode(false);
+                            onClose();
+                          }}
+                        >
+                          Save
+                        </Button>
+                      </motion.div>
+                    </AnimatePresence>
+                  </ModalFooter>
+                )}
+              </>
+            );
+          }}
         </ModalContent>
       </Modal>
     </>
@@ -279,7 +350,6 @@ export default function DisplayTask({
     setLogsDisplayed(logsDisplayed + 3);
   };
   const logsToDisplay = logs?.slice(0, logsDisplayed);
-
   return (
     <div>
       <div className="mb-4 flex flex-row items-center justify-between">
