@@ -60,12 +60,12 @@ export default function Dashboard({ user, journey }: any) {
           <GreetingCard />
           <Weeklydisplay />
           {/* For mobile: Display JourneyStats below GreetingCard and Weeklydisplay */}
-          <div className="lg:hidden">
+          <div className="shadow-md lg:hidden">
             <AnimatePresence>
               {selectedJourney && <JourneyStats journey={selectedJourney} />}
             </AnimatePresence>
           </div>
-          <div className="order-2 flex flex-col gap-4 rounded-xl bg-cardBackground p-4 lg:order-1">
+          <div className="order-2 flex flex-col gap-4 rounded-xl bg-cardBackground p-4 shadow-md lg:order-1">
             <p className="font-serif text-[1.7rem] font-semibold leading-none text-textEmphasis">
               Journeys
             </p>

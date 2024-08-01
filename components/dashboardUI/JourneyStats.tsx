@@ -31,7 +31,7 @@ export default function JourneyStats({ journey }: any) {
       transition={{ duration: 1 }}
       className="flex flex-1 flex-col gap-4"
     >
-      <div className="h-[40%] rounded-2xl bg-primaryLight p-4">
+      <div className="h-[40%] rounded-2xl bg-primaryLight p-4 shadow-md">
         {/* Quote Container */}
         <div className="flex flex-row justify-center">
           <FaQuoteLeft className="text-md mr-2 text-white" />
@@ -44,7 +44,7 @@ export default function JourneyStats({ journey }: any) {
       <ScrollShadow
         hideScrollBar
         size={20}
-        className="flex flex-1 flex-col overflow-y-auto rounded-3xl bg-cardBackground p-4 px-6"
+        className="flex flex-1 flex-col overflow-y-auto rounded-3xl bg-cardBackground p-4 px-6 shadow-md"
       >
         <AnimatePresence mode="wait">
           {currentScreen === 1 ? (

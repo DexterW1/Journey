@@ -9,7 +9,7 @@ export default function WeeklyDisplay() {
   const weekDates = getWeekDates(currentDate);
 
   return (
-    <div className="flex flex-row items-center justify-between rounded-xl bg-cardBackground px-4 py-2 sm:w-full sm:self-start">
+    <div className="flex flex-row items-center justify-between rounded-xl bg-cardBackground px-4 py-2 shadow-md sm:w-full sm:self-start">
       {weekDates.map(({ day, date }, index) => {
         const isToday = date === currentDay;
         return (

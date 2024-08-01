@@ -16,12 +16,13 @@ import { useLogStore } from "@/store/logStore";
 import { FaPlus } from "react-icons/fa6";
 import { motion, AnimatePresence } from "framer-motion";
 import { useWindowSize } from "@uidotdev/usehooks";
+import ProgressBar from "./ProgressBar";
 // import { IoFilterOutline } from "react-icons/io5";
 
 import { EditDocumentIcon } from "../icon/EditDocumentIcon";
 import { DeleteDocumentIcon } from "../icon/DeleteDocument";
 import { HiDotsVertical } from "react-icons/hi";
-
+const colors = ["#0372f5", "#9652d9", "#18c964", "#f4a628", "#f41865"];
 type LogProps = {
   created_at: string;
   emoji: string;
@@ -193,7 +194,6 @@ const LogItem = ({
                     <p className="text-medium">{log.time_day}</p>
                   </div>
                 </div>
-
                 <div>
                   <Dropdown>
                     <DropdownTrigger>
@@ -230,8 +230,20 @@ const LogItem = ({
                   </Dropdown>
                 </div>
               </ModalHeader>
-              <ModalBody>
-                <p>hello {log.created_at}</p>
+              <ModalBody className="overflow-hidden pb-5">
+                {log.metric &&
+                  Object.keys(log.metric).map((key, index) => (
+                    <ProgressBar
+                      label={key}
+                      percentage={`${String(log.metric[key] * 20)}%`}
+                      delay={index}
+                      color={colors[index]}
+                    />
+                  ))}
+                <div>
+                  <p className="text-lg font-semibold">Summary</p>
+                  <p className="text-md font-medium">{log.summary}</p>
+                </div>
               </ModalBody>
             </>
           )}
