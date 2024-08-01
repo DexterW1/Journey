@@ -17,7 +17,7 @@ export const useLogStore = create<LogStore>((set) => ({
         .insert([log])
         .select();
       if (data) {
-        set((state) => ({ logs: [...state.logs, ...data] }));
+        set((state) => ({ logs: [...data, ...state.logs] }));
         console.log("Log added successfully", data);
       }
       if (error) {

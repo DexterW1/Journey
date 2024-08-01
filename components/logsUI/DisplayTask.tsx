@@ -6,6 +6,11 @@ import {
   DropdownTrigger,
   DropdownMenu,
   cn,
+  Modal,
+  ModalContent,
+  ModalBody,
+  ModalHeader,
+  useDisclosure,
 } from "@nextui-org/react";
 import { useLogStore } from "@/store/logStore";
 import { FaPlus } from "react-icons/fa6";
@@ -77,7 +82,7 @@ const LogItem = ({
   const deleteLog = useLogStore((state) => state.deleteLog);
   const fetchLogs = useLogStore((state) => state.fetchLogs);
   const [currentLog, setCurrentLog] = useState<LogProps>(log);
-
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const handleDeleteLog = async () => {
     setCurrentLog({} as LogProps);
     setTimeout(() => {
@@ -91,71 +96,75 @@ const LogItem = ({
   };
 
   return (
-    <AnimatePresence mode="wait" initial={false}>
-      <motion.div
-        key={currentLog.id}
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -40 }}
-        transition={{ duration: 0.5 }}
-        whileHover={{ scale: 1.02 }}
-        className="relative flex cursor-pointer flex-col gap-2 rounded-xl bg-white p-4 shadow-lg"
-        drag={funMode}
-        dragConstraints={containerRef}
-      >
-        <div className="flex flex-row items-center justify-between gap-2">
-          <div className="flex flex-row items-center gap-2">
-            <div className="flex h-12 w-12 flex-col items-center justify-center rounded-full bg-cardBackground">
-              <p className="text-3xl">{log.emoji}</p>
+    <>
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.div
+          key={currentLog.id}
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -40 }}
+          transition={{ duration: 0.5 }}
+          onClick={onOpen}
+          whileHover={{ scale: 1.03 }}
+          className="relative flex cursor-pointer flex-col gap-2 rounded-xl bg-white p-4 shadow-lg"
+          drag={funMode}
+          dragConstraints={containerRef}
+        >
+          <div className="flex flex-row items-center justify-between gap-2">
+            <div className="flex flex-row items-center gap-2">
+              <div className="flex h-12 w-12 flex-col items-center justify-center rounded-full bg-cardBackground">
+                <p className="text-3xl">{log.emoji}</p>
+              </div>
+              <div>
+                <p className="text-md font-semibold">
+                  {getDay(log.created_at)}
+                </p>
+                <p className="text-sm font-semibold">
+                  {format_date(log.created_at)}
+                </p>
+                <p className="text-sm">{log.time_day}</p>
+              </div>
             </div>
             <div>
-              <p className="text-md font-semibold">{getDay(log.created_at)}</p>
-              <p className="text-sm font-semibold">
-                {format_date(log.created_at)}
-              </p>
-              <p className="text-sm">{log.time_day}</p>
+              <Dropdown>
+                <DropdownTrigger>
+                  <button>
+                    <HiDotsVertical size={20} />
+                  </button>
+                </DropdownTrigger>
+                <DropdownMenu>
+                  <DropdownItem
+                    key="edit"
+                    startContent={<EditDocumentIcon className={iconClasses} />}
+                  >
+                    Edit log
+                  </DropdownItem>
+                  <DropdownItem
+                    key="delete"
+                    className="text-danger"
+                    color="danger"
+                    onPress={handleDeleteLog}
+                    classNames={{
+                      base: "hover:text-white bg-white",
+                    }}
+                    startContent={
+                      <DeleteDocumentIcon
+                        className={cn(iconClasses, "text-danger")}
+                      />
+                    }
+                  >
+                    Delete log
+                  </DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
             </div>
           </div>
-          <div>
-            <Dropdown>
-              <DropdownTrigger>
-                <button>
-                  <HiDotsVertical size={20} />
-                </button>
-              </DropdownTrigger>
-              <DropdownMenu>
-                <DropdownItem
-                  key="edit"
-                  startContent={<EditDocumentIcon className={iconClasses} />}
-                >
-                  Edit log
-                </DropdownItem>
-                <DropdownItem
-                  key="delete"
-                  className="text-danger"
-                  color="danger"
-                  onPress={handleDeleteLog}
-                  classNames={{
-                    base: "hover:text-white bg-white",
-                  }}
-                  startContent={
-                    <DeleteDocumentIcon
-                      className={cn(iconClasses, "text-danger")}
-                    />
-                  }
-                >
-                  Delete log
-                </DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-          </div>
-        </div>
-        <p
-          className={`text-md font-semibold text-textSecondary ${!isExpanded ? "line-clamp-2" : ""}`}
-        >
-          {log.summary}
-        </p>
-        {/* {log.summary.length > 20 && (
+          <p
+            className={`text-md font-semibold text-textSecondary ${!isExpanded ? "line-clamp-2" : ""}`}
+          >
+            {log.summary}
+          </p>
+          {/* {log.summary.length > 20 && (
           <button
             onClick={handleToggle}
             className="mt-2 text-blue-500 hover:underline"
@@ -163,8 +172,72 @@ const LogItem = ({
             {isExpanded ? "Show Less" : "Show More"}
           </button>
         )} */}
-      </motion.div>
-    </AnimatePresence>
+        </motion.div>
+      </AnimatePresence>
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange} closeButton={<></>}>
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="items-center justify-between">
+                <div className="flex flex-row items-center gap-4">
+                  <div className="flex h-14 w-14 flex-col items-center justify-center rounded-full bg-cardBackground">
+                    <p className="text-4xl">{log.emoji}</p>
+                  </div>
+                  <div>
+                    <p className="text-lg font-semibold">
+                      {getDay(log.created_at)}
+                    </p>
+                    <p className="text-medium font-semibold">
+                      {format_date(log.created_at)}
+                    </p>
+                    <p className="text-medium">{log.time_day}</p>
+                  </div>
+                </div>
+
+                <div>
+                  <Dropdown>
+                    <DropdownTrigger>
+                      <button>
+                        <HiDotsVertical size={25} />
+                      </button>
+                    </DropdownTrigger>
+                    <DropdownMenu>
+                      <DropdownItem
+                        key="edit"
+                        startContent={
+                          <EditDocumentIcon className={iconClasses} />
+                        }
+                      >
+                        Edit log
+                      </DropdownItem>
+                      <DropdownItem
+                        key="delete"
+                        className="text-danger"
+                        color="danger"
+                        onPress={handleDeleteLog}
+                        classNames={{
+                          base: "hover:text-white bg-white",
+                        }}
+                        startContent={
+                          <DeleteDocumentIcon
+                            className={cn(iconClasses, "text-danger")}
+                          />
+                        }
+                      >
+                        Delete log
+                      </DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </div>
+              </ModalHeader>
+              <ModalBody>
+                <p>hello {log.created_at}</p>
+              </ModalBody>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
+    </>
   );
 };
 
@@ -240,7 +313,7 @@ export default function DisplayTask({
           transition={{ duration: 0.5, delay: 0.5 }}
           className="mt-4 flex justify-center"
         >
-          <Button color="primary" onPress={handleLoadMore}>
+          <Button color="primary" onPress={handleLoadMore} radius="full">
             Load More
           </Button>
         </motion.div>
