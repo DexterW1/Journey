@@ -90,6 +90,11 @@ export const useLogStore = create<LogStore>((set) => ({
         .select();
       if (data) {
         console.log("Log updated successfully", data);
+        set((state) => ({
+          logs: state.logs.map((log) =>
+            log.id === log_id ? { ...log, ...newValues } : log,
+          ),
+        }));
       }
       if (error) {
         console.error("Error updating log", error);

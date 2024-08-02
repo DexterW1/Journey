@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, use } from "react";
 import {
   Button,
   Dropdown,
@@ -13,6 +13,8 @@ import {
   useDisclosure,
   ModalFooter,
   Slider,
+  Textarea,
+  ScrollShadow,
 } from "@nextui-org/react";
 import { useLogStore } from "@/store/logStore";
 import { FaPlus } from "react-icons/fa6";
@@ -85,8 +87,10 @@ const LogItem = ({
   const [isExpanded, setIsExpanded] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [sliderValues, setSliderValues] = useState<any>({});
+  const [newSummary, setNewSummary] = useState(log.summary);
   const deleteLog = useLogStore((state) => state.deleteLog);
   const fetchLogs = useLogStore((state) => state.fetchLogs);
+  const editLog = useLogStore((state) => state.editLog);
   const [currentLog, setCurrentLog] = useState<LogProps>(log);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const handleDeleteLog = async () => {
@@ -100,11 +104,21 @@ const LogItem = ({
   const handleToggle = () => {
     setIsExpanded(!isExpanded);
   };
-  const handleEditLog = async () => {
+  const handleEditLog = () => {
     if (!isOpen) {
       onOpenChange();
     }
     setEditMode(true);
+  };
+  const handleSubmitEdit = async () => {
+    const newValues = {
+      ...currentLog,
+      summary: newSummary,
+      metric: sliderValues,
+    };
+    await editLog(currentLog.id, newValues);
+
+    setEditMode(false);
   };
   const handleSliderChange = (label: string, value: number) => {
     setSliderValues((prevValues: any) => ({
@@ -246,45 +260,92 @@ const LogItem = ({
                   </div>
                 </ModalHeader>
                 <ModalBody className="overflow-hidden pb-5">
-                  {log.metric && editMode === false
-                    ? Object.keys(log.metric).map((key, index) => (
-                        <div className="flex flex-col gap-1">
-                          <p className="w-32 text-medium font-semibold">
-                            {key}
-                          </p>
-                          <ProgressBar
-                            // label={key}
-                            percentage={`${String(log.metric[key] * 20)}%`}
-                            delay={index}
-                            color={colors[index]}
-                          />
-                        </div>
-                      ))
-                    : Object.keys(log.metric).map((key, index) => (
-                        <div className="flex flex-col gap-1">
-                          <p className="w-32 text-medium font-semibold">
-                            {key}
-                          </p>
-                          <Slider
-                            size="md"
-                            step={1}
-                            maxValue={5}
-                            key={index}
-                            minValue={0}
-                            showSteps={true}
-                            onChange={(value) =>
-                              handleSliderChange(key, Number(value))
-                            }
-                            classNames={{
-                              filler: `bg-sliderTrack-${String(index)}`,
-                              track: `border-s-sliderTrack-${String(index)} bg-slate-300`,
-                            }}
-                          />
-                        </div>
-                      ))}
+                  <AnimatePresence mode="wait" initial={false}>
+                    {editMode === false ? (
+                      <motion.div
+                        key="progress-bars"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.5 }}
+                        className="flex flex-col gap-1"
+                      >
+                        {Object.keys(log.metric).map((key, index) => (
+                          <div
+                            key={`progress-${index}`}
+                            className="flex flex-col gap-1"
+                          >
+                            <p className="w-32 text-medium font-semibold">
+                              {key}
+                            </p>
+                            <ProgressBar
+                              percentage={`${String(log.metric[key] * 20)}%`}
+                              delay={index}
+                              color={colors[index]}
+                            />
+                          </div>
+                        ))}
+                      </motion.div>
+                    ) : (
+                      <motion.div
+                        key="sliders"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.5 }}
+                        className="flex flex-col"
+                      >
+                        {Object.keys(log.metric).map((key, index) => (
+                          <div
+                            key={`slider-${index}`}
+                            className="flex flex-col"
+                          >
+                            <Slider
+                              size="md"
+                              step={1}
+                              maxValue={5}
+                              label={key}
+                              defaultValue={log.metric[key]}
+                              minValue={0}
+                              showSteps={true}
+                              onChange={(value) =>
+                                handleSliderChange(key, Number(value))
+                              }
+                              classNames={{
+                                base: "gap-0",
+                                filler: `bg-sliderTrack-${String(index)}`,
+                                track: `border-s-sliderTrack-${String(index)} bg-slate-300`,
+                                label: "text-medium font-semibold",
+                              }}
+                            />
+                          </div>
+                        ))}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                   <div>
                     <p className="text-lg font-semibold">Summary</p>
-                    <p className="text-md font-medium">{log.summary}</p>
+                    <AnimatePresence mode="wait" initial={false}>
+                      {editMode ? (
+                        <motion.div key={"text-area"}>
+                          <Textarea
+                            value={newSummary}
+                            onChange={(e) => setNewSummary(e.target.value)}
+                            placeholder="Write a brief description of your day"
+                            size="lg"
+                            minRows={4}
+                          />
+                        </motion.div>
+                      ) : (
+                        <ScrollShadow
+                          key={"summary"}
+                          className="max-h-[14rem]"
+                          hideScrollBar
+                        >
+                          <p className="text-md font-medium">{log.summary}</p>
+                        </ScrollShadow>
+                      )}
+                    </AnimatePresence>
                   </div>
                 </ModalBody>
                 {editMode && (
@@ -306,13 +367,7 @@ const LogItem = ({
                         >
                           Cancel
                         </Button>
-                        <Button
-                          color="success"
-                          onPress={() => {
-                            setEditMode(false);
-                            onClose();
-                          }}
-                        >
+                        <Button color="success" onPress={handleSubmitEdit}>
                           Save
                         </Button>
                       </motion.div>
