@@ -267,7 +267,7 @@ const LogItem = ({
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        transition={{ duration: 0.5 }}
+                        transition={{ duration: 0.3 }}
                         className="flex flex-col gap-1"
                       >
                         {Object.keys(log.metric).map((key, index) => (
@@ -292,7 +292,7 @@ const LogItem = ({
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        transition={{ duration: 0.5 }}
+                        transition={{ duration: 0.3 }}
                         className="flex flex-col"
                       >
                         {Object.keys(log.metric).map((key, index) => (
@@ -362,7 +362,6 @@ const LogItem = ({
                           color="danger"
                           onPress={() => {
                             setEditMode(false);
-                            // onClose();
                           }}
                         >
                           Cancel
