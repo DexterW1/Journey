@@ -31,18 +31,32 @@ module.exports = {
         cardContentBackground: "#F5F5F5", // Very Light Grey (for card content background)
         cardContentText: "#555555", // Darker Grey (for card content text)
         inputBorder: "#A0A0A0", // Light Grey (for input borders)
-
         // Custom colors
-        sliderTrack: {
-          0: "#0372f5",
-          1: "#9652d9",
-          2: "#18c964",
-          3: "#f4a628",
-          4: "#f41865",
-        },
+        sliderTrackB: "#0372f5",
+        sliderTrackP: "#9652d9",
+        sliderTrackG: "#18c964",
+        sliderTrackY: "#f4a628",
+        sliderTrackR: "#f41865",
+        // sliderTrack: {
+        //   "0": "#0372f5",
+        //   "1": "#9652d9",
+        //   "2": "#18c964",
+        //   "3": "#f4a628",
+        //   "4": "#f41865",
+        // },
       },
     },
   },
   darkMode: "class",
-  plugins: [nextui()],
+  plugins: [
+    nextui({
+      themes: {
+        dark: {
+          colors: {
+            primary: "#0372f5",
+          },
+        },
+      },
+    }),
+  ],
 };

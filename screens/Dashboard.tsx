@@ -1,13 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import {
-  Select,
-  SelectItem,
-  Input,
-  Divider,
-  Button,
-  useDisclosure,
-} from "@nextui-org/react";
+import { useDisclosure } from "@nextui-org/react";
 import { motion, AnimatePresence } from "framer-motion";
 import JourneyCard from "@/components/dashboardUI/JourneyCard";
 import AddJourney from "@/components/modals/AddJourney";

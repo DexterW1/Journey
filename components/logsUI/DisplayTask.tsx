@@ -28,6 +28,7 @@ import { DeleteDocumentIcon } from "../icon/DeleteDocument";
 import { HiDotsVertical } from "react-icons/hi";
 import { on } from "events";
 const colors = ["#0372f5", "#9652d9", "#18c964", "#f4a628", "#f41865"];
+const letter = ["B", "P", "G", "Y", "R"];
 type LogProps = {
   created_at: string;
   emoji: string;
@@ -260,7 +261,7 @@ const LogItem = ({
                   </div>
                 </ModalHeader>
                 <ModalBody className="overflow-hidden pb-5">
-                  <AnimatePresence mode="wait" initial={false}>
+                  <AnimatePresence mode="wait">
                     {editMode === false ? (
                       <motion.div
                         key="progress-bars"
@@ -305,6 +306,7 @@ const LogItem = ({
                               step={1}
                               maxValue={5}
                               label={key}
+                              // color="success"
                               defaultValue={log.metric[key]}
                               minValue={0}
                               showSteps={true}
@@ -313,8 +315,8 @@ const LogItem = ({
                               }
                               classNames={{
                                 base: "gap-0",
-                                filler: `bg-sliderTrack-${String(index)}`,
-                                track: `border-s-sliderTrack-${String(index)} bg-slate-300`,
+                                filler: `bg-sliderTrackB`,
+                                track: `border-s-sliderTrackB bg-slate-300`,
                                 label: "text-medium font-semibold",
                               }}
                             />
@@ -352,7 +354,7 @@ const LogItem = ({
                   <ModalFooter className="pb-4 pt-0">
                     <AnimatePresence mode="wait">
                       <motion.div
-                        initial={{ opacity: 0, y: -20 }}
+                        initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 1 }}
                         transition={{ duration: 0.5 }}
