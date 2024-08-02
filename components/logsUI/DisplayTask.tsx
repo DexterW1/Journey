@@ -309,7 +309,15 @@ const LogItem = ({
                               step={1}
                               maxValue={5}
                               label={key}
-                              color={colorOptions[index]}
+                              color={
+                                colorOptions[index] as
+                                  | "blue"
+                                  | "purple"
+                                  | "green"
+                                  | "yellow"
+                                  | "red"
+                                  | undefined
+                              }
                               defaultValue={log.metric[key]}
                               minValue={0}
                               showSteps={true}
@@ -318,8 +326,6 @@ const LogItem = ({
                               }
                               classNames={{
                                 base: "gap-0",
-                                // filler: `bg-sliderTrack${colors[index]}`,
-                                // track: `border-s-sliderTrackA bg-slate-300`,
                                 label: "text-medium font-semibold",
                               }}
                             />
