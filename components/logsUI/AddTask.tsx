@@ -12,6 +12,8 @@ import EmojiPicker from "emoji-picker-react";
 import { useUserStore } from "@/store/userStore";
 import { useLogStore } from "@/store/logStore";
 import { IoTimeOutline } from "react-icons/io5";
+import { MySlider } from "../nextuimodifier/MySlider";
+const colorOptions = ["blue", "purple", "green", "yellow", "red"];
 const timeReturn = () => {
   const date = new Date();
   const hour = date.getHours();
@@ -124,18 +126,27 @@ export default function AddTask({ journey, setCurrentScreen }: any) {
         <div className="flex flex-1 flex-col">
           {journey.template != null &&
             journey.template.map((task: any, index: number) => (
-              <Slider
+              <MySlider
                 size="md"
                 step={1}
                 label={task}
                 maxValue={5}
+                color={
+                  colorOptions[index] as
+                    | "blue"
+                    | "purple"
+                    | "green"
+                    | "yellow"
+                    | "red"
+                    | undefined
+                }
                 key={index}
                 minValue={0}
                 showSteps={true}
                 onChange={(value) => handleSliderChange(task, Number(value))}
                 classNames={{
-                  filler: "bg-gradient-to-r from-primaryLight to-secondary  ",
-                  track: "border-s-primaryLight bg-cardContentBackground",
+                  // filler: "bg-gradient-to-r from-primaryLight to-secondary  ",
+                  track: "bg-slate-100",
                   label: "text-textPrimary font-bold text-md",
                   value: "text-textPrimary font-bold text-md",
                 }}
