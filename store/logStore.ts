@@ -82,6 +82,7 @@ export const useLogStore = create<LogStore>((set) => ({
   },
   editLog: async (log_id, newValues) => {
     try {
+      console.log("newValues", newValues);
       const supabase = createClient();
       const { data, error } = await supabase
         .from("logs")

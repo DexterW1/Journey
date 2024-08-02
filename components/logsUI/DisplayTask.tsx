@@ -27,8 +27,9 @@ import { EditDocumentIcon } from "../icon/EditDocumentIcon";
 import { DeleteDocumentIcon } from "../icon/DeleteDocument";
 import { HiDotsVertical } from "react-icons/hi";
 import { on } from "events";
+import { MySlider } from "../nextuimodifier/MySlider";
 const colors = ["#0372f5", "#9652d9", "#18c964", "#f4a628", "#f41865"];
-const letter = ["B", "P", "G", "Y", "R"];
+const colorOptions = ["blue", "purple", "green", "yellow", "red"];
 type LogProps = {
   created_at: string;
   emoji: string;
@@ -87,7 +88,7 @@ const LogItem = ({
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [editMode, setEditMode] = useState(false);
-  const [sliderValues, setSliderValues] = useState<any>({});
+  const [sliderValues, setSliderValues] = useState<{}>(log.metric);
   const [newSummary, setNewSummary] = useState(log.summary);
   const deleteLog = useLogStore((state) => state.deleteLog);
   const fetchLogs = useLogStore((state) => state.fetchLogs);
@@ -111,13 +112,15 @@ const LogItem = ({
     }
     setEditMode(true);
   };
-  const handleSubmitEdit = async () => {
+  const handleSubmitEdit = () => {
+    console.log("SliderValues", sliderValues);
+    console.log("HELLOWEREW");
     const newValues = {
       ...currentLog,
       summary: newSummary,
       metric: sliderValues,
     };
-    await editLog(currentLog.id, newValues);
+    editLog(currentLog.id, newValues);
 
     setEditMode(false);
   };
@@ -301,12 +304,12 @@ const LogItem = ({
                             key={`slider-${index}`}
                             className="flex flex-col"
                           >
-                            <Slider
+                            <MySlider
                               size="md"
                               step={1}
                               maxValue={5}
                               label={key}
-                              // color="success"
+                              color={colorOptions[index]}
                               defaultValue={log.metric[key]}
                               minValue={0}
                               showSteps={true}
@@ -315,8 +318,8 @@ const LogItem = ({
                               }
                               classNames={{
                                 base: "gap-0",
-                                filler: `bg-sliderTrackB`,
-                                track: `border-s-sliderTrackB bg-slate-300`,
+                                // filler: `bg-sliderTrack${colors[index]}`,
+                                // track: `border-s-sliderTrackA bg-slate-300`,
                                 label: "text-medium font-semibold",
                               }}
                             />
