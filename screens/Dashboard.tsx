@@ -39,11 +39,7 @@ export default function Dashboard({ user, journey }: any) {
   }, [journey]);
 
   const handleSelectJourney = (journey: any) => {
-    if (selectedJourney === journey) {
-      setSelectedJourney(null);
-    } else {
-      setSelectedJourney(journey);
-    }
+    setSelectedJourney(journey);
   };
 
   return (
@@ -58,6 +54,7 @@ export default function Dashboard({ user, journey }: any) {
               {selectedJourney && <JourneyStats journey={selectedJourney} />}
             </AnimatePresence>
           </div>
+          {/* Journey selector container */}
           <div className="order-2 flex flex-col gap-4 rounded-xl bg-cardBackground p-4 shadow-md lg:order-1">
             <p className="font-serif text-[1.7rem] font-semibold leading-none text-textEmphasis">
               Journeys
@@ -67,17 +64,27 @@ export default function Dashboard({ user, journey }: any) {
                 <motion.div
                   onClick={() => handleSelectJourney(journey)}
                   key={journey.id}
-                  className={`cursor-pointer ${
-                    selectedJourney?.id === journey.id
-                      ? "rounded-2xl border-3 border-accent"
-                      : ""
-                  }`}
-                  initial={{ opacity: 0, x: newJourneyAnimation ? 0 : -150 }}
+                  className="relative cursor-pointer"
+                  initial={{ opacity: 0, x: newJourneyAnimation ? 0 : -50 }}
                   animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -150 }}
-                  transition={{ duration: 1.5 }}
+                  exit={{ opacity: 0, x: -50 }}
+                  transition={{ duration: 1 }}
                 >
-                  <JourneyCard key={journey.id} journey={journey} />
+                  <div className="relative">
+                    <JourneyCard key={journey.id} journey={journey} />
+                  </div>
+
+                  {selectedJourney?.id === journey.id && (
+                    <motion.span
+                      layoutId="selectedJourney"
+                      transition={{
+                        type: "spring",
+                        duration: 0.9,
+                        damping: 20,
+                      }}
+                      className="absolute -inset-0.5 z-10 rounded-2xl border-3 border-accent"
+                    />
+                  )}
                 </motion.div>
               ))}
             </AnimatePresence>
@@ -92,6 +99,7 @@ export default function Dashboard({ user, journey }: any) {
             )}
           </div>
         </section>
+        {/* Display selected journeys */}
         <section className="flex flex-col lg:col-span-2">
           {/* For large screens: Display JourneyStats beside the journey list */}
           <div className="hidden lg:flex lg:flex-1 lg:flex-col">

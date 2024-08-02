@@ -13,6 +13,12 @@ export default function JourneyStats({ journey }: any) {
   const [currentScreen, setCurrentScreen] = useState(0);
   const fetchLogs = useLogStore((state) => state.fetchLogs);
   const logs = useLogStore((state) => state.logs);
+  useEffect(() => {
+    // Force recalculation of scroll state after transition
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(new Event("resize"));
+    }
+  }, [currentScreen]);
   const handleDeleteJourney = () => {
     if (journey) {
       deleteJourney(journey.id);
@@ -41,9 +47,10 @@ export default function JourneyStats({ journey }: any) {
           <FaQuoteRight className="text-md ml-2 text-white" />
         </div>
       </div>
+      {/* journeystats all details */}
       <ScrollShadow
         hideScrollBar
-        size={20}
+        size={currentScreen === 0 ? 20 : 20}
         className="flex flex-1 flex-col overflow-y-auto rounded-3xl bg-cardBackground p-4 px-6 shadow-md"
       >
         <AnimatePresence mode="wait">
@@ -54,7 +61,6 @@ export default function JourneyStats({ journey }: any) {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.1 }}
-              className="h-full w-full"
             >
               <AddTask setCurrentScreen={setCurrentScreen} journey={journey} />
             </motion.div>
