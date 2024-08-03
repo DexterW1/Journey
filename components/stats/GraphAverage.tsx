@@ -14,7 +14,7 @@ export default function GraphAverage() {
   const [selected, setSelected] = useState("Week");
   useEffect(() => {
     setAverage(getAverage(logs));
-    console.log(average);
+    // console.log(average);
   }, [logs]);
   return (
     <div className="flex flex-1 flex-col gap-2 rounded-xl bg-white p-4">

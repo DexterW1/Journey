@@ -1,7 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useDisclosure } from "@nextui-org/react";
-import { motion, AnimatePresence } from "framer-motion";
+import {
+  motion,
+  AnimatePresence,
+  Reorder,
+  useMotionValue,
+} from "framer-motion";
 import JourneyCard from "@/components/dashboardUI/JourneyCard";
 import AddJourney from "@/components/modals/AddJourney";
 import GreetingCard from "@/components/dashboardUI/GreetingCard";
@@ -13,6 +18,7 @@ export default function Dashboard({ user, journey }: any) {
   const [selectedJourney, setSelectedJourney] = useState<any>(
     journey[0] ?? null,
   );
+  const [journeyArr, setJourneyArr] = useState<any>(journey);
   const [newJourneyAnimation, setNewJourneyAnimation] = useState(false);
 
   useEffect(() => {
@@ -30,6 +36,10 @@ export default function Dashboard({ user, journey }: any) {
   const handleSelectJourney = (journey: any) => {
     setSelectedJourney(journey);
   };
+  useEffect(() => {
+    setJourneyArr(journey);
+    console.log("journeyArr", journeyArr);
+  }, [journey]);
 
   return (
     <>
@@ -49,33 +59,45 @@ export default function Dashboard({ user, journey }: any) {
               Journeys
             </p>
             <AnimatePresence initial={false}>
-              {journey.map((journey: any) => (
-                <motion.div
-                  onClick={() => handleSelectJourney(journey)}
-                  key={journey.id}
-                  className="relative cursor-pointer"
-                  initial={{ opacity: 0, x: newJourneyAnimation ? 0 : -50 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -50 }}
-                  transition={{ duration: 1 }}
-                >
-                  <div className="relative">
-                    <JourneyCard key={journey.id} journey={journey} />
-                  </div>
+              <Reorder.Group
+                axis="y"
+                onReorder={setJourneyArr}
+                values={journeyArr}
+                className="flex flex-col gap-4"
+              >
+                {journeyArr.map((journey: any) => (
+                  <Reorder.Item
+                    id={journey.id}
+                    value={journey}
+                    key={journey.id}
+                  >
+                    <motion.div
+                      onClick={() => handleSelectJourney(journey)}
+                      className="relative cursor-pointer"
+                      // initial={{ opacity: 0, x: newJourneyAnimation ? 0 : -50 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -50 }}
+                      transition={{ duration: 1 }}
+                    >
+                      <div className="relative">
+                        <JourneyCard journey={journey} />
+                      </div>
 
-                  {selectedJourney?.id === journey.id && (
-                    <motion.span
-                      layoutId="selectedJourney"
-                      transition={{
-                        type: "spring",
-                        duration: 0.9,
-                        damping: 20,
-                      }}
-                      className="absolute -inset-0.5 z-10 rounded-2xl border-3 border-accent"
-                    />
-                  )}
-                </motion.div>
-              ))}
+                      {selectedJourney?.id === journey.id && (
+                        <motion.span
+                          layoutId="selectedJourney"
+                          transition={{
+                            type: "spring",
+                            duration: 0.9,
+                            damping: 20,
+                          }}
+                          className="absolute -inset-0.5 z-10 rounded-2xl border-3 border-accent"
+                        />
+                      )}
+                    </motion.div>
+                  </Reorder.Item>
+                ))}
+              </Reorder.Group>
             </AnimatePresence>
             {/* Add new Journey Button */}
             {journey.length < 5 && (

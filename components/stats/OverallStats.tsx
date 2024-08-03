@@ -12,9 +12,9 @@ import GraphAverage from "./GraphAverage";
 const iconClasses =
   "text-xl text-default-500 pointer-events-none flex-shrink-0";
 const animationVariants = {
-  initial: { fontSize: "1.875rem", rotate: 0 },
+  initial: { scale: 1, rotate: 0 },
   hover: {
-    fontSize: "2.5rem",
+    scale: 2,
     rotate: [-10, 10, -10, 0],
     transition: {
       duration: 1,
@@ -23,9 +23,8 @@ const animationVariants = {
   },
 };
 export default function OverallStats({ journey, logs }: any) {
-  if (logs === undefined) return <div>Loading...</div>;
   return (
-    <div className="relative flex flex-col items-center gap-2">
+    <div className="relative flex flex-1 flex-col items-center gap-2">
       <div className="flex flex-row justify-center">
         <FaQuoteLeft className="text-md mr-1" fill="white" />
         <p className="text-center font-serif text-xl font-extrabold text-white md:text-3xl">
@@ -33,25 +32,26 @@ export default function OverallStats({ journey, logs }: any) {
         </p>
         <FaQuoteRight className="text-md ml-1" fill="white" />
       </div>
-      <div className="flex w-full flex-col gap-2 border-1 lg:flex-row">
-        <div className="w-full lg:order-2 lg:w-[30%]">
+      <div className="flex w-full flex-col gap-2 border-1 md:flex-row">
+        <div className="w-full md:order-2 md:w-[40%]">
           <GraphAverage />
         </div>
         {/* Total logs/emoji */}
-        <div className="flex items-center gap-4 self-start rounded-lg bg-white p-4 shadow-md lg:order-1">
+        <div className="flex items-center gap-4 self-start rounded-lg bg-white p-4 shadow-md md:order-1">
           <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-white">
             <motion.p
               variants={animationVariants}
               initial="initial"
               whileHover="hover"
-              // className="text-3xl"
+              className="backface-visibility-hidden text-3xl will-change-transform"
+              style={{ transform: "translateZ(0)" }}
             >
               {findMostEmoji(logs)}
             </motion.p>
           </div>
           <div>
             <p className="text-lg font-semibold text-primary">Total Logs</p>
-            <p className="text-2xl font-bold">32</p>
+            <p className="text-2xl font-bold">{logs.length}</p>
           </div>
         </div>
       </div>

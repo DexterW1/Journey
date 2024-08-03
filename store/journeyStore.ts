@@ -81,7 +81,7 @@ export const useJourneyStore = create<JourneyStore>((set, get) => ({
 
       if (journeys) {
         set({ journeys, fetchedJourneys: true });
-        console.log("Journey fetched", journeys);
+        // console.log("Journey fetched", journeys);
       } else {
         console.log("No journeys found");
       }
