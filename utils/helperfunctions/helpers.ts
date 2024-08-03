@@ -54,55 +54,109 @@ export function debounce(func: any, wait: any) {
     timeout = setTimeout(later, wait);
   };
 }
-export function getAverage(arr: logsType[], time: "week" | "month" | "all") {
-  const metricSums: { [key: string]: number } = {};
-  const metricCounts: { [key: string]: number } = {};
+export function getAverage(arr: logsType[]) {
+  const metricSums: { [time: string]: { [key: string]: number } } = {
+    Week: {},
+    Month: {},
+    All: {},
+  };
+  const metricCounts: { [time: string]: { [key: string]: number } } = {
+    Week: {},
+    Month: {},
+    All: {},
+  };
+
+  const startOfWeek = new Date();
+  startOfWeek.setHours(0, 0, 0, 0);
+  startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay());
+
+  const endOfWeek = new Date(startOfWeek);
+  endOfWeek.setDate(startOfWeek.getDate() + 7);
+
+  const startOfMonth = new Date();
+  startOfMonth.setHours(0, 0, 0, 0);
+  startOfMonth.setDate(1);
+
+  const endOfMonth = new Date(startOfMonth);
+  endOfMonth.setMonth(startOfMonth.getMonth() + 1);
 
   arr.forEach((log: logsType) => {
     const metrics = log.metric;
     const createdAt = new Date(log.created_at);
 
-    // Check if the log falls within the specified time range
-    if (time === "week") {
-      const startOfWeek = new Date();
-      startOfWeek.setHours(0, 0, 0, 0);
-      startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay());
-      const endOfWeek = new Date(startOfWeek);
-      endOfWeek.setDate(startOfWeek.getDate() + 7);
-
-      if (createdAt < startOfWeek || createdAt >= endOfWeek) {
-        return;
-      }
-    } else if (time === "month") {
-      const startOfMonth = new Date();
-      startOfMonth.setHours(0, 0, 0, 0);
-      startOfMonth.setDate(1);
-      const endOfMonth = new Date(startOfMonth);
-      endOfMonth.setMonth(startOfMonth.getMonth() + 1);
-
-      if (createdAt < startOfMonth || createdAt >= endOfMonth) {
-        return;
+    // Check and add metrics for "week"
+    if (createdAt >= startOfWeek && createdAt < endOfWeek) {
+      for (const key in metrics) {
+        if (metrics.hasOwnProperty(key)) {
+          if (!metricSums.Week[key]) {
+            metricSums.Week[key] = 0;
+            metricCounts.Week[key] = 0;
+          }
+          metricSums.Week[key] += metrics[key];
+          metricCounts.Week[key] += 1;
+        }
       }
     }
 
+    // Check and add metrics for "month"
+    if (createdAt >= startOfMonth && createdAt < endOfMonth) {
+      for (const key in metrics) {
+        if (metrics.hasOwnProperty(key)) {
+          if (!metricSums.Month[key]) {
+            metricSums.Month[key] = 0;
+            metricCounts.Month[key] = 0;
+          }
+          metricSums.Month[key] += metrics[key];
+          metricCounts.Month[key] += 1;
+        }
+      }
+    }
+
+    // Add metrics for "all"
     for (const key in metrics) {
       if (metrics.hasOwnProperty(key)) {
-        if (!metricSums[key]) {
-          metricSums[key] = 0;
-          metricCounts[key] = 0;
+        if (!metricSums.All[key]) {
+          metricSums.All[key] = 0;
+          metricCounts.All[key] = 0;
         }
-        metricSums[key] += metrics[key];
-        metricCounts[key] += 1;
+        metricSums.All[key] += metrics[key];
+        metricCounts.All[key] += 1;
       }
     }
   });
 
-  const metricAverages: { [key: string]: number } = {};
-  for (const key in metricSums) {
-    if (metricSums.hasOwnProperty(key)) {
-      metricAverages[key] = metricSums[key] / metricCounts[key];
+  const metricAverages: { [time: string]: { [key: string]: number } } = {
+    Week: {},
+    Month: {},
+    All: {},
+  };
+
+  for (const time in metricSums) {
+    for (const key in metricSums[time]) {
+      if (metricSums[time].hasOwnProperty(key)) {
+        metricAverages[time][key] =
+          metricSums[time][key] / metricCounts[time][key];
+      }
     }
   }
 
   return metricAverages;
 }
+export const findMostEmoji = (logs: logsType[]) => {
+  if (logs.length === 0) return "";
+  const emojiCount: { [key: string]: number } = {};
+  logs.forEach((log) => {
+    if (log.emoji) {
+      if (!emojiCount[log.emoji]) {
+        emojiCount[log.emoji] = 0;
+      }
+      emojiCount[log.emoji] += 1;
+    }
+  });
+
+  const mostEmoji = Object.keys(emojiCount).reduce((a, b) =>
+    emojiCount[a] > emojiCount[b] ? a : b,
+  );
+
+  return mostEmoji;
+};

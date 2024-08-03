@@ -1,67 +1,59 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { getAverage } from "@/utils/helperfunctions/helpers";
 import { FaQuoteLeft, FaQuoteRight } from "react-icons/fa";
 import { HiDotsVertical } from "react-icons/hi";
-import {
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
-  cn,
-} from "@nextui-org/react";
+import { motion } from "framer-motion";
+import { findMostEmoji } from "@/utils/helperfunctions/helpers";
 import { DeleteDocumentIcon } from "@/components/icon/DeleteDocument";
 import { EditDocumentIcon } from "@/components/icon/EditDocumentIcon";
 import GraphAverage from "./GraphAverage";
 const iconClasses =
   "text-xl text-default-500 pointer-events-none flex-shrink-0";
+const animationVariants = {
+  initial: { fontSize: "1.875rem", rotate: 0 },
+  hover: {
+    fontSize: "2.5rem",
+    rotate: [-10, 10, -10, 0],
+    transition: {
+      duration: 1,
+      times: [0, 0.3, 0.7, 1], // Controls the timing of the animation steps
+    },
+  },
+};
 export default function OverallStats({ journey, logs }: any) {
+  if (logs === undefined) return <div>Loading...</div>;
   return (
-    <div className="relative flex flex-col items-center">
+    <div className="relative flex flex-col items-center gap-2">
       <div className="flex flex-row justify-center">
-        <FaQuoteLeft className="text-md mr-2" fill="white" />
-        <p className="font-serif text-xl font-extrabold text-white md:text-3xl">
+        <FaQuoteLeft className="text-md mr-1" fill="white" />
+        <p className="text-center font-serif text-xl font-extrabold text-white md:text-3xl">
           {journey.title}
         </p>
-        <FaQuoteRight className="text-md ml-2" fill="white" />
-        {/* Edit Journey Container Icon */}
-        <div className="absolute right-2">
-          <Dropdown>
-            <DropdownTrigger>
-              <button>
-                <HiDotsVertical size={25} fill="white" />
-              </button>
-            </DropdownTrigger>
-            <DropdownMenu>
-              <DropdownItem
-                key="edit"
-                startContent={<EditDocumentIcon className={iconClasses} />}
-              >
-                Edit log
-              </DropdownItem>
-              <DropdownItem
-                key="delete"
-                // className="text-danger"
-                color="danger"
-                onPress={() => {}}
-                classNames={{
-                  description: "text-white",
-                }}
-                startContent={
-                  <DeleteDocumentIcon
-                    className={cn(iconClasses, "text-danger")}
-                  />
-                }
-              >
-                Delete log
-              </DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
-        </div>
+        <FaQuoteRight className="text-md ml-1" fill="white" />
       </div>
-      <div className="">
-        <GraphAverage />
+      <div className="flex w-full flex-col gap-2 border-1 lg:flex-row">
+        <div className="w-full lg:order-2 lg:w-[30%]">
+          <GraphAverage />
+        </div>
+        {/* Total logs/emoji */}
+        <div className="flex items-center gap-4 self-start rounded-lg bg-white p-4 shadow-md lg:order-1">
+          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-white">
+            <motion.p
+              variants={animationVariants}
+              initial="initial"
+              whileHover="hover"
+              // className="text-3xl"
+            >
+              {findMostEmoji(logs)}
+            </motion.p>
+          </div>
+          <div>
+            <p className="text-lg font-semibold text-primary">Total Logs</p>
+            <p className="text-2xl font-bold">32</p>
+          </div>
+        </div>
       </div>
     </div>
   );

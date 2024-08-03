@@ -25,7 +25,7 @@ export default function ProgressBar({
           damping: 4,
           delay: 0.5 * delay,
         }}
-        className={`h-4 rounded-full`} // Update the class name
+        className={`relative h-4 rounded-full`} // Update the class name
         style={{ backgroundColor: color }}
       />
     </div>
