@@ -86,7 +86,6 @@ const LogItem = ({
   containerRef: any;
   log: LogProps;
 }) => {
-  const [isExpanded, setIsExpanded] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [sliderValues, setSliderValues] = useState<{}>(log.metric);
   const [newSummary, setNewSummary] = useState(log.summary);
@@ -103,8 +102,10 @@ const LogItem = ({
     }, 400);
   };
 
-  const handleToggle = () => {
-    setIsExpanded(!isExpanded);
+  const handleCardClick = () => {
+    if (!funMode) {
+      onOpen();
+    }
   };
   const handleEditLog = () => {
     if (!isOpen) {
@@ -113,8 +114,6 @@ const LogItem = ({
     setEditMode(true);
   };
   const handleSubmitEdit = () => {
-    console.log("SliderValues", sliderValues);
-    console.log("HELLOWEREW");
     const newValues = {
       ...currentLog,
       summary: newSummary,
@@ -140,7 +139,7 @@ const LogItem = ({
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -40 }}
           transition={{ duration: 0.5 }}
-          onClick={onOpen}
+          onClick={handleCardClick}
           whileHover={{ scale: 1.03 }}
           className="relative flex cursor-pointer flex-col gap-2 rounded-xl bg-white p-4 shadow-lg"
           drag={funMode}
@@ -196,9 +195,7 @@ const LogItem = ({
               </Dropdown>
             </div>
           </div>
-          <p
-            className={`text-md font-semibold text-textSecondary ${!isExpanded ? "line-clamp-2" : ""}`}
-          >
+          <p className="text-md line-clamp-2 font-semibold text-textSecondary">
             {log.summary}
           </p>
         </motion.div>
@@ -419,7 +416,7 @@ export default function DisplayTask({
     <div>
       <div className="mb-4 flex flex-row items-center justify-between">
         <p
-          // onClick={handleHiddenKey}
+          onClick={() => setFunMode(!funMode)}
           className="font-serif text-[1.7rem] font-semibold leading-none text-textEmphasis"
         >
           Logs

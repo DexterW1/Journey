@@ -31,10 +31,10 @@ export default function JourneyStats({ journey }: any) {
   }, [journey.id]);
   return (
     <motion.section
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 1 }}
+      // initial={{ opacity: 0 }}
+      // animate={{ opacity: 1 }}
+      // exit={{ opacity: 0 }}
+      // transition={{ duration: 1 }}
       className="flex flex-1 flex-col gap-4"
     >
       <div className="h-[40%] rounded-2xl bg-primaryLight p-4 shadow-md">
