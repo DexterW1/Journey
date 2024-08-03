@@ -27,7 +27,7 @@ export default function ProgressBar({
         }}
         className={`h-4 rounded-full`} // Update the class name
         style={{ backgroundColor: color }}
-      ></motion.div>
+      />
     </div>
     // </div>
   );

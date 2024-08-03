@@ -1,4 +1,5 @@
 import { createClient } from "@/utils/supabase/client";
+import { logsType } from "../types";
 export const checkDuplicateTitle = async (title: string, user: any) => {
   const supabase = createClient();
 
@@ -52,4 +53,56 @@ export function debounce(func: any, wait: any) {
     clearTimeout(timeout);
     timeout = setTimeout(later, wait);
   };
+}
+export function getAverage(arr: logsType[], time: "week" | "month" | "all") {
+  const metricSums: { [key: string]: number } = {};
+  const metricCounts: { [key: string]: number } = {};
+
+  arr.forEach((log: logsType) => {
+    const metrics = log.metric;
+    const createdAt = new Date(log.created_at);
+
+    // Check if the log falls within the specified time range
+    if (time === "week") {
+      const startOfWeek = new Date();
+      startOfWeek.setHours(0, 0, 0, 0);
+      startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay());
+      const endOfWeek = new Date(startOfWeek);
+      endOfWeek.setDate(startOfWeek.getDate() + 7);
+
+      if (createdAt < startOfWeek || createdAt >= endOfWeek) {
+        return;
+      }
+    } else if (time === "month") {
+      const startOfMonth = new Date();
+      startOfMonth.setHours(0, 0, 0, 0);
+      startOfMonth.setDate(1);
+      const endOfMonth = new Date(startOfMonth);
+      endOfMonth.setMonth(startOfMonth.getMonth() + 1);
+
+      if (createdAt < startOfMonth || createdAt >= endOfMonth) {
+        return;
+      }
+    }
+
+    for (const key in metrics) {
+      if (metrics.hasOwnProperty(key)) {
+        if (!metricSums[key]) {
+          metricSums[key] = 0;
+          metricCounts[key] = 0;
+        }
+        metricSums[key] += metrics[key];
+        metricCounts[key] += 1;
+      }
+    }
+  });
+
+  const metricAverages: { [key: string]: number } = {};
+  for (const key in metricSums) {
+    if (metricSums.hasOwnProperty(key)) {
+      metricAverages[key] = metricSums[key] / metricCounts[key];
+    }
+  }
+
+  return metricAverages;
 }

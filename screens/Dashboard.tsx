@@ -8,17 +8,6 @@ import GreetingCard from "@/components/dashboardUI/GreetingCard";
 import Weeklydisplay from "@/components/dashboardUI/Weeklydisplay";
 import JourneyStats from "@/components/dashboardUI/JourneyStats";
 
-const options = [
-  "Start",
-  "Quit",
-  "Improve",
-  "Learn",
-  "Grow",
-  "Change",
-  "Develop",
-  "Monitor",
-];
-
 export default function Dashboard({ user, journey }: any) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [selectedJourney, setSelectedJourney] = useState<any>(
@@ -49,7 +38,7 @@ export default function Dashboard({ user, journey }: any) {
           <GreetingCard />
           <Weeklydisplay />
           {/* For mobile: Display JourneyStats below GreetingCard and Weeklydisplay */}
-          <div className="shadow-md lg:hidden">
+          <div className="lg:hidden">
             <AnimatePresence>
               {selectedJourney && <JourneyStats journey={selectedJourney} />}
             </AnimatePresence>
