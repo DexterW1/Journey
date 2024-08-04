@@ -15,7 +15,7 @@ export default function StackedCards() {
   }, [logs]);
   if (log.length < 2 || !log || !logs)
     return (
-      <div className="flex h-full w-full flex-1 flex-row items-center justify-center">
+      <div className="flex h-full w-[80%] flex-1 flex-row items-center justify-center">
         <div className="border-1 p-4">
           <p>Favorite more than two logs!</p>
         </div>
@@ -23,7 +23,7 @@ export default function StackedCards() {
     );
   return (
     <motion.div
-      className="flex h-full w-full flex-1 flex-row items-center justify-center"
+      className="flex h-full w-full flex-1 flex-row items-center justify-center border-2"
       style={{ position: "relative" }}
     >
       <AnimatePresence initial={false}>

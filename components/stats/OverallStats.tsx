@@ -38,7 +38,7 @@ export default function OverallStats({ journey, logs }: any) {
           <GraphAverage />
         </div>
         {/* Stacked cards favorite container */}
-        <div className="order-2 w-[35%]">
+        <div className="order-2 flex w-[35%] flex-1 flex-col">
           <p>Favorites</p>
           <StackedCards />
         </div>
