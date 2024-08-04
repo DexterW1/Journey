@@ -397,7 +397,7 @@ export default function DisplayTask({
 }: DisplayTaskProps) {
   // const size = useWindowSize();
   const [funMode, setFunMode] = useState(false);
-  const [currentJourneyId, setCurrentJourneyId] = useState(journey_id);
+  // const [currentJourneyId, setCurrentJourneyId] = useState(journey_id);
   // const [logsToDisplay, setLogsToDisplay] = useState(logs);
   const [logsDisplayed, setLogsDisplayed] = useState(6); // Initial logs displayed
   const [logsToDisplay, setLogsToDisplay] = useState<any[]>([]); // Logs to display
@@ -405,14 +405,14 @@ export default function DisplayTask({
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (journey_id !== currentJourneyId) {
-      setCurrentJourneyId(journey_id);
-      setLogsDisplayed(6);
-    }
-  }, [journey_id]);
+    // Reset logsDisplayed and logsToDisplay when journey_id changes
+    setLogsDisplayed(6);
+    setLogsToDisplay(logs?.slice(0, 6) || []);
+  }, [journey_id, logs]);
 
   const handleLoadMore = () => {
     setLogsDisplayed((prev) => prev + 3);
+    setLogsToDisplay(logs?.slice(0, logsDisplayed + 3) || []);
   };
   const handleAnimationStart = () => {
     setIsAnimating(true);
@@ -425,11 +425,7 @@ export default function DisplayTask({
     if (!isAnimating) {
       setLogsToDisplay(logs?.slice(0, logsDisplayed) || []);
     }
-  }, [logs, logsDisplayed, isAnimating]);
-  // useEffect(() => {
-  //   return setLogsToDisplay(logsToDisplay?.slice(0, logsDisplayed));
-  // }, [logs]);
-  // const logsToDisplay = logs?.slice(0, logsDisplayed);
+  }, [logs, isAnimating]);
   return (
     <div>
       <div className="mb-4 flex flex-row items-center justify-between">
@@ -457,7 +453,7 @@ export default function DisplayTask({
       >
         <motion.div
           // layoutId="logitemDisplay"
-          key={currentJourneyId}
+          key={journey_id}
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -40 }}
@@ -484,7 +480,7 @@ export default function DisplayTask({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0 }}
-          transition={{ delay: 0.7 }}
+          transition={{ delay: 0 }}
           className="mt-4 flex justify-center"
         >
           <Button color="primary" onPress={handleLoadMore} radius="full">

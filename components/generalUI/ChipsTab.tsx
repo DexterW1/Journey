@@ -33,7 +33,7 @@ const Chip = ({ text, selected, setSelected }: any) => {
       <span className="relative z-10 text-white">{text}</span>
       {selected && (
         <motion.span
-          layoutId="pill-tab"
+          layoutId={`pill-tab`}
           transition={{ type: "spring", duration: 0.5 }}
           className="absolute inset-0 z-0 rounded-md bg-accent"
         ></motion.span>

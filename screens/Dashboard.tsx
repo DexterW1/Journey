@@ -86,7 +86,7 @@ export default function Dashboard({ user, journey }: any) {
                       exit={{ opacity: 0, x: -50 }}
                       transition={{ duration: 1 }}
                     >
-                      <div className="relative">
+                      <div className="z-2 relative">
                         <JourneyCard journey={journey} />
                       </div>
 

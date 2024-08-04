@@ -89,7 +89,7 @@ export default function OverallStats({ journey, logs }: any) {
             </div>
             <div>
               <p className="text-lg font-semibold text-primary">Total Logs</p>
-              <p className="text-2xl font-bold">{logs.length}</p>
+              <p className="text-2xl font-bold">{logs.logs.length}</p>
             </div>
           </div>
           <div className="flex flex-1 items-center gap-4 rounded-lg bg-white p-4 shadow-md">
