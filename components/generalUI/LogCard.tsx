@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, use } from "react";
+import React, { useState } from "react";
 import {
   Button,
   Dropdown,
@@ -12,14 +12,12 @@ import {
   ModalHeader,
   useDisclosure,
   ModalFooter,
-  Slider,
   Textarea,
   ScrollShadow,
 } from "@nextui-org/react";
 import { useLogStore } from "@/store/logStore";
-import { FaPlus } from "react-icons/fa6";
 import { motion, AnimatePresence } from "framer-motion";
-import ProgressBar from "./ProgressBar";
+import ProgressBar from "../logsUI/ProgressBar";
 // import { IoFilterOutline } from "react-icons/io5";
 
 import { EditDocumentIcon } from "../icon/EditDocumentIcon";
@@ -45,6 +43,7 @@ const iconClasses =
   "text-xl text-default-500 pointer-events-none flex-shrink-0";
 
 const getDay = (date: string) => {
+  if (!date) return "";
   const time = new Date(date);
   const today = new Date();
 
@@ -69,21 +68,8 @@ function format_date(date: string) {
   return `${month}/${day}/${year}`;
 }
 
-type DisplayTaskProps = {
-  setCurrentScreen: (value: number) => void;
-  logs: LogProps[] | null;
-  journey_id: string;
-};
-
-const LogItem = ({
-  log,
-  containerRef,
-  funMode,
-}: {
-  funMode: boolean;
-  containerRef: any;
-  log: LogProps;
-}) => {
+export default function LogCard({ log }: { log: LogProps }) {
+  if (!log) return null;
   const [editMode, setEditMode] = useState(false);
   const [sliderValues, setSliderValues] = useState<{}>(log.metric);
   const [newSummary, setNewSummary] = useState(log.summary);
@@ -101,9 +87,7 @@ const LogItem = ({
   };
 
   const handleCardClick = () => {
-    if (!funMode) {
-      onOpen();
-    }
+    onOpen();
   };
   const handleEditLog = () => {
     if (!isOpen) {
@@ -138,10 +122,7 @@ const LogItem = ({
           exit={{ opacity: 0, y: -40 }}
           transition={{ duration: 0.5 }}
           onClick={handleCardClick}
-          whileHover={{ scale: 1.03 }}
           className="relative flex cursor-pointer flex-col gap-2 rounded-xl bg-white p-4 shadow-lg"
-          drag={funMode}
-          dragConstraints={containerRef}
         >
           <div className="flex flex-row items-center justify-between gap-2">
             <div className="flex flex-row items-center gap-2">
@@ -385,85 +366,5 @@ const LogItem = ({
         </ModalContent>
       </Modal>
     </>
-  );
-};
-
-export default function DisplayTask({
-  setCurrentScreen,
-  logs,
-  journey_id,
-}: DisplayTaskProps) {
-  // const size = useWindowSize();
-  const [funMode, setFunMode] = useState(false);
-  const [currentJourneyId, setCurrentJourneyId] = useState(journey_id);
-  const [logsDisplayed, setLogsDisplayed] = useState(6); // Initial logs displayed
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (journey_id !== currentJourneyId) {
-      setCurrentJourneyId(journey_id);
-      setLogsDisplayed(6);
-    }
-  }, [journey_id]);
-
-  const handleLoadMore = () => {
-    setLogsDisplayed(logsDisplayed + 3);
-  };
-  const logsToDisplay = logs?.slice(0, logsDisplayed);
-  return (
-    <div>
-      <div className="mb-4 flex flex-row items-center justify-between">
-        <p
-          onClick={() => setFunMode(!funMode)}
-          className="font-serif text-[1.7rem] font-semibold leading-none text-textEmphasis"
-        >
-          Logs
-        </p>
-        <div className="flex flex-row gap-2">
-          <Button
-            className="bg-blue-500 text-white"
-            onPress={() => setCurrentScreen(1)}
-            startContent={<FaPlus fill="white" />}
-            variant="shadow"
-          >
-            Add Log
-          </Button>
-        </div>
-      </div>
-      <AnimatePresence initial={false} mode="wait">
-        <motion.div
-          key={currentJourneyId}
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -40 }}
-          transition={{ duration: 0.5 }}
-          ref={containerRef}
-          className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3"
-        >
-          {logsToDisplay?.map((log) => (
-            <LogItem
-              key={log.id}
-              log={log}
-              containerRef={containerRef}
-              funMode={funMode}
-            />
-          ))}
-        </motion.div>
-      </AnimatePresence>
-      {logs && logsDisplayed < logs.length && (
-        <motion.div
-          key="load-more"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0 }}
-          transition={{ delay: 0.5 }}
-          className="mt-4 flex justify-center"
-        >
-          <Button color="primary" onPress={handleLoadMore} radius="full">
-            Load More
-          </Button>
-        </motion.div>
-      )}
-    </div>
   );
 }

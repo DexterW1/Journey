@@ -9,6 +9,7 @@ import { findMostEmoji } from "@/utils/helperfunctions/helpers";
 import { DeleteDocumentIcon } from "@/components/icon/DeleteDocument";
 import { EditDocumentIcon } from "@/components/icon/EditDocumentIcon";
 import GraphAverage from "./GraphAverage";
+import StackedCards from "./StackedCards";
 const iconClasses =
   "text-xl text-default-500 pointer-events-none flex-shrink-0";
 const animationVariants = {
@@ -32,12 +33,15 @@ export default function OverallStats({ journey, logs }: any) {
         </p>
         <FaQuoteRight className="text-md ml-1" fill="white" />
       </div>
-      <div className="flex w-full flex-col gap-2 border-1 md:flex-row">
-        <div className="w-full md:order-2 md:w-[40%]">
+      <div className="flex w-full flex-col gap-2 border-1 md:flex-row md:justify-between">
+        <div className="w-full md:order-3 md:w-[35%]">
           <GraphAverage />
         </div>
         {/* Stacked cards favorite container */}
-        <div></div>
+        <div className="order-2 w-[35%]">
+          <p>Favorites</p>
+          <StackedCards />
+        </div>
         {/* Total logs/emoji */}
         <div className="flex items-center gap-4 self-start rounded-lg bg-white p-4 shadow-md md:order-1">
           <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-white">
