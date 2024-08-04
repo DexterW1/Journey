@@ -15,15 +15,17 @@ export default function StackedCards() {
   }, [logs]);
   if (log.length < 2 || !log || !logs)
     return (
-      <div className="flex h-full w-[80%] flex-1 flex-row items-center justify-center">
-        <div className="border-1 p-4">
-          <p>Favorite more than two logs!</p>
-        </div>
+      <div className="flex h-full w-full flex-col items-center justify-center rounded-xl border-2 border-dashed border-cardBackground text-center">
+        <p className="mb-4 text-xl font-bold text-white">No favorites yet</p>
+        <p className="mb-4 text-white">
+          You haven't favorited any cards. Explore and favorite some cards to
+          see them here.
+        </p>
       </div>
     );
   return (
     <motion.div
-      className="flex h-full w-full flex-1 flex-row items-center justify-center border-2"
+      className="flex h-full flex-1 flex-row items-center justify-center"
       style={{ position: "relative" }}
     >
       <AnimatePresence initial={false}>

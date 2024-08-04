@@ -17,7 +17,7 @@ export default function GraphAverage() {
     // console.log(average);
   }, [logs]);
   return (
-    <div className="flex flex-1 flex-col gap-2 rounded-xl bg-white p-4">
+    <div className="flex flex-1 flex-col rounded-xl bg-white p-4">
       {/* <p className="text-lg font-bold leading-none text-primary">Averages</p> */}
       {timeOptions.map((option) => (
         <AnimatePresence key={option}>

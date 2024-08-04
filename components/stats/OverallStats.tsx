@@ -24,8 +24,35 @@ const animationVariants = {
   },
 };
 export default function OverallStats({ journey, logs }: any) {
+  if (logs.length === 0) {
+    return (
+      <div className="relative flex h-full flex-1 flex-col items-center gap-4 border-1 p-4">
+        {/* Title */}
+        <div className="flex flex-row justify-center">
+          <FaQuoteLeft className="text-md mr-1" fill="white" />
+          <p className="text-center font-serif text-xl font-extrabold text-white md:text-3xl">
+            {journey.title}
+          </p>
+          <FaQuoteRight className="text-md ml-1" fill="white" />
+        </div>
+        {/* Placeholder Message */}
+        <div className="mt-8 flex flex-col items-center justify-center rounded-lg bg-white p-4 shadow-md">
+          <p className="mb-2 text-xl font-semibold text-gray-700">
+            No logs yet!
+          </p>
+          <p className="text-md mb-4 text-gray-500">
+            Start adding logs to see your journey's statistics.
+          </p>
+          <button className="rounded-md bg-primary px-4 py-2 text-white hover:bg-primaryLight">
+            Add your first log
+          </button>
+        </div>
+      </div>
+    );
+  }
   return (
-    <div className="relative flex flex-1 flex-col items-center gap-2">
+    <div className="relative flex h-full flex-1 flex-col items-center gap-4 border-1">
+      {/* Title */}
       <div className="flex flex-row justify-center">
         <FaQuoteLeft className="text-md mr-1" fill="white" />
         <p className="text-center font-serif text-xl font-extrabold text-white md:text-3xl">
@@ -33,31 +60,51 @@ export default function OverallStats({ journey, logs }: any) {
         </p>
         <FaQuoteRight className="text-md ml-1" fill="white" />
       </div>
-      <div className="flex w-full flex-col gap-2 border-1 md:flex-row md:justify-between">
-        <div className="w-full md:order-3 md:w-[35%]">
+      {/* Convert to grid each with own col on mobile it will just be 1 */}
+      <div className="grid w-full grid-cols-1 gap-4 lg:grid-cols-3">
+        {/* Graph Average */}
+        <div className="order-3 w-full lg:order-3">
           <GraphAverage />
         </div>
         {/* Stacked cards favorite container */}
-        <div className="order-2 flex w-[35%] flex-1 flex-col">
-          <p>Favorites</p>
+        <div className="order-1 h-[10rem] overflow-hidden lg:order-2 lg:h-full lg:overflow-visible">
           <StackedCards />
         </div>
         {/* Total logs/emoji */}
-        <div className="flex items-center gap-4 self-start rounded-lg bg-white p-4 shadow-md md:order-1">
-          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-white">
-            <motion.p
-              variants={animationVariants}
-              initial="initial"
-              whileHover="hover"
-              className="backface-visibility-hidden text-3xl will-change-transform"
-              style={{ transform: "translateZ(0)" }}
-            >
-              {findMostEmoji(logs)}
-            </motion.p>
+        <div className="order-2 flex flex-1 flex-row justify-evenly gap-4 lg:order-1 lg:flex-col lg:justify-between">
+          <div className="flex flex-1 items-center gap-4 rounded-lg bg-white p-4 shadow-md">
+            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-white">
+              <motion.p
+                variants={animationVariants}
+                initial="initial"
+                whileHover="hover"
+                className="backface-visibility-hidden text-3xl will-change-transform"
+                style={{ transform: "translateZ(0)" }}
+              >
+                {findMostEmoji(logs)}
+              </motion.p>
+            </div>
+            <div>
+              <p className="text-lg font-semibold text-primary">Total Logs</p>
+              <p className="text-2xl font-bold">{logs.length}</p>
+            </div>
           </div>
-          <div>
-            <p className="text-lg font-semibold text-primary">Total Logs</p>
-            <p className="text-2xl font-bold">{logs.length}</p>
+          <div className="flex flex-1 items-center gap-4 rounded-lg bg-white p-4 shadow-md">
+            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-white">
+              <motion.p
+                variants={animationVariants}
+                initial="initial"
+                whileHover="hover"
+                className="backface-visibility-hidden text-3xl will-change-transform"
+                style={{ transform: "translateZ(0)" }}
+              >
+                {findMostEmoji(logs)}
+              </motion.p>
+            </div>
+            <div>
+              <p className="text-lg font-semibold text-primary">Total Logs</p>
+              <p className="text-2xl font-bold">{logs.length}</p>
+            </div>
           </div>
         </div>
       </div>

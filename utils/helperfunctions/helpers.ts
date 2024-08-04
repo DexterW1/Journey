@@ -144,6 +144,7 @@ export function getAverage(arr: logsType[]) {
 }
 export const findMostEmoji = (logs: logsType[]) => {
   if (logs.length === 0) return "";
+  if (logs.length === 1) return logs[0].emoji || "";
   const emojiCount: { [key: string]: number } = {};
   logs.forEach((log) => {
     if (log.emoji) {

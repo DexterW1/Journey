@@ -24,11 +24,11 @@ export default function SwipeCard(props: any) {
   };
   function handleDragEnd(_: any, info: any) {
     if (info.offset.x < -100) {
-      setExitX(-450);
+      setExitX(-350);
       props.setIndex((props.index + 1) % props.logLength);
     }
     if (info.offset.x > 100) {
-      setExitX(450);
+      setExitX(350);
       props.setIndex((props.index + 1) % props.logLength);
     }
   }
