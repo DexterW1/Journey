@@ -412,7 +412,7 @@ export default function DisplayTask({
   }, [journey_id]);
 
   const handleLoadMore = () => {
-    setLogsDisplayed(logsDisplayed + 3);
+    setLogsDisplayed((prev) => prev + 3);
   };
   const handleAnimationStart = () => {
     setIsAnimating(true);

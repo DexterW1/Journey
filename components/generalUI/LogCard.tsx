@@ -18,6 +18,7 @@ import {
 import { useLogStore } from "@/store/logStore";
 import { motion, AnimatePresence } from "framer-motion";
 import ProgressBar from "../logsUI/ProgressBar";
+import { useJourneyStore } from "@/store/journeyStore";
 // import { IoFilterOutline } from "react-icons/io5";
 
 import { EditDocumentIcon } from "../icon/EditDocumentIcon";
@@ -72,17 +73,18 @@ export default function LogCard({ log }: { log: LogProps }) {
   if (!log) return null;
   const [editMode, setEditMode] = useState(false);
   const [sliderValues, setSliderValues] = useState<{}>(log.metric);
+  const selectedJourneyId = useJourneyStore((state) => state.selectedJourneyId);
   const [newSummary, setNewSummary] = useState(log.summary);
   const deleteLog = useLogStore((state) => state.deleteLog);
-  const fetchLogs = useLogStore((state) => state.fetchLogs);
+  // const fetchLogs = useLogStore((state) => state.fetchLogs);
   const editLog = useLogStore((state) => state.editLog);
   const [currentLog, setCurrentLog] = useState<LogProps>(log);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const handleDeleteLog = async () => {
     setCurrentLog({} as LogProps);
     setTimeout(() => {
-      deleteLog(log.id);
-      fetchLogs(log.journey_id);
+      deleteLog(log.id, selectedJourneyId);
+      // fetchLogs(log.journey_id);
     }, 400);
   };
 
@@ -101,7 +103,7 @@ export default function LogCard({ log }: { log: LogProps }) {
       summary: newSummary,
       metric: sliderValues,
     };
-    editLog(currentLog.id, newValues);
+    editLog(currentLog.id, newValues, selectedJourneyId);
 
     setEditMode(false);
   };
