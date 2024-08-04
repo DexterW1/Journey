@@ -25,7 +25,7 @@ export default function StackedCards() {
     );
   return (
     <motion.div
-      className="flex h-full flex-1 flex-row items-center justify-center"
+      className="flex h-full flex-1 flex-row justify-center"
       style={{ position: "relative" }}
     >
       <AnimatePresence initial={false}>

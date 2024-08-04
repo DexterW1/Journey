@@ -31,7 +31,7 @@ export default function JourneyStats({ journey }: any) {
       transition={{ duration: 1 }}
       className="flex flex-1 flex-col gap-4"
     >
-      <div className="h-full rounded-2xl bg-primaryLight p-4 lg:max-h-[37vh]">
+      <div className="rounded-2xl bg-primaryLight p-4 lg:max-h-[40vh]">
         {/* Quote Container */}
         <OverallStats journey={journey} logs={logs} />
       </div>
