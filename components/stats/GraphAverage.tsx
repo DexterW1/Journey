@@ -20,12 +20,14 @@ export default function GraphAverage() {
     <div className="flex flex-1 flex-col gap-2 rounded-xl bg-white p-4">
       {/* <p className="text-lg font-bold leading-none text-primary">Averages</p> */}
       {timeOptions.map((option) => (
-        <AnimatePresence key={option} mode="wait">
+        <AnimatePresence key={option}>
           {selected === option && (
-            <motion.div className="mb-2">
+            <motion.div className="mb-2" transition={{ duration: 1 }}>
               {Object.keys(average[selected]).map((key, index) => (
-                <div key={index}>
-                  <p>{key}</p>
+                <div key={index} className="flex flex-col gap-1">
+                  <p className="text-medium font-semibold text-primary">
+                    {key}
+                  </p>
                   <AdjProgress
                     percentage={average[selected][key]}
                     color={colors[index]}

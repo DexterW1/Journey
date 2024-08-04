@@ -29,7 +29,7 @@ export default function JourneyStats({ journey }: any) {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 1 }}
-      className="flex flex-1 flex-col gap-4 border"
+      className="flex flex-1 flex-col gap-4"
     >
       <div className="h-full rounded-2xl bg-primaryLight p-4 lg:max-h-[37vh]">
         {/* Quote Container */}

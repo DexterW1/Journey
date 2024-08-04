@@ -7,7 +7,7 @@ const ChipTabs = ({ selected, setSelected }: any) => {
   // const [selected, setSelected] = useState(tabs[0]);
 
   return (
-    <div className="flex flex-row items-center justify-center gap-2 rounded-xl bg-cardBackground p-2">
+    <div className="flex flex-row items-center justify-center gap-2 rounded-xl bg-primaryLight p-2">
       {tabs.map((tab) => (
         <Chip
           text={tab}
@@ -35,7 +35,7 @@ const Chip = ({ text, selected, setSelected }: any) => {
         <motion.span
           layoutId="pill-tab"
           transition={{ type: "spring", duration: 0.5 }}
-          className="absolute inset-0 z-0 rounded-md bg-gradient-to-r from-primaryLight to-buttonPrimary"
+          className="absolute inset-0 z-0 rounded-md bg-accent"
         ></motion.span>
       )}
     </button>

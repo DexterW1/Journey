@@ -36,6 +36,8 @@ export default function OverallStats({ journey, logs }: any) {
         <div className="w-full md:order-2 md:w-[40%]">
           <GraphAverage />
         </div>
+        {/* Stacked cards favorite container */}
+        <div></div>
         {/* Total logs/emoji */}
         <div className="flex items-center gap-4 self-start rounded-lg bg-white p-4 shadow-md md:order-1">
           <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-white">
