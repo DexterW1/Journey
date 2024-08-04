@@ -8,6 +8,7 @@ import {
   useMotionValue,
 } from "framer-motion";
 import JourneyCard from "@/components/dashboardUI/JourneyCard";
+import { useJourneyStore } from "@/store/journeyStore";
 import AddJourney from "@/components/modals/AddJourney";
 import GreetingCard from "@/components/dashboardUI/GreetingCard";
 import Weeklydisplay from "@/components/dashboardUI/Weeklydisplay";
@@ -20,21 +21,27 @@ export default function Dashboard({ user, journey }: any) {
   );
   const [journeyArr, setJourneyArr] = useState<any>(journey);
   const [newJourneyAnimation, setNewJourneyAnimation] = useState(false);
+  const setSelectedJourneyId = useJourneyStore(
+    (state) => state.setSelectedJourneyId,
+  );
 
   useEffect(() => {
     if (journey.length > 0) {
       setSelectedJourney(journey[0]);
+      setSelectedJourneyId(journey[0]);
     }
     setNewJourneyAnimation(true);
     const timer = setTimeout(() => {
       setNewJourneyAnimation(false);
     }, 500);
-
+    setJourneyArr(journey);
+    console.log("journeyArr", journeyArr);
     return () => clearTimeout(timer);
   }, [journey]);
 
   const handleSelectJourney = (journey: any) => {
     setSelectedJourney(journey);
+    setSelectedJourneyId(journey);
   };
   useEffect(() => {
     setJourneyArr(journey);

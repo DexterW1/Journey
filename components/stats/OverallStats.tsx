@@ -24,6 +24,9 @@ const animationVariants = {
   },
 };
 export default function OverallStats({ journey, logs }: any) {
+  if (logs === undefined) {
+    return null;
+  }
   if (logs.length === 0) {
     return (
       <div className="relative flex h-full flex-1 flex-col items-center gap-4 border-1 p-4">
@@ -64,11 +67,11 @@ export default function OverallStats({ journey, logs }: any) {
       <div className="grid w-full grid-cols-1 gap-4 lg:grid-cols-3">
         {/* Graph Average */}
         <div className="order-3 w-full lg:order-3">
-          <GraphAverage />
+          <GraphAverage logs={logs.logs} />
         </div>
         {/* Stacked cards favorite container */}
         <div className="order-1 h-[10rem] overflow-hidden lg:order-2 lg:h-full lg:overflow-visible">
-          <StackedCards />
+          <StackedCards logs={logs.logs} />
         </div>
         {/* Total logs/emoji */}
         <div className="order-2 flex flex-1 flex-row justify-evenly gap-4 lg:order-1 lg:flex-col lg:justify-between">
@@ -81,7 +84,7 @@ export default function OverallStats({ journey, logs }: any) {
                 className="backface-visibility-hidden text-3xl will-change-transform"
                 style={{ transform: "translateZ(0)" }}
               >
-                {findMostEmoji(logs)}
+                {logs.stats.mostEmoji}
               </motion.p>
             </div>
             <div>
@@ -98,12 +101,12 @@ export default function OverallStats({ journey, logs }: any) {
                 className="backface-visibility-hidden text-3xl will-change-transform"
                 style={{ transform: "translateZ(0)" }}
               >
-                {findMostEmoji(logs)}
+                {logs.stats.mostEmoji}
               </motion.p>
             </div>
             <div>
               <p className="text-lg font-semibold text-primary">Total Logs</p>
-              <p className="text-2xl font-bold">{logs.length}</p>
+              <p className="text-2xl font-bold">{logs.logs.length}</p>
             </div>
           </div>
         </div>

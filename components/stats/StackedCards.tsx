@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import SwipeCard from "./SwipeCard";
 import { useLogStore } from "@/store/logStore";
-export default function StackedCards() {
-  const logs = useLogStore((state) => state.logs);
+export default function StackedCards({ logs }: any) {
+  // const logs = useLogStore((state) => state.logs);
   const [log, setLog] = useState(logs);
   const [index, setIndex] = useState(0);
   const handIndexChange = (index: number) => {

@@ -4,6 +4,8 @@ import { checkDuplicateTitle } from "@/utils/helperfunctions/helpers";
 import { useUserStore } from "@/store/userStore";
 type JourneyStore = {
   journeys: any[];
+  selectedJourneyId: string;
+  setSelectedJourneyId: (id: string) => void;
   addJourney: (title: string, template: string[]) => void;
   fetchJourneys: () => void;
   fetchedJourneys: boolean;
@@ -13,6 +15,10 @@ type JourneyStore = {
 export const useJourneyStore = create<JourneyStore>((set, get) => ({
   journeys: [],
   fetchedJourneys: false,
+  selectedJourneyId: "",
+  setSelectedJourneyId: (id) => {
+    set({ selectedJourneyId: id });
+  },
   deleteJourney: async (id) => {
     try {
       const supabase = createClient();

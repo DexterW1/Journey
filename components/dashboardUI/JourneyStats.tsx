@@ -11,18 +11,20 @@ import OverallStats from "../stats/OverallStats";
 export default function JourneyStats({ journey }: any) {
   const deleteJourney = useJourneyStore((state) => state.deleteJourney);
   const [currentScreen, setCurrentScreen] = useState(0);
-  const fetchLogs = useLogStore((state) => state.fetchLogs);
-  const logs = useLogStore((state) => state.logs);
+  const logsByJourney = useLogStore((state) => state.logsByJourney);
+  // const fetchLogs = useLogStore((state) => state.fetchLogs);
+  // const logs = useLogStore((state) => state.logs);
   const handleDeleteJourney = () => {
     if (journey) {
       deleteJourney(journey.id);
     }
   };
-  useEffect(() => {
-    if (journey) {
-      fetchLogs(journey.id);
-    }
-  }, [journey.id]);
+  // useEffect(() => {
+  //   if (journey) {
+  //     fetchLogs(journey.id);
+  //   }
+  // }, [journey.id]);
+  // console.log(logsByJourney);
   return (
     <motion.section
       initial={{ opacity: 0 }}
@@ -33,7 +35,7 @@ export default function JourneyStats({ journey }: any) {
     >
       <div className="rounded-2xl bg-primaryLight p-4 lg:max-h-[40vh]">
         {/* Quote Container */}
-        <OverallStats journey={journey} logs={logs} />
+        <OverallStats journey={journey} logs={logsByJourney[journey.id]} />
       </div>
       {/* journeystats all details */}
       <ScrollShadow
@@ -62,7 +64,7 @@ export default function JourneyStats({ journey }: any) {
             >
               <DisplayTask
                 setCurrentScreen={setCurrentScreen}
-                logs={logs}
+                logs={logsByJourney[journey.id].logs}
                 journey_id={journey.id}
               />
             </motion.div>

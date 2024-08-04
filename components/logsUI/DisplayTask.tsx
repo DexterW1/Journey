@@ -30,15 +30,15 @@ const colors = ["#0372f5", "#9652d9", "#18c964", "#f4a628", "#f41865"];
 const colorOptions = ["blue", "purple", "green", "yellow", "red"];
 type LogProps = {
   created_at: string;
-  emoji: string;
-  summary: string;
-  time_day: string;
+  emoji?: string;
   id: string;
-  journey_id: string;
-  user_id: string;
   metric: {
     [key: string]: number;
   };
+  summary?: string;
+  time_day?: string;
+  user_id?: string;
+  journey_id?: string;
 };
 
 const iconClasses =
@@ -79,24 +79,26 @@ const LogItem = ({
   log,
   containerRef,
   funMode,
+  journey_id,
 }: {
   funMode: boolean;
   containerRef: any;
   log: LogProps;
+  journey_id: string;
 }) => {
   const [editMode, setEditMode] = useState(false);
-  const [sliderValues, setSliderValues] = useState<{}>(log.metric);
+  const [sliderValues, setSliderValues] = useState<{}>(log.metric || {});
   const [newSummary, setNewSummary] = useState(log.summary);
   const deleteLog = useLogStore((state) => state.deleteLog);
-  const fetchLogs = useLogStore((state) => state.fetchLogs);
+  // const fetchLogs = useLogStore((state) => state.fetchLogs);
   const editLog = useLogStore((state) => state.editLog);
   const [currentLog, setCurrentLog] = useState<LogProps>(log);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const handleDeleteLog = async () => {
     setCurrentLog({} as LogProps);
     setTimeout(() => {
-      deleteLog(log.id);
-      fetchLogs(log.journey_id);
+      deleteLog(log.id, journey_id);
+      // fetchLogs(log.journey_id);
     }, 400);
   };
 
@@ -117,7 +119,7 @@ const LogItem = ({
       summary: newSummary,
       metric: sliderValues,
     };
-    editLog(currentLog.id, newValues);
+    editLog(currentLog.id, newValues, journey_id);
 
     setEditMode(false);
   };
@@ -396,7 +398,10 @@ export default function DisplayTask({
   // const size = useWindowSize();
   const [funMode, setFunMode] = useState(false);
   const [currentJourneyId, setCurrentJourneyId] = useState(journey_id);
+  // const [logsToDisplay, setLogsToDisplay] = useState(logs);
   const [logsDisplayed, setLogsDisplayed] = useState(6); // Initial logs displayed
+  const [logsToDisplay, setLogsToDisplay] = useState<any[]>([]); // Logs to display
+  const [isAnimating, setIsAnimating] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -409,7 +414,22 @@ export default function DisplayTask({
   const handleLoadMore = () => {
     setLogsDisplayed(logsDisplayed + 3);
   };
-  const logsToDisplay = logs?.slice(0, logsDisplayed);
+  const handleAnimationStart = () => {
+    setIsAnimating(true);
+  };
+
+  const handleAnimationComplete = () => {
+    setIsAnimating(false);
+  };
+  useEffect(() => {
+    if (!isAnimating) {
+      setLogsToDisplay(logs?.slice(0, logsDisplayed) || []);
+    }
+  }, [logs, logsDisplayed, isAnimating]);
+  // useEffect(() => {
+  //   return setLogsToDisplay(logsToDisplay?.slice(0, logsDisplayed));
+  // }, [logs]);
+  // const logsToDisplay = logs?.slice(0, logsDisplayed);
   return (
     <div>
       <div className="mb-4 flex flex-row items-center justify-between">
@@ -430,15 +450,22 @@ export default function DisplayTask({
           </Button>
         </div>
       </div>
-      <AnimatePresence initial={false} mode="wait">
+      <AnimatePresence
+        initial={false}
+        mode="wait"
+        onExitComplete={handleAnimationComplete}
+      >
         <motion.div
+          // layoutId="logitemDisplay"
           key={currentJourneyId}
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -40 }}
           transition={{ duration: 0.5 }}
           ref={containerRef}
-          className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3"
+          className="grid grid-cols-1 gap-4 will-change-transform md:grid-cols-2 lg:grid-cols-3"
+          onAnimationStart={handleAnimationStart}
+          style={{ willChange: "transform" }}
         >
           {logsToDisplay?.map((log) => (
             <LogItem
@@ -446,6 +473,7 @@ export default function DisplayTask({
               log={log}
               containerRef={containerRef}
               funMode={funMode}
+              journey_id={journey_id}
             />
           ))}
         </motion.div>
@@ -456,7 +484,7 @@ export default function DisplayTask({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0 }}
-          transition={{ delay: 0.5 }}
+          transition={{ delay: 0.7 }}
           className="mt-4 flex justify-center"
         >
           <Button color="primary" onPress={handleLoadMore} radius="full">

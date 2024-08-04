@@ -8,8 +8,8 @@ import ProgressBar from "../logsUI/ProgressBar";
 import ChipTabs from "../generalUI/ChipsTab";
 const timeOptions = ["Week", "Month", "All"];
 const colors = ["#0372f5", "#9652d9", "#18c964", "#f4a628", "#f41865"];
-export default function GraphAverage() {
-  const logs = useLogStore((state) => state.logs);
+export default function GraphAverage({ logs }: any) {
+  // const logs = useLogStore((state) => state.logs);
   const [average, setAverage] = useState(getAverage(logs));
   const [selected, setSelected] = useState("Week");
   useEffect(() => {

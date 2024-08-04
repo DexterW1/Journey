@@ -161,3 +161,30 @@ export const findMostEmoji = (logs: logsType[]) => {
 
   return mostEmoji;
 };
+
+export const calculateStats = (
+  logs: any,
+): {
+  mostEmoji: string;
+  averages: {
+    week: { [key: string]: number };
+    month: { [key: string]: number };
+    all: { [key: string]: number };
+  };
+} => {
+  const averagesByPeriod = getAverage(logs); // { Week: {}, Month: {}, All: {} }
+  const mostEmoji = findMostEmoji(logs);
+
+  // Map the 'Week', 'Month', 'All' periods to the desired structure
+  const averages = {
+    week: averagesByPeriod.Week,
+    month: averagesByPeriod.Month,
+    all: averagesByPeriod.All,
+  };
+
+  // Return the stats object with the required structure
+  return {
+    mostEmoji,
+    averages,
+  };
+};
