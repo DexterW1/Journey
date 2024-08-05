@@ -184,7 +184,7 @@ export default function GetStarted({ user }: any) {
   };
   return (
     <section className="flex flex-1 flex-col items-center justify-between p-4 lg:items-start lg:justify-normal">
-      <div className="flex w-full flex-1 flex-col border lg:flex-row">
+      <div className="flex w-full flex-1 flex-col lg:flex-row">
         <div className="lg:w-1/2">
           <motion.h1
             className="self-start text-4xl font-bold italic"

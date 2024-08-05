@@ -24,7 +24,7 @@ export default function StackedCards({ logs }: any) {
           .eq("journey_id", selectedJourneyId.id);
         if (data) {
           setLog(data);
-          console.log("Logs favorites set sucessfully", data);
+          // console.log("Logs favorites set sucessfully", data);
         }
         if (error) {
           setLog([]);
