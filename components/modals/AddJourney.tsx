@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import BallsTab from "../generalUI/BallsTab";
 import { useUserStore } from "@/store/userStore";
 import { useJourneyStore } from "@/store/journeyStore";
 import ScreenLog from "../logsUI/ScreenLog";
@@ -146,7 +147,13 @@ export default function AddJourney({ isOpen, onOpenChange }: any) {
                 {renderScreen()}
               </motion.div>
             </AnimatePresence>
-            <div className="mt-4 flex justify-between">
+            <div
+              className={`mt-4 flex items-center ${currentScreen === 1 ? "justify-normal" : "justify-end"}`}
+            >
+              {/* <BallsTab
+                currentScreen={currentScreen}
+                setCurrentScreen={setCurrentScreen}
+              /> */}
               {currentScreen > 0 && (
                 <Button onClick={() => setCurrentScreen(0)} className="mr-2">
                   Previous
