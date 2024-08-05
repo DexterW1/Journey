@@ -45,7 +45,6 @@ export default function Dashboard({ user, journey }: any) {
   };
   useEffect(() => {
     setJourneyArr(journey);
-    console.log("journeyArr", journeyArr);
   }, [journey]);
 
   return (

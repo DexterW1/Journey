@@ -25,17 +25,31 @@ type LogObject = {
   };
   summary?: string;
   time_day?: string;
-  user_id?: string;
-  journey_id?: string;
+  user_id: string;
+  journey_id: string;
+  fav: boolean;
+};
+type EditAddLogObject = {
+  emoji?: string;
+  metric: {
+    [key: string]: number;
+  };
+  summary?: string;
+  time_day?: string;
+  fav?: boolean;
 };
 
 type LogStore = {
   loadingLog: boolean;
   logsByJourney: LogsByJourneyProp;
-  addLog: (log: LogObject, journey_id: string) => void;
+  addLog: (log: EditAddLogObject, journey_id: string) => void;
   fetchLogsForAllJourneys: () => void;
   deleteLog: (log_id: string, journey_id: string) => void;
-  editLog: (log_id: string, newValues: LogObject, journey_id: string) => void;
+  editLog: (
+    log_id: string,
+    newValues: EditAddLogObject,
+    journey_id: string,
+  ) => void;
 };
 
 export const useLogStore = create<LogStore>((set, get) => ({
@@ -50,8 +64,8 @@ export const useLogStore = create<LogStore>((set, get) => ({
         .select();
       if (data) {
         const updatedLogs = [
-          ...(get().logsByJourney[journey_id]?.logs || []),
           ...data,
+          ...(get().logsByJourney[journey_id]?.logs || []),
         ];
         const stats = calculateStats(updatedLogs);
 

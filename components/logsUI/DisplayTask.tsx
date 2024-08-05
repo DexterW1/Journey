@@ -29,9 +29,9 @@ import { MySlider } from "../nextuimodifier/MySlider";
 const colors = ["#0372f5", "#9652d9", "#18c964", "#f4a628", "#f41865"];
 const colorOptions = ["blue", "purple", "green", "yellow", "red"];
 type LogProps = {
-  created_at: string;
+  created_at?: string;
   emoji?: string;
-  id: string;
+  id?: string;
   metric: {
     [key: string]: number;
   };
@@ -39,6 +39,7 @@ type LogProps = {
   time_day?: string;
   user_id?: string;
   journey_id?: string;
+  fav?: boolean;
 };
 
 const iconClasses =
@@ -89,6 +90,7 @@ const LogItem = ({
   const [editMode, setEditMode] = useState(false);
   const [sliderValues, setSliderValues] = useState<{}>(log.metric || {});
   const [newSummary, setNewSummary] = useState(log.summary);
+  const [favorite, setFavorite] = useState(log.fav);
   const deleteLog = useLogStore((state) => state.deleteLog);
   // const fetchLogs = useLogStore((state) => state.fetchLogs);
   const editLog = useLogStore((state) => state.editLog);
@@ -97,7 +99,7 @@ const LogItem = ({
   const handleDeleteLog = async () => {
     setCurrentLog({} as LogProps);
     setTimeout(() => {
-      deleteLog(log.id, journey_id);
+      deleteLog(log.id ?? "", journey_id);
       // fetchLogs(log.journey_id);
     }, 400);
   };
@@ -119,7 +121,7 @@ const LogItem = ({
       summary: newSummary,
       metric: sliderValues,
     };
-    editLog(currentLog.id, newValues, journey_id);
+    editLog(currentLog.id ?? "", newValues, journey_id);
 
     setEditMode(false);
   };
@@ -129,7 +131,6 @@ const LogItem = ({
       [label]: value,
     }));
   };
-
   return (
     <>
       <AnimatePresence mode="wait" initial={false}>
@@ -152,10 +153,10 @@ const LogItem = ({
               </div>
               <div>
                 <p className="text-md font-semibold">
-                  {getDay(log.created_at)}
+                  {getDay(log.created_at ?? "")}
                 </p>
                 <p className="text-sm font-semibold">
-                  {format_date(log.created_at)}
+                  {format_date(log.created_at ?? "")}
                 </p>
                 <p className="text-sm">{log.time_day}</p>
               </div>
@@ -212,10 +213,10 @@ const LogItem = ({
                     </div>
                     <div>
                       <p className="text-lg font-semibold">
-                        {getDay(log.created_at)}
+                        {getDay(log.created_at ?? "")}
                       </p>
                       <p className="text-medium font-semibold">
-                        {format_date(log.created_at)}
+                        {format_date(log.created_at ?? "")}
                       </p>
                       <p className="text-medium">{log.time_day}</p>
                     </div>
@@ -271,7 +272,7 @@ const LogItem = ({
                         transition={{ duration: 0.3 }}
                         className="flex flex-col gap-1"
                       >
-                        {Object.keys(log.metric).map((key, index) => (
+                        {Object.keys(log.metric ?? "").map((key, index) => (
                           <div
                             key={`progress-${index}`}
                             className="flex flex-col gap-1"
@@ -480,7 +481,7 @@ export default function DisplayTask({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0 }}
-          transition={{ delay: 0 }}
+          transition={{ delay: 0.5 }}
           className="mt-4 flex justify-center"
         >
           <Button color="primary" onPress={handleLoadMore} radius="full">

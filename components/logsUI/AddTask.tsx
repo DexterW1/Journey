@@ -13,6 +13,7 @@ import { useUserStore } from "@/store/userStore";
 import { useLogStore } from "@/store/logStore";
 import { IoTimeOutline } from "react-icons/io5";
 import { MySlider } from "../nextuimodifier/MySlider";
+import { FaV } from "react-icons/fa6";
 const colorOptions = ["blue", "purple", "green", "yellow", "red"];
 const timeReturn = () => {
   const date = new Date();
@@ -50,6 +51,7 @@ export default function AddTask({ journey, setCurrentScreen }: any) {
       user_id: user.id,
       summary,
       metric: sliderValues,
+      fav: false,
     };
     addLog(result, journey.id);
     // await fetchLogs(journey.id);
