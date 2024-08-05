@@ -4,8 +4,8 @@ import { checkDuplicateTitle } from "@/utils/helperfunctions/helpers";
 import { useUserStore } from "@/store/userStore";
 type JourneyStore = {
   journeys: any[];
-  selectedJourneyId: string;
-  setSelectedJourneyId: (id: string) => void;
+  selectedJourneyId: any;
+  setSelectedJourneyId: (id: {}) => void;
   addJourney: (title: string, template: string[]) => void;
   fetchJourneys: () => void;
   fetchedJourneys: boolean;

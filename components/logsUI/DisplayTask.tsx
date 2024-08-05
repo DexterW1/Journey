@@ -17,7 +17,7 @@ import {
   ScrollShadow,
 } from "@nextui-org/react";
 import { useLogStore } from "@/store/logStore";
-import { FaPlus } from "react-icons/fa6";
+import { FaPlus, FaStar, FaRegStar } from "react-icons/fa6";
 import { motion, AnimatePresence } from "framer-motion";
 import ProgressBar from "./ProgressBar";
 // import { IoFilterOutline } from "react-icons/io5";
@@ -103,7 +103,14 @@ const LogItem = ({
       // fetchLogs(log.journey_id);
     }, 400);
   };
-
+  const handleFavorite = () => {
+    const newValues = {
+      ...currentLog,
+      fav: !favorite,
+    };
+    editLog(currentLog.id ?? "", newValues, journey_id);
+    setFavorite(!favorite);
+  };
   const handleCardClick = () => {
     if (!funMode) {
       onOpen();
@@ -169,6 +176,21 @@ const LogItem = ({
                   </button>
                 </DropdownTrigger>
                 <DropdownMenu>
+                  <DropdownItem
+                    key="favoritek"
+                    onPress={handleFavorite}
+                    startContent={
+                      log.fav ? (
+                        <FaStar fill="gold" size={21} />
+                      ) : (
+                        <div>
+                          <FaRegStar stroke="gold" fill="gold" size={21} />
+                        </div>
+                      )
+                    }
+                  >
+                    Favorite
+                  </DropdownItem>
                   <DropdownItem
                     key="edit"
                     onPress={handleEditLog}
