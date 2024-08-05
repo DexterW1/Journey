@@ -70,7 +70,7 @@ export default function OverallStats({ journey, logs }: any) {
           <GraphAverage logs={logs.logs} />
         </div>
         {/* Stacked cards favorite container */}
-        <div className="order-1 h-[10rem] overflow-hidden lg:order-2 lg:h-full lg:overflow-visible">
+        <div className="order-1 h-[10rem] lg:order-2 lg:h-full lg:overflow-visible">
           <StackedCards logs={logs.logs} />
         </div>
         {/* Total logs/emoji */}

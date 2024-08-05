@@ -63,7 +63,7 @@ export default function HomeContent() {
     return <div>Loading...</div>;
 
   return (
-    <div className="flex w-full flex-1 flex-col sm:max-w-7xl">
+    <div className="flex w-full flex-1 flex-col overflow-x-hidden sm:max-w-7xl">
       <NavBar />
       <AnimatePresence onExitComplete={handleExitComplete}>
         {user.stage === 0 && (
