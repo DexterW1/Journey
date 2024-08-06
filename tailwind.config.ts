@@ -12,7 +12,10 @@ module.exports = {
       backgroundImage: {
         landing: "url('/background/landing.jpeg')",
       },
-
+      screens: {
+        tall: { raw: "(min-height: 800px)" },
+        short: { raw: "(min-height: 600px)" },
+      },
       colors: {
         primary: "#2C6E49", // Forest Green
         primaryLight: "#4c956c", // Light Forest Green

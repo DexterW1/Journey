@@ -29,7 +29,7 @@ export default function OverallStats({ journey, logs }: any) {
   }
   if (logs.length === 0) {
     return (
-      <div className="relative flex h-full flex-1 flex-col items-center gap-4 border-1 p-4">
+      <div className="relative flex flex-col items-center gap-4 p-4">
         {/* Title */}
         <div className="flex flex-row justify-center">
           <FaQuoteLeft className="text-md mr-1" fill="white" />

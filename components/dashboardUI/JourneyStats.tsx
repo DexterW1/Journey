@@ -19,21 +19,15 @@ export default function JourneyStats({ journey }: any) {
       deleteJourney(journey.id);
     }
   };
-  // useEffect(() => {
-  //   if (journey) {
-  //     fetchLogs(journey.id);
-  //   }
-  // }, [journey.id]);
-  // console.log(logsByJourney);
   return (
     <motion.section
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 1 }}
-      className="flex flex-1 flex-col gap-4"
+      className="flex flex-col gap-4"
     >
-      <div className="rounded-2xl bg-primaryLight p-4 lg:max-h-[40vh]">
+      <div className="flex flex-col rounded-2xl bg-primaryLight p-4 lg:max-h-[40vh]">
         {/* Quote Container */}
         <OverallStats journey={journey} logs={logsByJourney[journey.id]} />
       </div>

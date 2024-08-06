@@ -17,27 +17,37 @@ export default function GraphAverage({ logs }: any) {
     // console.log(average);
   }, [logs]);
   return (
-    <div className="flex min-h-48 flex-1 flex-col rounded-xl bg-white p-4">
+    <div className="flex flex-1 flex-col rounded-xl bg-white p-4">
       {/* <p className="text-lg font-bold leading-none text-primary">Averages</p> */}
-      {timeOptions.map((option) => (
-        <AnimatePresence key={option}>
-          {selected === option && (
-            <motion.div className="mb-2" transition={{ duration: 1 }}>
-              {Object.keys(average[selected]).map((key, index) => (
-                <div key={index} className="flex flex-col gap-1">
-                  <p className="text-medium font-semibold text-primary">
-                    {key}
-                  </p>
-                  <AdjProgress
-                    percentage={average[selected][key]}
-                    color={colors[index]}
-                  />
-                </div>
-              ))}
-            </motion.div>
-          )}
-        </AnimatePresence>
-      ))}
+      <AnimatePresence mode="wait">
+        {timeOptions.map(
+          (option) =>
+            // <AnimatePresence mode="wait">
+            selected === option && (
+              <motion.div
+                key={selected}
+                className="mb-2"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.5 }}
+              >
+                {Object.keys(average[selected]).map((key, index) => (
+                  <motion.div key={index} className="flex flex-col gap-1">
+                    <p className="text-medium font-semibold text-primary">
+                      {key}
+                    </p>
+                    <AdjProgress
+                      percentage={average[selected][key]}
+                      color={colors[index]}
+                    />
+                  </motion.div>
+                ))}
+              </motion.div>
+            ),
+          // </AnimatePresence>
+        )}
+      </AnimatePresence>
       <ChipTabs selected={selected} setSelected={setSelected} />
     </div>
   );
