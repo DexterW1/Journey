@@ -80,7 +80,6 @@ export default function Dashboard({ user, journey }: any) {
                     <motion.div
                       onClick={() => handleSelectJourney(journey)}
                       className="relative cursor-pointer"
-                      // initial={{ opacity: 0, x: newJourneyAnimation ? 0 : -50 }}
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: -50 }}
                       transition={{ duration: 1 }}

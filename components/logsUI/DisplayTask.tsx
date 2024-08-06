@@ -475,7 +475,6 @@ export default function DisplayTask({
         onExitComplete={handleAnimationComplete}
       >
         <motion.div
-          // layoutId="logitemDisplay"
           key={journey_id}
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}

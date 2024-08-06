@@ -35,7 +35,7 @@ const Chip = ({ text, selected, setSelected }: any) => {
         <motion.span
           layoutId={`pill-tab`}
           transition={{ type: "spring", duration: 0.5 }}
-          className="absolute inset-0 z-0 rounded-md bg-accent"
+          className="absolute inset-0 z-0 rounded-md bg-buttonPrimary"
         ></motion.span>
       )}
     </button>

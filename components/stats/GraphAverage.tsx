@@ -26,11 +26,11 @@ export default function GraphAverage({ logs }: any) {
             selected === option && (
               <motion.div
                 key={selected}
-                className="mb-2"
+                className="mb-4"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                transition={{ duration: 0.5 }}
+                transition={{ duration: 0.4 }}
               >
                 {Object.keys(average[selected]).map((key, index) => (
                   <motion.div key={index} className="flex flex-col gap-1">
