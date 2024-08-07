@@ -43,7 +43,7 @@ export default function page() {
     <div className="flex w-full flex-1 flex-col items-center gap-8 px-8 pt-8 sm:max-w-5xl">
       <Link
         href={"/login"}
-        className="bg-buttonSecondary self-start rounded-xl p-2"
+        className="self-start rounded-xl bg-buttonPrimary p-2"
       >
         Back
       </Link>
@@ -55,7 +55,7 @@ export default function page() {
               First Name
             </label>
             <input
-              className="border-inputBorder mb-6 w-full rounded-md border bg-inherit px-4 py-2"
+              className="mb-6 w-full rounded-md border border-inputBorder bg-inherit px-4 py-2"
               name="firstName"
               placeholder="John"
               required
@@ -66,7 +66,7 @@ export default function page() {
               Last Name
             </label>
             <input
-              className="border-inputBorder mb-6 w-full rounded-md border bg-inherit px-4 py-2"
+              className="mb-6 w-full rounded-md border border-inputBorder bg-inherit px-4 py-2"
               name="lastName"
               placeholder="Doe"
               required
@@ -77,7 +77,7 @@ export default function page() {
           Email
         </label>
         <input
-          className="border-inputBorder mb-6 rounded-md border bg-inherit px-4 py-2"
+          className="mb-6 rounded-md border border-inputBorder bg-inherit px-4 py-2"
           name="email"
           placeholder="you@example.com"
           required
@@ -86,7 +86,7 @@ export default function page() {
           Password
         </label>
         <input
-          className="border-inputBorder mb-6 rounded-md border bg-inherit px-4 py-2"
+          className="mb-6 rounded-md border border-inputBorder bg-inherit px-4 py-2"
           type="password"
           name="password"
           placeholder="••••••••"
@@ -94,7 +94,7 @@ export default function page() {
         />
         <SubmitButton
           formAction={signUp}
-          className="bg-buttonPrimary mb-2 rounded-md px-4 py-2 text-foreground"
+          className="mb-2 rounded-md bg-buttonPrimary px-4 py-2 text-foreground"
           pendingText="Signing In..."
         >
           Sign Up

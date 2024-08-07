@@ -29,7 +29,7 @@ export default function Login({
 
   return (
     <div className="flex w-full flex-1 flex-col items-center gap-8 px-8 pt-8 sm:max-w-5xl">
-      <Link href={"/"} className="bg-buttonSecondary self-start rounded-xl p-2">
+      <Link href={"/"} className="self-start rounded-xl bg-buttonPrimary p-2">
         Back
       </Link>
       <form className="mb-32 flex w-full flex-1 flex-col justify-center gap-2 text-foreground sm:max-w-md">
@@ -38,7 +38,7 @@ export default function Login({
           Email
         </label>
         <input
-          className="border-inputBorder mb-6 rounded-md border bg-inherit px-4 py-2"
+          className="mb-6 rounded-md border border-inputBorder bg-inherit px-4 py-2"
           name="email"
           placeholder="you@example.com"
           required
@@ -47,7 +47,7 @@ export default function Login({
           Password
         </label>
         <input
-          className="border-inputBorder mb-6 rounded-md border-1 bg-inherit px-4 py-2"
+          className="mb-6 rounded-md border-1 border-inputBorder bg-inherit px-4 py-2"
           type="password"
           name="password"
           placeholder="••••••••"
@@ -55,7 +55,7 @@ export default function Login({
         />
         <SubmitButton
           formAction={signIn}
-          className="bg-buttonPrimary mb-2 rounded-md px-4 py-2 text-foreground"
+          className="mb-2 rounded-md bg-buttonPrimary px-4 py-2 text-foreground"
           pendingText="Signing In..."
         >
           Log in
