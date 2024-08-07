@@ -74,7 +74,7 @@ export default function AddTask({ journey, setCurrentScreen }: any) {
     }
   }, [journey]);
   return (
-    <div className="flex flex-col gap-2 py-1 md:px-4">
+    <div className="relative flex flex-col gap-2 py-1 md:px-4">
       <div className="flex flex-row">
         <p className="font-serif text-[1.5rem] font-semibold leading-none text-textEmphasis">
           How are we feeling today?
@@ -117,10 +117,11 @@ export default function AddTask({ journey, setCurrentScreen }: any) {
               </div>
             </div>
 
-            <div className="absolute top-0 z-50">
+            <div className="absolute -left-2 top-0 z-50">
               <EmojiPicker
                 open={open}
                 onEmojiClick={(e) => handleEmojiClicked(e)}
+                reactionsDefaultOpen={true}
               />
             </div>
           </div>

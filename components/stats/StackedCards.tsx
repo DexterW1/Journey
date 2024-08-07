@@ -35,7 +35,9 @@ export default function StackedCards({ logs }: any) {
         console.error("Error setting logs favorites", error);
       }
     };
-    fetchFavorites();
+    if (selectedJourneyId.id) {
+      fetchFavorites();
+    }
   }, [logs]);
   if (log.length < 1 || !log || !logs || apiError)
     return (

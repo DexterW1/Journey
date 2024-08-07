@@ -27,7 +27,7 @@ export default function JourneyStats({ journey }: any) {
       transition={{ duration: 1 }}
       className="flex flex-col gap-4"
     >
-      <div className="flex flex-col rounded-2xl bg-primaryLight p-4 lg:max-h-[40vh] lg:min-h-[19rem]">
+      <div className="flex flex-col rounded-2xl bg-primaryLight p-4 lg:max-h-[40vh] lg:min-h-[20rem]">
         {/* Quote Container */}
         <OverallStats journey={journey} logs={logsByJourney[journey.id]} />
       </div>
