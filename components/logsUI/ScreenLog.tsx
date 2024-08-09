@@ -2,68 +2,62 @@
 import React, { useEffect } from "react";
 import { Select, SelectItem, Input } from "@nextui-org/react";
 import { motion, AnimatePresence } from "framer-motion";
+
 const placeholder = ["Happy", "Sad", "Energy", "Anxiety", "Productivity"];
+
 export default function ScreenLog({
   rows,
   setRows,
   inputValues,
   setInputValues,
 }: any) {
-  const handleInputChange = (index: number, value: any) => {
+  const handleInputChange = (index: number, value: string) => {
     const newInputValues = [...inputValues];
     newInputValues[index] = value;
     setInputValues(newInputValues);
   };
+
   useEffect(() => {
     setInputValues(
       Array.from({ length: parseInt(rows) }, (_, i) => inputValues[i] || ""),
     );
   }, [rows]);
+
   return (
-    <div className="flex h-full w-full flex-col">
-      <h1 className="text-xl font-semibold underline">
-        Let's create a template for this journey
+    <div className="mx-auto flex max-w-md flex-col space-y-6 p-6">
+      <h1 className="text-center text-2xl font-bold text-textPrimary">
+        Create Your Journey Template
       </h1>
+
       <Select
+        label="Number of tracking rows"
         onChange={(e) => setRows(e.target.value)}
-        aria-label="row count select"
-        placeholder="How many rows would you like to keep track of?"
         defaultSelectedKeys={[rows]}
+        className="mx-auto max-w-xs"
       >
-        <SelectItem key={1} value={1}>
-          1
-        </SelectItem>
-        <SelectItem key={2} value={2}>
-          2
-        </SelectItem>
-        <SelectItem key={3} value={3}>
-          3
-        </SelectItem>
-        <SelectItem key={4} value={4}>
-          4
-        </SelectItem>
-        <SelectItem key={5} value={5}>
-          5
-        </SelectItem>
+        {[1, 2, 3, 4, 5].map((num) => (
+          <SelectItem key={num} value={num}>
+            {num}
+          </SelectItem>
+        ))}
       </Select>
+
       <AnimatePresence>
-        <div className="flex flex-col gap-2">
-          <p>Enter the valuesf</p>
+        <div className="space-y-4">
           {Array.from({ length: parseInt(rows) }).map((_, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.5 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.2 * i }}
             >
               <Input
                 label={`Row ${i + 1}`}
                 placeholder={`e.g. ${placeholder[i]}`}
-                size="sm"
                 value={inputValues[i] || ""}
                 onChange={(e) => handleInputChange(i, e.target.value)}
-                fullWidth={true}
+                fullWidth
               />
             </motion.div>
           ))}

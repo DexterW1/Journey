@@ -460,7 +460,8 @@ export default function DisplayTask({
         </p>
         <div className="flex flex-row gap-2">
           <Button
-            className="bg-blue-500 text-white"
+            color="primary"
+            className="text-white"
             onPress={() => setCurrentScreen(1)}
             startContent={<FaPlus fill="white" />}
             variant="shadow"
@@ -505,7 +506,12 @@ export default function DisplayTask({
           transition={{ delay: 0.5 }}
           className="mt-4 flex justify-center"
         >
-          <Button color="primary" onPress={handleLoadMore} radius="full">
+          <Button
+            color="primary"
+            onPress={handleLoadMore}
+            radius="full"
+            variant="shadow"
+          >
             Load More
           </Button>
         </motion.div>

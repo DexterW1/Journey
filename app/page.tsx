@@ -1,16 +1,15 @@
 import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";
 import { Button } from "@nextui-org/react";
+import AnimatedJourneyTitle from "@/components/generalUI/AnimatedJourneyTitle";
 export default async function Index() {
-  // const supabase = createClient();
-
   return (
     <div className="bg-lightBackground flex min-h-screen flex-col items-center justify-center px-8 sm:max-w-5xl">
       {/* Hero Section */}
       <div className="relative z-20 flex flex-col items-center text-center md:pb-48">
         <h1 className="text-3xl font-bold text-primary">Welcome to</h1>
         <h1 className="mb-4 text-7xl font-extrabold text-primary xl:text-9xl">
-          Journey
+          <AnimatedJourneyTitle />
         </h1>
         <p className="md:text-md text-sm leading-relaxed lg:text-lg">
           Discover a new way to track your personal growth with Journey. This

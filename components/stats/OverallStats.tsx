@@ -123,3 +123,21 @@ export default function OverallStats({ journey, logs }: any) {
     </AnimatePresence>
   );
 }
+
+// <div className="flex flex-1 items-center gap-4 rounded-lg bg-white p-4 shadow-md">
+//   <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-white">
+//     <motion.p
+//       variants={animationVariants}
+//       initial="initial"
+//       whileHover="hover"
+//       className="backface-visibility-hidden text-3xl will-change-transform"
+//       style={{ transform: "translateZ(0)" }}
+//     >
+//       {logs.stats.mostEmoji}
+//     </motion.p>
+//   </div>
+//   <div>
+//     <p className="text-lg font-semibold text-primary">Total Logs</p>
+//     <p className="text-2xl font-bold">{logs.logs.length}</p>
+//   </div>
+// </div>;

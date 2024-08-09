@@ -1,8 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import BallsTab from "../generalUI/BallsTab";
-import { useUserStore } from "@/store/userStore";
 import { useJourneyStore } from "@/store/journeyStore";
 import ScreenLog from "../logsUI/ScreenLog";
 import {
@@ -24,7 +22,6 @@ const options = [
   "Develop",
   "Monitor",
 ];
-const placeholder = ["Happy", "Sad", "Energy", "Anxiety", "Productivity"];
 const ScreenSentence = ({
   handleVerbChange,
   handleGoalChange,
@@ -32,38 +29,36 @@ const ScreenSentence = ({
   goal,
 }: any) => {
   return (
-    <div className="flex h-full w-full flex-col gap-4">
-      <div className="flex flex-row items-center gap-2">
-        <h1 className="text-lg">I want to... </h1>
-        <div>
-          <Select
-            placeholder="Select a Verb"
-            size="md"
-            aria-label="select verb"
-            defaultSelectedKeys={[selectedVerb]}
-            fullWidth={false}
-            style={{ width: "150px" }}
-            onChange={handleVerbChange}
-          >
-            {options.map((option) => (
-              <SelectItem key={option} value={option}>
-                {option}
-              </SelectItem>
-            ))}
-          </Select>
-        </div>
+    <div className="mx-auto flex w-full max-w-md flex-col space-y-6 p-4">
+      <h1 className="text-center text-2xl font-bold text-textPrimary">
+        Create Your Journey
+      </h1>
+
+      <div className="space-y-2">
+        <label className="text-sm font-medium text-textPrimary">
+          I want to...
+        </label>
+        <Select
+          placeholder="Select a Verb"
+          selectedKeys={selectedVerb ? [selectedVerb] : []}
+          onChange={handleVerbChange}
+          className="w-full"
+        >
+          {options.map((option) => (
+            <SelectItem key={option} value={option}>
+              {option}
+            </SelectItem>
+          ))}
+        </Select>
       </div>
-      <div className="flex items-center justify-center">
-        <Input
-          label="Enter a goal or habit"
-          value={goal}
-          placeholder="e.g. eating better, excerising more"
-          size="lg"
-          fullWidth={false}
-          onChange={handleGoalChange}
-          style={{ width: "300px" }}
-        />
-      </div>
+
+      <Input
+        label="Enter a goal or habit"
+        value={goal}
+        onChange={handleGoalChange}
+        placeholder="e.g. eating better, exercising more"
+        className="w-full"
+      />
     </div>
   );
 };
@@ -150,14 +145,20 @@ export default function AddJourney({ isOpen, onOpenChange }: any) {
             <div
               className={`mt-4 flex items-center ${currentScreen === 1 ? "justify-normal" : "justify-end"}`}
             >
-              {/* <BallsTab
-                currentScreen={currentScreen}
-                setCurrentScreen={setCurrentScreen}
-              /> */}
               {currentScreen > 0 && (
-                <Button onClick={() => setCurrentScreen(0)} className="mr-2">
-                  Previous
-                </Button>
+                <div className="flex flex-1 flex-row justify-between">
+                  <Button onClick={() => setCurrentScreen(0)} className="mr-2">
+                    Previous
+                  </Button>
+                  <Button
+                    onPress={() => {
+                      handleCreateJourney();
+                    }}
+                    color="primary"
+                  >
+                    Add Journey
+                  </Button>
+                </div>
               )}
               {currentScreen < 1 && ( // Update this condition based on the number of screens
                 <Button onClick={() => setCurrentScreen(1)} className="ml-2">
@@ -165,14 +166,6 @@ export default function AddJourney({ isOpen, onOpenChange }: any) {
                 </Button>
               )}
             </div>
-            <Button
-              onPress={() => {
-                handleCreateJourney();
-              }}
-              className="bg-buttonPrimary"
-            >
-              Add Journey
-            </Button>
           </ModalBody>
         )}
       </ModalContent>
