@@ -75,8 +75,8 @@ export default function AddTask({ journey, setCurrentScreen }: any) {
     }
   }, [journey]);
   return (
-    <div className="relative flex flex-col gap-4 py-1 md:px-4">
-      <div className="flex flex-row justify-between">
+    <div className="relative flex flex-col gap-2 py-1 md:px-4">
+      <div className="flex flex-row items-center justify-between">
         <p className="font-serif text-[1.5rem] font-semibold leading-none text-textEmphasis">
           How are we feeling today?
         </p>

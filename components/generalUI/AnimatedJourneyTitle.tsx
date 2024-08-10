@@ -1,19 +1,19 @@
 "use client";
 import React, { useEffect } from "react";
-import { motion, useAnimation } from "framer-motion";
+import { motion, useAnimation, AnimatePresence } from "framer-motion";
 import { IoIosFlag } from "react-icons/io";
 export default function AnimatedJourneyTitle() {
   const controls = useAnimation();
   const flagControls = useAnimation();
 
   const letterVariants = {
-    initial: { scale: 1 },
+    initial: { opacity: 0, x: -20 },
     animate: (i: number) => ({
-      scale: [1, 1.5, 1],
+      opacity: 1,
+      x: 0,
       transition: {
-        delay: i * 0.1,
-        duration: 0.7,
-        ease: "easeInOut",
+        delay: i * 0.04,
+        duration: 0.6,
       },
     }),
   };
@@ -22,6 +22,7 @@ export default function AnimatedJourneyTitle() {
     initial: { y: -100, opacity: 0 },
     animate: {
       y: 500,
+      rotate: 15,
       opacity: 1,
       transition: {
         delay: 0.3,
@@ -41,30 +42,32 @@ export default function AnimatedJourneyTitle() {
   }, [controls, flagControls]);
 
   return (
-    <div className="relative">
+    <div className="">
       <h1 className="mb-4 text-7xl font-extrabold text-primary xl:text-9xl">
-        Journey
-        {/* {"Journey".split("").map((letter, index) => (
-          <motion.span
-            key={index}
-            custom={index}
-            variants={letterVariants}
-            initial="initial"
-            animate={controls}
-            className="mb-4 text-7xl font-extrabold text-primary xl:text-9xl"
-            style={{ display: "inline-block" }}
-          >
-            {letter}
-          </motion.span>
-        ))} */}
+        {/* Journey */}
+        <AnimatePresence>
+          {"Journey".split("").map((letter, index) => (
+            <motion.span
+              key={index}
+              custom={index}
+              variants={letterVariants}
+              initial="initial"
+              animate={controls}
+              className="mb-4 text-7xl font-extrabold text-primary xl:text-9xl"
+              style={{ display: "inline-block" }}
+            >
+              {letter}
+            </motion.span>
+          ))}
+        </AnimatePresence>
       </h1>
       <motion.div
-        className="absolute -top-8 right-0"
+        className="absolute right-0 top-2"
         variants={flagVariants}
         initial="initial"
         animate={flagControls}
       >
-        <IoIosFlag className="h-12 w-12 text-red-500" />
+        <IoIosFlag className="h-12 w-12 text-red-500" fill="red" stroke="red" />
       </motion.div>
     </div>
   );
