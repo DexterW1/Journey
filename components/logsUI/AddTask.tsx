@@ -2,11 +2,12 @@
 import React, { useState, useEffect } from "react";
 import {
   Slider,
-  Input,
   Textarea,
   Button,
   Select,
   SelectItem,
+  Card,
+  CardBody,
 } from "@nextui-org/react";
 import EmojiPicker from "emoji-picker-react";
 import { useUserStore } from "@/store/userStore";
@@ -74,18 +75,24 @@ export default function AddTask({ journey, setCurrentScreen }: any) {
     }
   }, [journey]);
   return (
-    <div className="relative flex flex-col gap-2 py-1 md:px-4">
-      <div className="flex flex-row">
+    <div className="relative flex flex-col gap-4 py-1 md:px-4">
+      <div className="flex flex-row justify-between">
         <p className="font-serif text-[1.5rem] font-semibold leading-none text-textEmphasis">
           How are we feeling today?
         </p>
-        <Button onPress={() => setCurrentScreen(0)}>back</Button>
+        <Button
+          onPress={() => setCurrentScreen(0)}
+          color="primary"
+          variant="shadow"
+        >
+          back
+        </Button>
       </div>
 
       <div className="flex flex-col md:flex-row">
         {/* selectcontainer */}
         <div className="flex flex-1 flex-col">
-          <div className="flex flex-row gap-4 md:gap-6 md:pr-8">
+          <div className="flex flex-col gap-2 md:pr-8">
             <Select
               defaultSelectedKeys={[timeReturn()]}
               onChange={(e) => setTime(e.target.value)}
@@ -105,7 +112,7 @@ export default function AddTask({ journey, setCurrentScreen }: any) {
               </SelectItem>
             </Select>
             <div
-              className="order-1 flex h-24 w-24 cursor-pointer flex-col items-center justify-center rounded-xl bg-primary transition-colors duration-500 ease-in-out hover:bg-primaryLight"
+              className="order-2 flex h-24 w-24 cursor-pointer flex-col items-center justify-center rounded-xl bg-primary transition-colors duration-500 ease-in-out hover:bg-primaryLight"
               onClick={() => setOpen(!open)}
             >
               <div className="flex h-16 w-16 flex-col items-center justify-center rounded-full bg-cardContentBackground">
@@ -165,10 +172,12 @@ export default function AddTask({ journey, setCurrentScreen }: any) {
         minRows={4}
       />
       <Button
-        className="bg-gradient-to-r from-buttonPrimary to-buttonSecondary"
+        color="primary"
+        variant="shadow"
         onPress={handleCreateLog}
+        radius="full"
       >
-        <p className="text-lg text-textEmphasis">Add log</p>
+        <p className="text-lg text-white">Add log</p>
       </Button>
     </div>
   );

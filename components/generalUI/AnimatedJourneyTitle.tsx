@@ -24,7 +24,7 @@ export default function AnimatedJourneyTitle() {
       y: 500,
       opacity: 1,
       transition: {
-        delay: 0.5,
+        delay: 0.3,
         duration: 1,
         type: "spring",
         stiffness: 50,
@@ -43,7 +43,8 @@ export default function AnimatedJourneyTitle() {
   return (
     <div className="relative">
       <h1 className="mb-4 text-7xl font-extrabold text-primary xl:text-9xl">
-        {"Journey".split("").map((letter, index) => (
+        Journey
+        {/* {"Journey".split("").map((letter, index) => (
           <motion.span
             key={index}
             custom={index}
@@ -55,7 +56,7 @@ export default function AnimatedJourneyTitle() {
           >
             {letter}
           </motion.span>
-        ))}
+        ))} */}
       </h1>
       <motion.div
         className="absolute -top-8 right-0"

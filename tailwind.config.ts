@@ -20,6 +20,8 @@ module.exports = {
         primary: "#2C6E49", // Forest Green
         primaryLight: "#4c956c", // Light Forest Green
         secondary: "#87CEEB", // Sky Blue
+        selected: "  #FFDAB9",
+        secondarylight: "#E0BBE4",
         accent: "#F08080", // Muted Coral
         accentLight: "#ffc9b9", // Light Muted Coral
         primaryDark: "#4f2914", // Dark Wood
@@ -28,6 +30,7 @@ module.exports = {
         textEmphasis: "#0f3408", // Saddle Brown
         textSecondary: "#708090", // Slate Grey
         buttonPrimary: "#A8E6A1", // Soft Green
+        cardContrast: "#3E9A6B",
         buttonSecondary: "#B3DDF2", // Pale Blue
         cardBackground: "#c5d6b2", // Light Olive
         cardBorder: "#E6E6FA", // Soft Lavender
