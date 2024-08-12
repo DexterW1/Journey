@@ -44,8 +44,6 @@ export const useJourneyStore = create<JourneyStore>((set, get) => ({
   addJourney: async (title, template) => {
     try {
       const user = useUserStore.getState().user;
-      const incrementJourneyCount =
-        useUserStore.getState().incrementJourneyCount;
       if (await checkDuplicateTitle(title, user)) {
         console.log("Title already exists");
         return;
@@ -65,7 +63,6 @@ export const useJourneyStore = create<JourneyStore>((set, get) => ({
       }
       if (data) {
         console.log("Journey added successfully", data);
-        incrementJourneyCount();
       }
     } catch (error) {
       console.error("Error in addJourney:", error);

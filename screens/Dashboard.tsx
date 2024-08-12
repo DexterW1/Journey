@@ -85,7 +85,10 @@ export default function Dashboard({ user, journey }: any) {
                       transition={{ duration: 1 }}
                     >
                       <div className="z-2 relative">
-                        <JourneyCard journey={journey} />
+                        <JourneyCard
+                          journey={journey}
+                          selected={selectedJourney.id === journey.id}
+                        />
                       </div>
 
                       {selectedJourney?.id === journey.id && (

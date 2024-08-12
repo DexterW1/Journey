@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, use } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   Button,
   Dropdown,
@@ -12,7 +12,6 @@ import {
   ModalHeader,
   useDisclosure,
   ModalFooter,
-  Slider,
   Textarea,
   ScrollShadow,
 } from "@nextui-org/react";
@@ -20,7 +19,6 @@ import { useLogStore } from "@/store/logStore";
 import { FaPlus, FaStar, FaRegStar } from "react-icons/fa6";
 import { motion, AnimatePresence } from "framer-motion";
 import ProgressBar from "./ProgressBar";
-// import { IoFilterOutline } from "react-icons/io5";
 
 import { EditDocumentIcon } from "../icon/EditDocumentIcon";
 import { DeleteDocumentIcon } from "../icon/DeleteDocument";
@@ -177,7 +175,7 @@ const LogItem = ({
                 </DropdownTrigger>
                 <DropdownMenu>
                   <DropdownItem
-                    key="favoritek"
+                    key="favorite"
                     onPress={handleFavorite}
                     startContent={
                       log.fav ? (
@@ -418,10 +416,8 @@ export default function DisplayTask({
   logs,
   journey_id,
 }: DisplayTaskProps) {
-  // const size = useWindowSize();
   const [funMode, setFunMode] = useState(false);
-  // const [currentJourneyId, setCurrentJourneyId] = useState(journey_id);
-  // const [logsToDisplay, setLogsToDisplay] = useState(logs);
+
   const [logsDisplayed, setLogsDisplayed] = useState(6); // Initial logs displayed
   const [logsToDisplay, setLogsToDisplay] = useState<any[]>([]); // Logs to display
   const [isAnimating, setIsAnimating] = useState(false);
