@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Card,
   CardBody,
@@ -7,16 +7,22 @@ import {
   DropdownTrigger,
   DropdownMenu,
   cn,
+  Button,
 } from "@nextui-org/react";
 import { EditDocumentIcon } from "../icon/EditDocumentIcon";
 import { useJourneyStore } from "@/store/journeyStore";
+import { FaCheck } from "react-icons/fa6";
+import { IoCloseOutline } from "react-icons/io5";
 import { DeleteDocumentIcon } from "../icon/DeleteDocument";
 import { HiDotsVertical } from "react-icons/hi";
 const iconClasses =
   "text-xl text-default-500 pointer-events-none flex-shrink-0";
 
 export default function JourneyCards({ journey, selected }: any) {
+  const [isRotated, setIsRotated] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [deleteCheck, setDeleteCheck] = useState(false);
+  const [hovered, setHovered] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const deleteJourney = useJourneyStore((state) => state.deleteJourney);
   const handleEditJourney = () => {};
@@ -28,19 +34,54 @@ export default function JourneyCards({ journey, selected }: any) {
       deleteJourney(journey.id);
     }
   };
+  const handleDropdownOpenChange = (open: any) => {
+    setIsDropdownOpen(open);
+    if (!open) {
+      setIsRotated(false);
+    }
+  };
   return (
     <Card className="bg-primary p-1 transition-colors duration-1000 ease-in-out hover:bg-primaryLight">
       <CardBody>
         <div className="flex flex-row items-center justify-between">
-          <h1 className="text-white">{journey.title}</h1>
+          {editMode ? (
+            <input
+              placeholder={journey.title}
+              style={{ color: "white" }}
+              className="bg-transparent text-white"
+            />
+          ) : (
+            <h1 className="text-white">{journey.title}</h1>
+          )}
+
           <div
             className="flex items-center justify-center transition-opacity duration-500 ease-in-out"
             style={{ opacity: selected ? 0 : 1 }}
           >
-            <Dropdown>
-              <DropdownTrigger>
+            {editMode && (
+              <div className="flex flex-row space-x-2">
                 <button>
-                  <HiDotsVertical size={20} fill="white" />
+                  <FaCheck size={24} fill="blue" />
+                </button>
+                <button onClick={() => setEditMode(false)}>
+                  <IoCloseOutline size={24} />
+                </button>
+              </div>
+            )}
+            <Dropdown onOpenChange={handleDropdownOpenChange}>
+              <DropdownTrigger>
+                <button
+                  className="outline-none"
+                  onMouseEnter={() => setIsRotated(true)}
+                  onMouseLeave={() => !isDropdownOpen && setIsRotated(false)}
+                >
+                  <HiDotsVertical
+                    fill="white"
+                    className="text-xl transition-transform duration-300"
+                    style={{
+                      transform: isRotated ? "rotate(90deg)" : "rotate(0)",
+                    }}
+                  />
                 </button>
               </DropdownTrigger>
               <DropdownMenu>
@@ -70,7 +111,6 @@ export default function JourneyCards({ journey, selected }: any) {
               </DropdownMenu>
             </Dropdown>
           </div>
-          {/* )} */}
         </div>
       </CardBody>
     </Card>
