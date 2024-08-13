@@ -22,17 +22,16 @@ export default function JourneyCards({ journey, selected }: any) {
   const [isRotated, setIsRotated] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [deleteCheck, setDeleteCheck] = useState(false);
-  const [hovered, setHovered] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const deleteJourney = useJourneyStore((state) => state.deleteJourney);
   const handleEditJourney = () => {};
-  const handleDeleteCheck = () => {
-    setDeleteCheck(true);
-  };
+  // const handleDeleteCheck = () => {
+  //   setDeleteCheck(true);
+  // };
   const handleDeleteJourney = () => {
-    if (deleteCheck) {
-      deleteJourney(journey.id);
-    }
+    // if (deleteCheck) {
+    deleteJourney(journey.id);
+    // }
   };
   const handleDropdownOpenChange = (open: any) => {
     setIsDropdownOpen(open);
