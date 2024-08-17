@@ -18,13 +18,24 @@ import { HiDotsVertical } from "react-icons/hi";
 const iconClasses =
   "text-xl text-default-500 pointer-events-none flex-shrink-0";
 
-export default function JourneyCards({ journey, selected }: any) {
+export default function JourneyCards({
+  journey,
+  selected,
+  setEditJourneyMode,
+}: any) {
   const [isRotated, setIsRotated] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [deleteCheck, setDeleteCheck] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const deleteJourney = useJourneyStore((state) => state.deleteJourney);
-  const handleEditJourney = () => {};
+  const handleEditJourney = () => {
+    setEditJourneyMode(true);
+    setEditMode(true);
+  };
+  const handleEditCancel = () => {
+    setEditMode(false);
+    setEditJourneyMode(false);
+  };
   // const handleDeleteCheck = () => {
   //   setDeleteCheck(true);
   // };
@@ -62,7 +73,7 @@ export default function JourneyCards({ journey, selected }: any) {
                 <button>
                   <FaCheck size={24} fill="blue" />
                 </button>
-                <button onClick={() => setEditMode(false)}>
+                <button onClick={handleEditCancel}>
                   <IoCloseOutline size={24} />
                 </button>
               </div>
@@ -86,7 +97,7 @@ export default function JourneyCards({ journey, selected }: any) {
               <DropdownMenu>
                 <DropdownItem
                   key="edit"
-                  onPress={() => setEditMode(true)}
+                  onPress={handleEditJourney}
                   startContent={<EditDocumentIcon className={iconClasses} />}
                 >
                   Edit log

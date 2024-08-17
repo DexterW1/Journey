@@ -21,6 +21,7 @@ export default function Dashboard({ user, journey }: any) {
   );
   const [journeyArr, setJourneyArr] = useState<any>(journey);
   const [newJourneyAnimation, setNewJourneyAnimation] = useState(false);
+  const [editJourneyMode, setEditJourneyMode] = useState(false);
   const setSelectedJourneyId = useJourneyStore(
     (state) => state.setSelectedJourneyId,
   );
@@ -40,8 +41,10 @@ export default function Dashboard({ user, journey }: any) {
   }, [journey]);
 
   const handleSelectJourney = (journey: any) => {
-    setSelectedJourney(journey);
-    setSelectedJourneyId(journey);
+    if (!editJourneyMode) {
+      setSelectedJourney(journey);
+      setSelectedJourneyId(journey);
+    }
   };
   useEffect(() => {
     setJourneyArr(journey);
@@ -88,6 +91,7 @@ export default function Dashboard({ user, journey }: any) {
                         <JourneyCard
                           journey={journey}
                           selected={selectedJourney.id === journey.id}
+                          setEditJourneyMode={setEditJourneyMode}
                         />
                       </div>
 
