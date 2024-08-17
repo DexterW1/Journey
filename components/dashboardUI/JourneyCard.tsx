@@ -6,6 +6,7 @@ import {
   DropdownItem,
   DropdownTrigger,
   DropdownMenu,
+  Input,
   cn,
   Button,
 } from "@nextui-org/react";
@@ -58,7 +59,7 @@ export default function JourneyCards({
             <input
               placeholder={journey.title}
               style={{ color: "white" }}
-              className="bg-transparent text-white"
+              className="bg-transparent p-0 text-white outline-none"
             />
           ) : (
             <h1 className="text-white">{journey.title}</h1>
@@ -74,7 +75,7 @@ export default function JourneyCards({
                   <FaCheck size={24} fill="blue" />
                 </button>
                 <button onClick={handleEditCancel}>
-                  <IoCloseOutline size={24} />
+                  <IoCloseOutline size={24} fill="red" stroke="red" />
                 </button>
               </div>
             )}
