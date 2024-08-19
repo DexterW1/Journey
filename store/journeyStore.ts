@@ -7,6 +7,7 @@ type JourneyStore = {
   selectedJourneyId: any;
   setSelectedJourneyId: (id: {}) => void;
   addJourney: (title: string, template: string[]) => void;
+  editJourney: (id: string, title: string) => void;
   fetchJourneys: () => void;
   fetchedJourneys: boolean;
   deleteJourney: (id: string) => void;
@@ -90,6 +91,29 @@ export const useJourneyStore = create<JourneyStore>((set, get) => ({
       }
     } catch (error) {
       console.error("Error in fetchJourneys:", error);
+    }
+  },
+  editJourney: async (id, title) => {
+    try {
+      const supabase = createClient();
+      const { data, error } = await supabase
+        .from("journeys")
+        .update({ title })
+        .eq("id", id)
+        .select();
+      if (data) {
+        console.log("Journey edited successfully", data);
+        set((state) => ({
+          journeys: state.journeys.map((journey) =>
+            journey.id === id ? { ...journey, title } : journey,
+          ),
+        }));
+      }
+      if (error) {
+        console.error("Error editing journey", error);
+      }
+    } catch (error) {
+      console.error("Error in editJourney:", error);
     }
   },
 }));

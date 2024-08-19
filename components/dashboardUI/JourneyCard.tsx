@@ -24,11 +24,13 @@ export default function JourneyCards({
   selected,
   setEditJourneyMode,
 }: any) {
+  const [newTitle, setNewTitle] = useState(journey.title);
   const [isRotated, setIsRotated] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [deleteCheck, setDeleteCheck] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const deleteJourney = useJourneyStore((state) => state.deleteJourney);
+  const editJourney = useJourneyStore((state) => state.editJourney);
   const handleEditJourney = () => {
     setEditJourneyMode(true);
     setEditMode(true);
@@ -40,6 +42,13 @@ export default function JourneyCards({
   // const handleDeleteCheck = () => {
   //   setDeleteCheck(true);
   // };
+  const submitJourney = () => {
+    if (newTitle !== journey.title && newTitle !== "") {
+      editJourney(journey.id, newTitle);
+      setEditMode(false);
+      setEditJourneyMode(false);
+    }
+  };
   const handleDeleteJourney = () => {
     // if (deleteCheck) {
     deleteJourney(journey.id);
@@ -57,8 +66,9 @@ export default function JourneyCards({
         <div className="flex flex-row items-center justify-between">
           {editMode ? (
             <input
-              placeholder={journey.title}
+              placeholder={newTitle}
               style={{ color: "white" }}
+              onChange={(e) => setNewTitle(e.target.value)}
               className="bg-transparent p-0 text-white outline-none"
             />
           ) : (
@@ -71,7 +81,7 @@ export default function JourneyCards({
           >
             {editMode && (
               <div className="flex flex-row space-x-2">
-                <button>
+                <button onClick={submitJourney}>
                   <FaCheck size={24} fill="blue" />
                 </button>
                 <button onClick={handleEditCancel}>
