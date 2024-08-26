@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
 
 const tabs = ["Week", "Month", "All"];
 

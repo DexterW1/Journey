@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Card,
   CardBody,
@@ -6,9 +6,9 @@ import {
   DropdownItem,
   DropdownTrigger,
   DropdownMenu,
-  Input,
+  // Input,
   cn,
-  Button,
+  // Button,
 } from "@nextui-org/react";
 import { EditDocumentIcon } from "../icon/EditDocumentIcon";
 import { useJourneyStore } from "@/store/journeyStore";
@@ -27,7 +27,7 @@ export default function JourneyCards({
   const [newTitle, setNewTitle] = useState(journey.title);
   const [isRotated, setIsRotated] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [deleteCheck, setDeleteCheck] = useState(false);
+  // const [deleteCheck, setDeleteCheck] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const deleteJourney = useJourneyStore((state) => state.deleteJourney);
   const editJourney = useJourneyStore((state) => state.editJourney);

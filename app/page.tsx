@@ -1,4 +1,4 @@
-import { createClient } from "@/utils/supabase/server";
+// import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";
 import { Button } from "@nextui-org/react";
 import AnimatedJourneyTitle from "@/components/generalUI/AnimatedJourneyTitle";

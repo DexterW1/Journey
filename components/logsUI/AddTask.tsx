@@ -1,20 +1,17 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import {
-  Slider,
+  // Slider,
   Textarea,
   Button,
   Select,
   SelectItem,
-  Card,
-  CardBody,
 } from "@nextui-org/react";
 import EmojiPicker from "emoji-picker-react";
 import { useUserStore } from "@/store/userStore";
 import { useLogStore } from "@/store/logStore";
 import { IoTimeOutline } from "react-icons/io5";
 import { MySlider } from "../nextuimodifier/MySlider";
-import { FaV } from "react-icons/fa6";
 const colorOptions = ["blue", "purple", "green", "yellow", "red"];
 const timeReturn = () => {
   const date = new Date();
