@@ -9,6 +9,7 @@ import {
 } from "@nextui-org/react";
 import User from "./User";
 import { createClient } from "@/utils/supabase/client";
+// import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { CiUser } from "react-icons/ci";
 import { TbHelp } from "react-icons/tb";
@@ -20,6 +21,9 @@ export default function NavBar() {
     const supabase = createClient();
     await supabase.auth.signOut();
     router.push("/login");
+  };
+  const handleProfileNavigation = () => {
+    router.push("/profile");
   };
   return (
     <div className="sticky flex flex-row items-center justify-between p-4">
@@ -45,7 +49,11 @@ export default function NavBar() {
             <DropdownItem className="opacity-100" key="user">
               <User />
             </DropdownItem>
-            <DropdownItem key="profile" startContent={<CiUser />}>
+            <DropdownItem
+              onPress={handleProfileNavigation}
+              key="profile"
+              startContent={<CiUser />}
+            >
               Profile
             </DropdownItem>
             <DropdownItem
