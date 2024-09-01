@@ -100,7 +100,7 @@ export default function OverallStats({ journey, logs }: any) {
                 <p className="text-2xl font-bold">{logs.logs.length}</p>
               </div>
             </div>
-            <div className="flex flex-1 items-center gap-4 rounded-lg bg-white p-4 shadow-md">
+            {/* <div className="flex flex-1 items-center gap-4 rounded-lg bg-white p-4 shadow-md">
               <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-white">
                 <motion.p
                   variants={animationVariants}
@@ -116,7 +116,7 @@ export default function OverallStats({ journey, logs }: any) {
                 <p className="text-lg font-semibold text-primary">Total Logs</p>
                 <p className="text-2xl font-bold">{logs.logs.length}</p>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </motion.div>
